@@ -3134,6 +3134,10 @@ void Nano::Init(TTree *tree) {
     if (b_Jet_chHEF_) { b_Jet_chHEF_->SetAddress(&Jet_chHEF_); }
     b_Jet_cleanmask_ = tree->GetBranch("Jet_cleanmask");
     if (b_Jet_cleanmask_) { b_Jet_cleanmask_->SetAddress(&Jet_cleanmask_); }
+    b_Jet_corr_JEC_ = tree->GetBranch("Jet_corr_JEC");
+    if (b_Jet_corr_JEC_) { b_Jet_corr_JEC_->SetAddress(&Jet_corr_JEC_); }
+    b_Jet_corr_JER_ = tree->GetBranch("Jet_corr_JER");
+    if (b_Jet_corr_JER_) { b_Jet_corr_JER_->SetAddress(&Jet_corr_JER_); }
     b_Jet_electronIdx1_ = tree->GetBranch("Jet_electronIdx1");
     if (b_Jet_electronIdx1_) { b_Jet_electronIdx1_->SetAddress(&Jet_electronIdx1_); }
     b_Jet_electronIdx2_ = tree->GetBranch("Jet_electronIdx2");
@@ -3156,6 +3160,22 @@ void Nano::Init(TTree *tree) {
     if (b_Jet_jetId_) { b_Jet_jetId_->SetAddress(&Jet_jetId_); }
     b_Jet_mass_ = tree->GetBranch("Jet_mass");
     if (b_Jet_mass_) { b_Jet_mass_->SetAddress(&Jet_mass_); }
+    b_Jet_mass_jerDown_ = tree->GetBranch("Jet_mass_jerDown");
+    if (b_Jet_mass_jerDown_) { b_Jet_mass_jerDown_->SetAddress(&Jet_mass_jerDown_); }
+    b_Jet_mass_jerUp_ = tree->GetBranch("Jet_mass_jerUp");
+    if (b_Jet_mass_jerUp_) { b_Jet_mass_jerUp_->SetAddress(&Jet_mass_jerUp_); }
+    b_Jet_mass_jesHEMIssueDown_ = tree->GetBranch("Jet_mass_jesHEMIssueDown");
+    if (b_Jet_mass_jesHEMIssueDown_) { b_Jet_mass_jesHEMIssueDown_->SetAddress(&Jet_mass_jesHEMIssueDown_); }
+    b_Jet_mass_jesHEMIssueUp_ = tree->GetBranch("Jet_mass_jesHEMIssueUp");
+    if (b_Jet_mass_jesHEMIssueUp_) { b_Jet_mass_jesHEMIssueUp_->SetAddress(&Jet_mass_jesHEMIssueUp_); }
+    b_Jet_mass_jesTotalDown_ = tree->GetBranch("Jet_mass_jesTotalDown");
+    if (b_Jet_mass_jesTotalDown_) { b_Jet_mass_jesTotalDown_->SetAddress(&Jet_mass_jesTotalDown_); }
+    b_Jet_mass_jesTotalUp_ = tree->GetBranch("Jet_mass_jesTotalUp");
+    if (b_Jet_mass_jesTotalUp_) { b_Jet_mass_jesTotalUp_->SetAddress(&Jet_mass_jesTotalUp_); }
+    b_Jet_mass_nom_ = tree->GetBranch("Jet_mass_nom");
+    if (b_Jet_mass_nom_) { b_Jet_mass_nom_->SetAddress(&Jet_mass_nom_); }
+    b_Jet_mass_raw_ = tree->GetBranch("Jet_mass_raw");
+    if (b_Jet_mass_raw_) { b_Jet_mass_raw_->SetAddress(&Jet_mass_raw_); }
     b_Jet_muEF_ = tree->GetBranch("Jet_muEF");
     if (b_Jet_muEF_) { b_Jet_muEF_->SetAddress(&Jet_muEF_); }
     b_Jet_muonIdx1_ = tree->GetBranch("Jet_muonIdx1");
@@ -3180,6 +3200,22 @@ void Nano::Init(TTree *tree) {
     if (b_Jet_phi_) { b_Jet_phi_->SetAddress(&Jet_phi_); }
     b_Jet_pt_ = tree->GetBranch("Jet_pt");
     if (b_Jet_pt_) { b_Jet_pt_->SetAddress(&Jet_pt_); }
+    b_Jet_pt_jerDown_ = tree->GetBranch("Jet_pt_jerDown");
+    if (b_Jet_pt_jerDown_) { b_Jet_pt_jerDown_->SetAddress(&Jet_pt_jerDown_); }
+    b_Jet_pt_jerUp_ = tree->GetBranch("Jet_pt_jerUp");
+    if (b_Jet_pt_jerUp_) { b_Jet_pt_jerUp_->SetAddress(&Jet_pt_jerUp_); }
+    b_Jet_pt_jesHEMIssueDown_ = tree->GetBranch("Jet_pt_jesHEMIssueDown");
+    if (b_Jet_pt_jesHEMIssueDown_) { b_Jet_pt_jesHEMIssueDown_->SetAddress(&Jet_pt_jesHEMIssueDown_); }
+    b_Jet_pt_jesHEMIssueUp_ = tree->GetBranch("Jet_pt_jesHEMIssueUp");
+    if (b_Jet_pt_jesHEMIssueUp_) { b_Jet_pt_jesHEMIssueUp_->SetAddress(&Jet_pt_jesHEMIssueUp_); }
+    b_Jet_pt_jesTotalDown_ = tree->GetBranch("Jet_pt_jesTotalDown");
+    if (b_Jet_pt_jesTotalDown_) { b_Jet_pt_jesTotalDown_->SetAddress(&Jet_pt_jesTotalDown_); }
+    b_Jet_pt_jesTotalUp_ = tree->GetBranch("Jet_pt_jesTotalUp");
+    if (b_Jet_pt_jesTotalUp_) { b_Jet_pt_jesTotalUp_->SetAddress(&Jet_pt_jesTotalUp_); }
+    b_Jet_pt_nom_ = tree->GetBranch("Jet_pt_nom");
+    if (b_Jet_pt_nom_) { b_Jet_pt_nom_->SetAddress(&Jet_pt_nom_); }
+    b_Jet_pt_raw_ = tree->GetBranch("Jet_pt_raw");
+    if (b_Jet_pt_raw_) { b_Jet_pt_raw_->SetAddress(&Jet_pt_raw_); }
     b_Jet_puId_ = tree->GetBranch("Jet_puId");
     if (b_Jet_puId_) { b_Jet_puId_->SetAddress(&Jet_puId_); }
     b_Jet_puIdDisc_ = tree->GetBranch("Jet_puIdDisc");
@@ -4868,6 +4904,78 @@ void Nano::Init(TTree *tree) {
     if (b_MET_MetUnclustEnUpDeltaX_) { b_MET_MetUnclustEnUpDeltaX_->SetAddress(&MET_MetUnclustEnUpDeltaX_); }
     b_MET_MetUnclustEnUpDeltaY_ = tree->GetBranch("MET_MetUnclustEnUpDeltaY");
     if (b_MET_MetUnclustEnUpDeltaY_) { b_MET_MetUnclustEnUpDeltaY_->SetAddress(&MET_MetUnclustEnUpDeltaY_); }
+    b_MET_T1Smear_phi_ = tree->GetBranch("MET_T1Smear_phi");
+    if (b_MET_T1Smear_phi_) { b_MET_T1Smear_phi_->SetAddress(&MET_T1Smear_phi_); }
+    b_MET_T1Smear_phi_jerDown_ = tree->GetBranch("MET_T1Smear_phi_jerDown");
+    if (b_MET_T1Smear_phi_jerDown_) { b_MET_T1Smear_phi_jerDown_->SetAddress(&MET_T1Smear_phi_jerDown_); }
+    b_MET_T1Smear_phi_jerUp_ = tree->GetBranch("MET_T1Smear_phi_jerUp");
+    if (b_MET_T1Smear_phi_jerUp_) { b_MET_T1Smear_phi_jerUp_->SetAddress(&MET_T1Smear_phi_jerUp_); }
+    b_MET_T1Smear_phi_jesHEMIssueDown_ = tree->GetBranch("MET_T1Smear_phi_jesHEMIssueDown");
+    if (b_MET_T1Smear_phi_jesHEMIssueDown_) { b_MET_T1Smear_phi_jesHEMIssueDown_->SetAddress(&MET_T1Smear_phi_jesHEMIssueDown_); }
+    b_MET_T1Smear_phi_jesHEMIssueUp_ = tree->GetBranch("MET_T1Smear_phi_jesHEMIssueUp");
+    if (b_MET_T1Smear_phi_jesHEMIssueUp_) { b_MET_T1Smear_phi_jesHEMIssueUp_->SetAddress(&MET_T1Smear_phi_jesHEMIssueUp_); }
+    b_MET_T1Smear_phi_jesTotalDown_ = tree->GetBranch("MET_T1Smear_phi_jesTotalDown");
+    if (b_MET_T1Smear_phi_jesTotalDown_) { b_MET_T1Smear_phi_jesTotalDown_->SetAddress(&MET_T1Smear_phi_jesTotalDown_); }
+    b_MET_T1Smear_phi_jesTotalUp_ = tree->GetBranch("MET_T1Smear_phi_jesTotalUp");
+    if (b_MET_T1Smear_phi_jesTotalUp_) { b_MET_T1Smear_phi_jesTotalUp_->SetAddress(&MET_T1Smear_phi_jesTotalUp_); }
+    b_MET_T1Smear_phi_unclustEnDown_ = tree->GetBranch("MET_T1Smear_phi_unclustEnDown");
+    if (b_MET_T1Smear_phi_unclustEnDown_) { b_MET_T1Smear_phi_unclustEnDown_->SetAddress(&MET_T1Smear_phi_unclustEnDown_); }
+    b_MET_T1Smear_phi_unclustEnUp_ = tree->GetBranch("MET_T1Smear_phi_unclustEnUp");
+    if (b_MET_T1Smear_phi_unclustEnUp_) { b_MET_T1Smear_phi_unclustEnUp_->SetAddress(&MET_T1Smear_phi_unclustEnUp_); }
+    b_MET_T1Smear_pt_ = tree->GetBranch("MET_T1Smear_pt");
+    if (b_MET_T1Smear_pt_) { b_MET_T1Smear_pt_->SetAddress(&MET_T1Smear_pt_); }
+    b_MET_T1Smear_pt_jerDown_ = tree->GetBranch("MET_T1Smear_pt_jerDown");
+    if (b_MET_T1Smear_pt_jerDown_) { b_MET_T1Smear_pt_jerDown_->SetAddress(&MET_T1Smear_pt_jerDown_); }
+    b_MET_T1Smear_pt_jerUp_ = tree->GetBranch("MET_T1Smear_pt_jerUp");
+    if (b_MET_T1Smear_pt_jerUp_) { b_MET_T1Smear_pt_jerUp_->SetAddress(&MET_T1Smear_pt_jerUp_); }
+    b_MET_T1Smear_pt_jesHEMIssueDown_ = tree->GetBranch("MET_T1Smear_pt_jesHEMIssueDown");
+    if (b_MET_T1Smear_pt_jesHEMIssueDown_) { b_MET_T1Smear_pt_jesHEMIssueDown_->SetAddress(&MET_T1Smear_pt_jesHEMIssueDown_); }
+    b_MET_T1Smear_pt_jesHEMIssueUp_ = tree->GetBranch("MET_T1Smear_pt_jesHEMIssueUp");
+    if (b_MET_T1Smear_pt_jesHEMIssueUp_) { b_MET_T1Smear_pt_jesHEMIssueUp_->SetAddress(&MET_T1Smear_pt_jesHEMIssueUp_); }
+    b_MET_T1Smear_pt_jesTotalDown_ = tree->GetBranch("MET_T1Smear_pt_jesTotalDown");
+    if (b_MET_T1Smear_pt_jesTotalDown_) { b_MET_T1Smear_pt_jesTotalDown_->SetAddress(&MET_T1Smear_pt_jesTotalDown_); }
+    b_MET_T1Smear_pt_jesTotalUp_ = tree->GetBranch("MET_T1Smear_pt_jesTotalUp");
+    if (b_MET_T1Smear_pt_jesTotalUp_) { b_MET_T1Smear_pt_jesTotalUp_->SetAddress(&MET_T1Smear_pt_jesTotalUp_); }
+    b_MET_T1Smear_pt_unclustEnDown_ = tree->GetBranch("MET_T1Smear_pt_unclustEnDown");
+    if (b_MET_T1Smear_pt_unclustEnDown_) { b_MET_T1Smear_pt_unclustEnDown_->SetAddress(&MET_T1Smear_pt_unclustEnDown_); }
+    b_MET_T1Smear_pt_unclustEnUp_ = tree->GetBranch("MET_T1Smear_pt_unclustEnUp");
+    if (b_MET_T1Smear_pt_unclustEnUp_) { b_MET_T1Smear_pt_unclustEnUp_->SetAddress(&MET_T1Smear_pt_unclustEnUp_); }
+    b_MET_T1_phi_ = tree->GetBranch("MET_T1_phi");
+    if (b_MET_T1_phi_) { b_MET_T1_phi_->SetAddress(&MET_T1_phi_); }
+    b_MET_T1_phi_jerDown_ = tree->GetBranch("MET_T1_phi_jerDown");
+    if (b_MET_T1_phi_jerDown_) { b_MET_T1_phi_jerDown_->SetAddress(&MET_T1_phi_jerDown_); }
+    b_MET_T1_phi_jerUp_ = tree->GetBranch("MET_T1_phi_jerUp");
+    if (b_MET_T1_phi_jerUp_) { b_MET_T1_phi_jerUp_->SetAddress(&MET_T1_phi_jerUp_); }
+    b_MET_T1_phi_jesHEMIssueDown_ = tree->GetBranch("MET_T1_phi_jesHEMIssueDown");
+    if (b_MET_T1_phi_jesHEMIssueDown_) { b_MET_T1_phi_jesHEMIssueDown_->SetAddress(&MET_T1_phi_jesHEMIssueDown_); }
+    b_MET_T1_phi_jesHEMIssueUp_ = tree->GetBranch("MET_T1_phi_jesHEMIssueUp");
+    if (b_MET_T1_phi_jesHEMIssueUp_) { b_MET_T1_phi_jesHEMIssueUp_->SetAddress(&MET_T1_phi_jesHEMIssueUp_); }
+    b_MET_T1_phi_jesTotalDown_ = tree->GetBranch("MET_T1_phi_jesTotalDown");
+    if (b_MET_T1_phi_jesTotalDown_) { b_MET_T1_phi_jesTotalDown_->SetAddress(&MET_T1_phi_jesTotalDown_); }
+    b_MET_T1_phi_jesTotalUp_ = tree->GetBranch("MET_T1_phi_jesTotalUp");
+    if (b_MET_T1_phi_jesTotalUp_) { b_MET_T1_phi_jesTotalUp_->SetAddress(&MET_T1_phi_jesTotalUp_); }
+    b_MET_T1_phi_unclustEnDown_ = tree->GetBranch("MET_T1_phi_unclustEnDown");
+    if (b_MET_T1_phi_unclustEnDown_) { b_MET_T1_phi_unclustEnDown_->SetAddress(&MET_T1_phi_unclustEnDown_); }
+    b_MET_T1_phi_unclustEnUp_ = tree->GetBranch("MET_T1_phi_unclustEnUp");
+    if (b_MET_T1_phi_unclustEnUp_) { b_MET_T1_phi_unclustEnUp_->SetAddress(&MET_T1_phi_unclustEnUp_); }
+    b_MET_T1_pt_ = tree->GetBranch("MET_T1_pt");
+    if (b_MET_T1_pt_) { b_MET_T1_pt_->SetAddress(&MET_T1_pt_); }
+    b_MET_T1_pt_jerDown_ = tree->GetBranch("MET_T1_pt_jerDown");
+    if (b_MET_T1_pt_jerDown_) { b_MET_T1_pt_jerDown_->SetAddress(&MET_T1_pt_jerDown_); }
+    b_MET_T1_pt_jerUp_ = tree->GetBranch("MET_T1_pt_jerUp");
+    if (b_MET_T1_pt_jerUp_) { b_MET_T1_pt_jerUp_->SetAddress(&MET_T1_pt_jerUp_); }
+    b_MET_T1_pt_jesHEMIssueDown_ = tree->GetBranch("MET_T1_pt_jesHEMIssueDown");
+    if (b_MET_T1_pt_jesHEMIssueDown_) { b_MET_T1_pt_jesHEMIssueDown_->SetAddress(&MET_T1_pt_jesHEMIssueDown_); }
+    b_MET_T1_pt_jesHEMIssueUp_ = tree->GetBranch("MET_T1_pt_jesHEMIssueUp");
+    if (b_MET_T1_pt_jesHEMIssueUp_) { b_MET_T1_pt_jesHEMIssueUp_->SetAddress(&MET_T1_pt_jesHEMIssueUp_); }
+    b_MET_T1_pt_jesTotalDown_ = tree->GetBranch("MET_T1_pt_jesTotalDown");
+    if (b_MET_T1_pt_jesTotalDown_) { b_MET_T1_pt_jesTotalDown_->SetAddress(&MET_T1_pt_jesTotalDown_); }
+    b_MET_T1_pt_jesTotalUp_ = tree->GetBranch("MET_T1_pt_jesTotalUp");
+    if (b_MET_T1_pt_jesTotalUp_) { b_MET_T1_pt_jesTotalUp_->SetAddress(&MET_T1_pt_jesTotalUp_); }
+    b_MET_T1_pt_unclustEnDown_ = tree->GetBranch("MET_T1_pt_unclustEnDown");
+    if (b_MET_T1_pt_unclustEnDown_) { b_MET_T1_pt_unclustEnDown_->SetAddress(&MET_T1_pt_unclustEnDown_); }
+    b_MET_T1_pt_unclustEnUp_ = tree->GetBranch("MET_T1_pt_unclustEnUp");
+    if (b_MET_T1_pt_unclustEnUp_) { b_MET_T1_pt_unclustEnUp_->SetAddress(&MET_T1_pt_unclustEnUp_); }
     b_MET_covXX_ = tree->GetBranch("MET_covXX");
     if (b_MET_covXX_) { b_MET_covXX_->SetAddress(&MET_covXX_); }
     b_MET_covXY_ = tree->GetBranch("MET_covXY");
@@ -7224,6 +7332,8 @@ void Nano::PrintUsage() {
     std::cout << "Jet_chFPV3EF (uncached/cached calls): " << counter_uncached_Jet_chFPV3EF_ << " / " << counter_cached_Jet_chFPV3EF_ << std::endl;;
     std::cout << "Jet_chHEF (uncached/cached calls): " << counter_uncached_Jet_chHEF_ << " / " << counter_cached_Jet_chHEF_ << std::endl;;
     std::cout << "Jet_cleanmask (uncached/cached calls): " << counter_uncached_Jet_cleanmask_ << " / " << counter_cached_Jet_cleanmask_ << std::endl;;
+    std::cout << "Jet_corr_JEC (uncached/cached calls): " << counter_uncached_Jet_corr_JEC_ << " / " << counter_cached_Jet_corr_JEC_ << std::endl;;
+    std::cout << "Jet_corr_JER (uncached/cached calls): " << counter_uncached_Jet_corr_JER_ << " / " << counter_cached_Jet_corr_JER_ << std::endl;;
     std::cout << "Jet_electronIdx1 (uncached/cached calls): " << counter_uncached_Jet_electronIdx1_ << " / " << counter_cached_Jet_electronIdx1_ << std::endl;;
     std::cout << "Jet_electronIdx2 (uncached/cached calls): " << counter_uncached_Jet_electronIdx2_ << " / " << counter_cached_Jet_electronIdx2_ << std::endl;;
     std::cout << "Jet_eta (uncached/cached calls): " << counter_uncached_Jet_eta_ << " / " << counter_cached_Jet_eta_ << std::endl;;
@@ -7235,6 +7345,14 @@ void Nano::PrintUsage() {
     std::cout << "Jet_hfsigmaPhiPhi (uncached/cached calls): " << counter_uncached_Jet_hfsigmaPhiPhi_ << " / " << counter_cached_Jet_hfsigmaPhiPhi_ << std::endl;;
     std::cout << "Jet_jetId (uncached/cached calls): " << counter_uncached_Jet_jetId_ << " / " << counter_cached_Jet_jetId_ << std::endl;;
     std::cout << "Jet_mass (uncached/cached calls): " << counter_uncached_Jet_mass_ << " / " << counter_cached_Jet_mass_ << std::endl;;
+    std::cout << "Jet_mass_jerDown (uncached/cached calls): " << counter_uncached_Jet_mass_jerDown_ << " / " << counter_cached_Jet_mass_jerDown_ << std::endl;;
+    std::cout << "Jet_mass_jerUp (uncached/cached calls): " << counter_uncached_Jet_mass_jerUp_ << " / " << counter_cached_Jet_mass_jerUp_ << std::endl;;
+    std::cout << "Jet_mass_jesHEMIssueDown (uncached/cached calls): " << counter_uncached_Jet_mass_jesHEMIssueDown_ << " / " << counter_cached_Jet_mass_jesHEMIssueDown_ << std::endl;;
+    std::cout << "Jet_mass_jesHEMIssueUp (uncached/cached calls): " << counter_uncached_Jet_mass_jesHEMIssueUp_ << " / " << counter_cached_Jet_mass_jesHEMIssueUp_ << std::endl;;
+    std::cout << "Jet_mass_jesTotalDown (uncached/cached calls): " << counter_uncached_Jet_mass_jesTotalDown_ << " / " << counter_cached_Jet_mass_jesTotalDown_ << std::endl;;
+    std::cout << "Jet_mass_jesTotalUp (uncached/cached calls): " << counter_uncached_Jet_mass_jesTotalUp_ << " / " << counter_cached_Jet_mass_jesTotalUp_ << std::endl;;
+    std::cout << "Jet_mass_nom (uncached/cached calls): " << counter_uncached_Jet_mass_nom_ << " / " << counter_cached_Jet_mass_nom_ << std::endl;;
+    std::cout << "Jet_mass_raw (uncached/cached calls): " << counter_uncached_Jet_mass_raw_ << " / " << counter_cached_Jet_mass_raw_ << std::endl;;
     std::cout << "Jet_muEF (uncached/cached calls): " << counter_uncached_Jet_muEF_ << " / " << counter_cached_Jet_muEF_ << std::endl;;
     std::cout << "Jet_muonIdx1 (uncached/cached calls): " << counter_uncached_Jet_muonIdx1_ << " / " << counter_cached_Jet_muonIdx1_ << std::endl;;
     std::cout << "Jet_muonIdx2 (uncached/cached calls): " << counter_uncached_Jet_muonIdx2_ << " / " << counter_cached_Jet_muonIdx2_ << std::endl;;
@@ -7248,6 +7366,14 @@ void Nano::PrintUsage() {
     std::cout << "Jet_partonFlavour (uncached/cached calls): " << counter_uncached_Jet_partonFlavour_ << " / " << counter_cached_Jet_partonFlavour_ << std::endl;;
     std::cout << "Jet_phi (uncached/cached calls): " << counter_uncached_Jet_phi_ << " / " << counter_cached_Jet_phi_ << std::endl;;
     std::cout << "Jet_pt (uncached/cached calls): " << counter_uncached_Jet_pt_ << " / " << counter_cached_Jet_pt_ << std::endl;;
+    std::cout << "Jet_pt_jerDown (uncached/cached calls): " << counter_uncached_Jet_pt_jerDown_ << " / " << counter_cached_Jet_pt_jerDown_ << std::endl;;
+    std::cout << "Jet_pt_jerUp (uncached/cached calls): " << counter_uncached_Jet_pt_jerUp_ << " / " << counter_cached_Jet_pt_jerUp_ << std::endl;;
+    std::cout << "Jet_pt_jesHEMIssueDown (uncached/cached calls): " << counter_uncached_Jet_pt_jesHEMIssueDown_ << " / " << counter_cached_Jet_pt_jesHEMIssueDown_ << std::endl;;
+    std::cout << "Jet_pt_jesHEMIssueUp (uncached/cached calls): " << counter_uncached_Jet_pt_jesHEMIssueUp_ << " / " << counter_cached_Jet_pt_jesHEMIssueUp_ << std::endl;;
+    std::cout << "Jet_pt_jesTotalDown (uncached/cached calls): " << counter_uncached_Jet_pt_jesTotalDown_ << " / " << counter_cached_Jet_pt_jesTotalDown_ << std::endl;;
+    std::cout << "Jet_pt_jesTotalUp (uncached/cached calls): " << counter_uncached_Jet_pt_jesTotalUp_ << " / " << counter_cached_Jet_pt_jesTotalUp_ << std::endl;;
+    std::cout << "Jet_pt_nom (uncached/cached calls): " << counter_uncached_Jet_pt_nom_ << " / " << counter_cached_Jet_pt_nom_ << std::endl;;
+    std::cout << "Jet_pt_raw (uncached/cached calls): " << counter_uncached_Jet_pt_raw_ << " / " << counter_cached_Jet_pt_raw_ << std::endl;;
     std::cout << "Jet_puId (uncached/cached calls): " << counter_uncached_Jet_puId_ << " / " << counter_cached_Jet_puId_ << std::endl;;
     std::cout << "Jet_puIdDisc (uncached/cached calls): " << counter_uncached_Jet_puIdDisc_ << " / " << counter_cached_Jet_puIdDisc_ << std::endl;;
     std::cout << "Jet_qgl (uncached/cached calls): " << counter_uncached_Jet_qgl_ << " / " << counter_cached_Jet_qgl_ << std::endl;;
@@ -8094,6 +8220,42 @@ void Nano::PrintUsage() {
     std::cout << "METFixEE2017_sumPtUnclustered (uncached/cached calls): " << counter_uncached_METFixEE2017_sumPtUnclustered_ << " / " << counter_cached_METFixEE2017_sumPtUnclustered_ << std::endl;;
     std::cout << "MET_MetUnclustEnUpDeltaX (uncached/cached calls): " << counter_uncached_MET_MetUnclustEnUpDeltaX_ << " / " << counter_cached_MET_MetUnclustEnUpDeltaX_ << std::endl;;
     std::cout << "MET_MetUnclustEnUpDeltaY (uncached/cached calls): " << counter_uncached_MET_MetUnclustEnUpDeltaY_ << " / " << counter_cached_MET_MetUnclustEnUpDeltaY_ << std::endl;;
+    std::cout << "MET_T1Smear_phi (uncached/cached calls): " << counter_uncached_MET_T1Smear_phi_ << " / " << counter_cached_MET_T1Smear_phi_ << std::endl;;
+    std::cout << "MET_T1Smear_phi_jerDown (uncached/cached calls): " << counter_uncached_MET_T1Smear_phi_jerDown_ << " / " << counter_cached_MET_T1Smear_phi_jerDown_ << std::endl;;
+    std::cout << "MET_T1Smear_phi_jerUp (uncached/cached calls): " << counter_uncached_MET_T1Smear_phi_jerUp_ << " / " << counter_cached_MET_T1Smear_phi_jerUp_ << std::endl;;
+    std::cout << "MET_T1Smear_phi_jesHEMIssueDown (uncached/cached calls): " << counter_uncached_MET_T1Smear_phi_jesHEMIssueDown_ << " / " << counter_cached_MET_T1Smear_phi_jesHEMIssueDown_ << std::endl;;
+    std::cout << "MET_T1Smear_phi_jesHEMIssueUp (uncached/cached calls): " << counter_uncached_MET_T1Smear_phi_jesHEMIssueUp_ << " / " << counter_cached_MET_T1Smear_phi_jesHEMIssueUp_ << std::endl;;
+    std::cout << "MET_T1Smear_phi_jesTotalDown (uncached/cached calls): " << counter_uncached_MET_T1Smear_phi_jesTotalDown_ << " / " << counter_cached_MET_T1Smear_phi_jesTotalDown_ << std::endl;;
+    std::cout << "MET_T1Smear_phi_jesTotalUp (uncached/cached calls): " << counter_uncached_MET_T1Smear_phi_jesTotalUp_ << " / " << counter_cached_MET_T1Smear_phi_jesTotalUp_ << std::endl;;
+    std::cout << "MET_T1Smear_phi_unclustEnDown (uncached/cached calls): " << counter_uncached_MET_T1Smear_phi_unclustEnDown_ << " / " << counter_cached_MET_T1Smear_phi_unclustEnDown_ << std::endl;;
+    std::cout << "MET_T1Smear_phi_unclustEnUp (uncached/cached calls): " << counter_uncached_MET_T1Smear_phi_unclustEnUp_ << " / " << counter_cached_MET_T1Smear_phi_unclustEnUp_ << std::endl;;
+    std::cout << "MET_T1Smear_pt (uncached/cached calls): " << counter_uncached_MET_T1Smear_pt_ << " / " << counter_cached_MET_T1Smear_pt_ << std::endl;;
+    std::cout << "MET_T1Smear_pt_jerDown (uncached/cached calls): " << counter_uncached_MET_T1Smear_pt_jerDown_ << " / " << counter_cached_MET_T1Smear_pt_jerDown_ << std::endl;;
+    std::cout << "MET_T1Smear_pt_jerUp (uncached/cached calls): " << counter_uncached_MET_T1Smear_pt_jerUp_ << " / " << counter_cached_MET_T1Smear_pt_jerUp_ << std::endl;;
+    std::cout << "MET_T1Smear_pt_jesHEMIssueDown (uncached/cached calls): " << counter_uncached_MET_T1Smear_pt_jesHEMIssueDown_ << " / " << counter_cached_MET_T1Smear_pt_jesHEMIssueDown_ << std::endl;;
+    std::cout << "MET_T1Smear_pt_jesHEMIssueUp (uncached/cached calls): " << counter_uncached_MET_T1Smear_pt_jesHEMIssueUp_ << " / " << counter_cached_MET_T1Smear_pt_jesHEMIssueUp_ << std::endl;;
+    std::cout << "MET_T1Smear_pt_jesTotalDown (uncached/cached calls): " << counter_uncached_MET_T1Smear_pt_jesTotalDown_ << " / " << counter_cached_MET_T1Smear_pt_jesTotalDown_ << std::endl;;
+    std::cout << "MET_T1Smear_pt_jesTotalUp (uncached/cached calls): " << counter_uncached_MET_T1Smear_pt_jesTotalUp_ << " / " << counter_cached_MET_T1Smear_pt_jesTotalUp_ << std::endl;;
+    std::cout << "MET_T1Smear_pt_unclustEnDown (uncached/cached calls): " << counter_uncached_MET_T1Smear_pt_unclustEnDown_ << " / " << counter_cached_MET_T1Smear_pt_unclustEnDown_ << std::endl;;
+    std::cout << "MET_T1Smear_pt_unclustEnUp (uncached/cached calls): " << counter_uncached_MET_T1Smear_pt_unclustEnUp_ << " / " << counter_cached_MET_T1Smear_pt_unclustEnUp_ << std::endl;;
+    std::cout << "MET_T1_phi (uncached/cached calls): " << counter_uncached_MET_T1_phi_ << " / " << counter_cached_MET_T1_phi_ << std::endl;;
+    std::cout << "MET_T1_phi_jerDown (uncached/cached calls): " << counter_uncached_MET_T1_phi_jerDown_ << " / " << counter_cached_MET_T1_phi_jerDown_ << std::endl;;
+    std::cout << "MET_T1_phi_jerUp (uncached/cached calls): " << counter_uncached_MET_T1_phi_jerUp_ << " / " << counter_cached_MET_T1_phi_jerUp_ << std::endl;;
+    std::cout << "MET_T1_phi_jesHEMIssueDown (uncached/cached calls): " << counter_uncached_MET_T1_phi_jesHEMIssueDown_ << " / " << counter_cached_MET_T1_phi_jesHEMIssueDown_ << std::endl;;
+    std::cout << "MET_T1_phi_jesHEMIssueUp (uncached/cached calls): " << counter_uncached_MET_T1_phi_jesHEMIssueUp_ << " / " << counter_cached_MET_T1_phi_jesHEMIssueUp_ << std::endl;;
+    std::cout << "MET_T1_phi_jesTotalDown (uncached/cached calls): " << counter_uncached_MET_T1_phi_jesTotalDown_ << " / " << counter_cached_MET_T1_phi_jesTotalDown_ << std::endl;;
+    std::cout << "MET_T1_phi_jesTotalUp (uncached/cached calls): " << counter_uncached_MET_T1_phi_jesTotalUp_ << " / " << counter_cached_MET_T1_phi_jesTotalUp_ << std::endl;;
+    std::cout << "MET_T1_phi_unclustEnDown (uncached/cached calls): " << counter_uncached_MET_T1_phi_unclustEnDown_ << " / " << counter_cached_MET_T1_phi_unclustEnDown_ << std::endl;;
+    std::cout << "MET_T1_phi_unclustEnUp (uncached/cached calls): " << counter_uncached_MET_T1_phi_unclustEnUp_ << " / " << counter_cached_MET_T1_phi_unclustEnUp_ << std::endl;;
+    std::cout << "MET_T1_pt (uncached/cached calls): " << counter_uncached_MET_T1_pt_ << " / " << counter_cached_MET_T1_pt_ << std::endl;;
+    std::cout << "MET_T1_pt_jerDown (uncached/cached calls): " << counter_uncached_MET_T1_pt_jerDown_ << " / " << counter_cached_MET_T1_pt_jerDown_ << std::endl;;
+    std::cout << "MET_T1_pt_jerUp (uncached/cached calls): " << counter_uncached_MET_T1_pt_jerUp_ << " / " << counter_cached_MET_T1_pt_jerUp_ << std::endl;;
+    std::cout << "MET_T1_pt_jesHEMIssueDown (uncached/cached calls): " << counter_uncached_MET_T1_pt_jesHEMIssueDown_ << " / " << counter_cached_MET_T1_pt_jesHEMIssueDown_ << std::endl;;
+    std::cout << "MET_T1_pt_jesHEMIssueUp (uncached/cached calls): " << counter_uncached_MET_T1_pt_jesHEMIssueUp_ << " / " << counter_cached_MET_T1_pt_jesHEMIssueUp_ << std::endl;;
+    std::cout << "MET_T1_pt_jesTotalDown (uncached/cached calls): " << counter_uncached_MET_T1_pt_jesTotalDown_ << " / " << counter_cached_MET_T1_pt_jesTotalDown_ << std::endl;;
+    std::cout << "MET_T1_pt_jesTotalUp (uncached/cached calls): " << counter_uncached_MET_T1_pt_jesTotalUp_ << " / " << counter_cached_MET_T1_pt_jesTotalUp_ << std::endl;;
+    std::cout << "MET_T1_pt_unclustEnDown (uncached/cached calls): " << counter_uncached_MET_T1_pt_unclustEnDown_ << " / " << counter_cached_MET_T1_pt_unclustEnDown_ << std::endl;;
+    std::cout << "MET_T1_pt_unclustEnUp (uncached/cached calls): " << counter_uncached_MET_T1_pt_unclustEnUp_ << " / " << counter_cached_MET_T1_pt_unclustEnUp_ << std::endl;;
     std::cout << "MET_covXX (uncached/cached calls): " << counter_uncached_MET_covXX_ << " / " << counter_cached_MET_covXX_ << std::endl;;
     std::cout << "MET_covXY (uncached/cached calls): " << counter_uncached_MET_covXY_ << " / " << counter_cached_MET_covXY_ << std::endl;;
     std::cout << "MET_covYY (uncached/cached calls): " << counter_uncached_MET_covYY_ << " / " << counter_cached_MET_covYY_ << std::endl;;
@@ -10050,6 +10212,8 @@ void Nano::GetEntry(unsigned int idx) {
     loaded_Jet_chFPV3EF_ = false;
     loaded_Jet_chHEF_ = false;
     loaded_Jet_cleanmask_ = false;
+    loaded_Jet_corr_JEC_ = false;
+    loaded_Jet_corr_JER_ = false;
     loaded_Jet_electronIdx1_ = false;
     loaded_Jet_electronIdx2_ = false;
     loaded_Jet_eta_ = false;
@@ -10061,6 +10225,14 @@ void Nano::GetEntry(unsigned int idx) {
     loaded_Jet_hfsigmaPhiPhi_ = false;
     loaded_Jet_jetId_ = false;
     loaded_Jet_mass_ = false;
+    loaded_Jet_mass_jerDown_ = false;
+    loaded_Jet_mass_jerUp_ = false;
+    loaded_Jet_mass_jesHEMIssueDown_ = false;
+    loaded_Jet_mass_jesHEMIssueUp_ = false;
+    loaded_Jet_mass_jesTotalDown_ = false;
+    loaded_Jet_mass_jesTotalUp_ = false;
+    loaded_Jet_mass_nom_ = false;
+    loaded_Jet_mass_raw_ = false;
     loaded_Jet_muEF_ = false;
     loaded_Jet_muonIdx1_ = false;
     loaded_Jet_muonIdx2_ = false;
@@ -10074,6 +10246,14 @@ void Nano::GetEntry(unsigned int idx) {
     loaded_Jet_partonFlavour_ = false;
     loaded_Jet_phi_ = false;
     loaded_Jet_pt_ = false;
+    loaded_Jet_pt_jerDown_ = false;
+    loaded_Jet_pt_jerUp_ = false;
+    loaded_Jet_pt_jesHEMIssueDown_ = false;
+    loaded_Jet_pt_jesHEMIssueUp_ = false;
+    loaded_Jet_pt_jesTotalDown_ = false;
+    loaded_Jet_pt_jesTotalUp_ = false;
+    loaded_Jet_pt_nom_ = false;
+    loaded_Jet_pt_raw_ = false;
     loaded_Jet_puId_ = false;
     loaded_Jet_puIdDisc_ = false;
     loaded_Jet_qgl_ = false;
@@ -10920,6 +11100,42 @@ void Nano::GetEntry(unsigned int idx) {
     loaded_METFixEE2017_sumPtUnclustered_ = false;
     loaded_MET_MetUnclustEnUpDeltaX_ = false;
     loaded_MET_MetUnclustEnUpDeltaY_ = false;
+    loaded_MET_T1Smear_phi_ = false;
+    loaded_MET_T1Smear_phi_jerDown_ = false;
+    loaded_MET_T1Smear_phi_jerUp_ = false;
+    loaded_MET_T1Smear_phi_jesHEMIssueDown_ = false;
+    loaded_MET_T1Smear_phi_jesHEMIssueUp_ = false;
+    loaded_MET_T1Smear_phi_jesTotalDown_ = false;
+    loaded_MET_T1Smear_phi_jesTotalUp_ = false;
+    loaded_MET_T1Smear_phi_unclustEnDown_ = false;
+    loaded_MET_T1Smear_phi_unclustEnUp_ = false;
+    loaded_MET_T1Smear_pt_ = false;
+    loaded_MET_T1Smear_pt_jerDown_ = false;
+    loaded_MET_T1Smear_pt_jerUp_ = false;
+    loaded_MET_T1Smear_pt_jesHEMIssueDown_ = false;
+    loaded_MET_T1Smear_pt_jesHEMIssueUp_ = false;
+    loaded_MET_T1Smear_pt_jesTotalDown_ = false;
+    loaded_MET_T1Smear_pt_jesTotalUp_ = false;
+    loaded_MET_T1Smear_pt_unclustEnDown_ = false;
+    loaded_MET_T1Smear_pt_unclustEnUp_ = false;
+    loaded_MET_T1_phi_ = false;
+    loaded_MET_T1_phi_jerDown_ = false;
+    loaded_MET_T1_phi_jerUp_ = false;
+    loaded_MET_T1_phi_jesHEMIssueDown_ = false;
+    loaded_MET_T1_phi_jesHEMIssueUp_ = false;
+    loaded_MET_T1_phi_jesTotalDown_ = false;
+    loaded_MET_T1_phi_jesTotalUp_ = false;
+    loaded_MET_T1_phi_unclustEnDown_ = false;
+    loaded_MET_T1_phi_unclustEnUp_ = false;
+    loaded_MET_T1_pt_ = false;
+    loaded_MET_T1_pt_jerDown_ = false;
+    loaded_MET_T1_pt_jerUp_ = false;
+    loaded_MET_T1_pt_jesHEMIssueDown_ = false;
+    loaded_MET_T1_pt_jesHEMIssueUp_ = false;
+    loaded_MET_T1_pt_jesTotalDown_ = false;
+    loaded_MET_T1_pt_jesTotalUp_ = false;
+    loaded_MET_T1_pt_unclustEnDown_ = false;
+    loaded_MET_T1_pt_unclustEnUp_ = false;
     loaded_MET_covXX_ = false;
     loaded_MET_covXY_ = false;
     loaded_MET_covYY_ = false;
@@ -27374,6 +27590,28 @@ const vector<UChar_t> &Nano::Jet_cleanmask() {
     }
     return v_Jet_cleanmask_;
 }
+const vector<float> &Nano::Jet_corr_JEC() {
+    if (!loaded_Jet_corr_JEC_) counter_uncached_Jet_corr_JEC_++;
+    else counter_cached_Jet_corr_JEC_++;
+    if (!loaded_Jet_corr_JEC_) {
+        if (!b_Jet_corr_JEC_) throw std::runtime_error("Jet_corr_JEC branch doesn't exist");
+        int bytes = b_Jet_corr_JEC_->GetEntry(index);
+        v_Jet_corr_JEC_ = vector<float>(Jet_corr_JEC_,Jet_corr_JEC_+bytes/sizeof(Jet_corr_JEC_[0]));
+        loaded_Jet_corr_JEC_ = true;
+    }
+    return v_Jet_corr_JEC_;
+}
+const vector<float> &Nano::Jet_corr_JER() {
+    if (!loaded_Jet_corr_JER_) counter_uncached_Jet_corr_JER_++;
+    else counter_cached_Jet_corr_JER_++;
+    if (!loaded_Jet_corr_JER_) {
+        if (!b_Jet_corr_JER_) throw std::runtime_error("Jet_corr_JER branch doesn't exist");
+        int bytes = b_Jet_corr_JER_->GetEntry(index);
+        v_Jet_corr_JER_ = vector<float>(Jet_corr_JER_,Jet_corr_JER_+bytes/sizeof(Jet_corr_JER_[0]));
+        loaded_Jet_corr_JER_ = true;
+    }
+    return v_Jet_corr_JER_;
+}
 const vector<int> &Nano::Jet_electronIdx1() {
     if (!loaded_Jet_electronIdx1_) counter_uncached_Jet_electronIdx1_++;
     else counter_cached_Jet_electronIdx1_++;
@@ -27494,6 +27732,94 @@ const vector<float> &Nano::Jet_mass() {
         loaded_Jet_mass_ = true;
     }
     return v_Jet_mass_;
+}
+const vector<float> &Nano::Jet_mass_jerDown() {
+    if (!loaded_Jet_mass_jerDown_) counter_uncached_Jet_mass_jerDown_++;
+    else counter_cached_Jet_mass_jerDown_++;
+    if (!loaded_Jet_mass_jerDown_) {
+        if (!b_Jet_mass_jerDown_) throw std::runtime_error("Jet_mass_jerDown branch doesn't exist");
+        int bytes = b_Jet_mass_jerDown_->GetEntry(index);
+        v_Jet_mass_jerDown_ = vector<float>(Jet_mass_jerDown_,Jet_mass_jerDown_+bytes/sizeof(Jet_mass_jerDown_[0]));
+        loaded_Jet_mass_jerDown_ = true;
+    }
+    return v_Jet_mass_jerDown_;
+}
+const vector<float> &Nano::Jet_mass_jerUp() {
+    if (!loaded_Jet_mass_jerUp_) counter_uncached_Jet_mass_jerUp_++;
+    else counter_cached_Jet_mass_jerUp_++;
+    if (!loaded_Jet_mass_jerUp_) {
+        if (!b_Jet_mass_jerUp_) throw std::runtime_error("Jet_mass_jerUp branch doesn't exist");
+        int bytes = b_Jet_mass_jerUp_->GetEntry(index);
+        v_Jet_mass_jerUp_ = vector<float>(Jet_mass_jerUp_,Jet_mass_jerUp_+bytes/sizeof(Jet_mass_jerUp_[0]));
+        loaded_Jet_mass_jerUp_ = true;
+    }
+    return v_Jet_mass_jerUp_;
+}
+const vector<float> &Nano::Jet_mass_jesHEMIssueDown() {
+    if (!loaded_Jet_mass_jesHEMIssueDown_) counter_uncached_Jet_mass_jesHEMIssueDown_++;
+    else counter_cached_Jet_mass_jesHEMIssueDown_++;
+    if (!loaded_Jet_mass_jesHEMIssueDown_) {
+        if (!b_Jet_mass_jesHEMIssueDown_) throw std::runtime_error("Jet_mass_jesHEMIssueDown branch doesn't exist");
+        int bytes = b_Jet_mass_jesHEMIssueDown_->GetEntry(index);
+        v_Jet_mass_jesHEMIssueDown_ = vector<float>(Jet_mass_jesHEMIssueDown_,Jet_mass_jesHEMIssueDown_+bytes/sizeof(Jet_mass_jesHEMIssueDown_[0]));
+        loaded_Jet_mass_jesHEMIssueDown_ = true;
+    }
+    return v_Jet_mass_jesHEMIssueDown_;
+}
+const vector<float> &Nano::Jet_mass_jesHEMIssueUp() {
+    if (!loaded_Jet_mass_jesHEMIssueUp_) counter_uncached_Jet_mass_jesHEMIssueUp_++;
+    else counter_cached_Jet_mass_jesHEMIssueUp_++;
+    if (!loaded_Jet_mass_jesHEMIssueUp_) {
+        if (!b_Jet_mass_jesHEMIssueUp_) throw std::runtime_error("Jet_mass_jesHEMIssueUp branch doesn't exist");
+        int bytes = b_Jet_mass_jesHEMIssueUp_->GetEntry(index);
+        v_Jet_mass_jesHEMIssueUp_ = vector<float>(Jet_mass_jesHEMIssueUp_,Jet_mass_jesHEMIssueUp_+bytes/sizeof(Jet_mass_jesHEMIssueUp_[0]));
+        loaded_Jet_mass_jesHEMIssueUp_ = true;
+    }
+    return v_Jet_mass_jesHEMIssueUp_;
+}
+const vector<float> &Nano::Jet_mass_jesTotalDown() {
+    if (!loaded_Jet_mass_jesTotalDown_) counter_uncached_Jet_mass_jesTotalDown_++;
+    else counter_cached_Jet_mass_jesTotalDown_++;
+    if (!loaded_Jet_mass_jesTotalDown_) {
+        if (!b_Jet_mass_jesTotalDown_) throw std::runtime_error("Jet_mass_jesTotalDown branch doesn't exist");
+        int bytes = b_Jet_mass_jesTotalDown_->GetEntry(index);
+        v_Jet_mass_jesTotalDown_ = vector<float>(Jet_mass_jesTotalDown_,Jet_mass_jesTotalDown_+bytes/sizeof(Jet_mass_jesTotalDown_[0]));
+        loaded_Jet_mass_jesTotalDown_ = true;
+    }
+    return v_Jet_mass_jesTotalDown_;
+}
+const vector<float> &Nano::Jet_mass_jesTotalUp() {
+    if (!loaded_Jet_mass_jesTotalUp_) counter_uncached_Jet_mass_jesTotalUp_++;
+    else counter_cached_Jet_mass_jesTotalUp_++;
+    if (!loaded_Jet_mass_jesTotalUp_) {
+        if (!b_Jet_mass_jesTotalUp_) throw std::runtime_error("Jet_mass_jesTotalUp branch doesn't exist");
+        int bytes = b_Jet_mass_jesTotalUp_->GetEntry(index);
+        v_Jet_mass_jesTotalUp_ = vector<float>(Jet_mass_jesTotalUp_,Jet_mass_jesTotalUp_+bytes/sizeof(Jet_mass_jesTotalUp_[0]));
+        loaded_Jet_mass_jesTotalUp_ = true;
+    }
+    return v_Jet_mass_jesTotalUp_;
+}
+const vector<float> &Nano::Jet_mass_nom() {
+    if (!loaded_Jet_mass_nom_) counter_uncached_Jet_mass_nom_++;
+    else counter_cached_Jet_mass_nom_++;
+    if (!loaded_Jet_mass_nom_) {
+        if (!b_Jet_mass_nom_) throw std::runtime_error("Jet_mass_nom branch doesn't exist");
+        int bytes = b_Jet_mass_nom_->GetEntry(index);
+        v_Jet_mass_nom_ = vector<float>(Jet_mass_nom_,Jet_mass_nom_+bytes/sizeof(Jet_mass_nom_[0]));
+        loaded_Jet_mass_nom_ = true;
+    }
+    return v_Jet_mass_nom_;
+}
+const vector<float> &Nano::Jet_mass_raw() {
+    if (!loaded_Jet_mass_raw_) counter_uncached_Jet_mass_raw_++;
+    else counter_cached_Jet_mass_raw_++;
+    if (!loaded_Jet_mass_raw_) {
+        if (!b_Jet_mass_raw_) throw std::runtime_error("Jet_mass_raw branch doesn't exist");
+        int bytes = b_Jet_mass_raw_->GetEntry(index);
+        v_Jet_mass_raw_ = vector<float>(Jet_mass_raw_,Jet_mass_raw_+bytes/sizeof(Jet_mass_raw_[0]));
+        loaded_Jet_mass_raw_ = true;
+    }
+    return v_Jet_mass_raw_;
 }
 const vector<float> &Nano::Jet_muEF() {
     if (!loaded_Jet_muEF_) counter_uncached_Jet_muEF_++;
@@ -27642,6 +27968,94 @@ const vector<float> &Nano::Jet_pt() {
         loaded_Jet_pt_ = true;
     }
     return v_Jet_pt_;
+}
+const vector<float> &Nano::Jet_pt_jerDown() {
+    if (!loaded_Jet_pt_jerDown_) counter_uncached_Jet_pt_jerDown_++;
+    else counter_cached_Jet_pt_jerDown_++;
+    if (!loaded_Jet_pt_jerDown_) {
+        if (!b_Jet_pt_jerDown_) throw std::runtime_error("Jet_pt_jerDown branch doesn't exist");
+        int bytes = b_Jet_pt_jerDown_->GetEntry(index);
+        v_Jet_pt_jerDown_ = vector<float>(Jet_pt_jerDown_,Jet_pt_jerDown_+bytes/sizeof(Jet_pt_jerDown_[0]));
+        loaded_Jet_pt_jerDown_ = true;
+    }
+    return v_Jet_pt_jerDown_;
+}
+const vector<float> &Nano::Jet_pt_jerUp() {
+    if (!loaded_Jet_pt_jerUp_) counter_uncached_Jet_pt_jerUp_++;
+    else counter_cached_Jet_pt_jerUp_++;
+    if (!loaded_Jet_pt_jerUp_) {
+        if (!b_Jet_pt_jerUp_) throw std::runtime_error("Jet_pt_jerUp branch doesn't exist");
+        int bytes = b_Jet_pt_jerUp_->GetEntry(index);
+        v_Jet_pt_jerUp_ = vector<float>(Jet_pt_jerUp_,Jet_pt_jerUp_+bytes/sizeof(Jet_pt_jerUp_[0]));
+        loaded_Jet_pt_jerUp_ = true;
+    }
+    return v_Jet_pt_jerUp_;
+}
+const vector<float> &Nano::Jet_pt_jesHEMIssueDown() {
+    if (!loaded_Jet_pt_jesHEMIssueDown_) counter_uncached_Jet_pt_jesHEMIssueDown_++;
+    else counter_cached_Jet_pt_jesHEMIssueDown_++;
+    if (!loaded_Jet_pt_jesHEMIssueDown_) {
+        if (!b_Jet_pt_jesHEMIssueDown_) throw std::runtime_error("Jet_pt_jesHEMIssueDown branch doesn't exist");
+        int bytes = b_Jet_pt_jesHEMIssueDown_->GetEntry(index);
+        v_Jet_pt_jesHEMIssueDown_ = vector<float>(Jet_pt_jesHEMIssueDown_,Jet_pt_jesHEMIssueDown_+bytes/sizeof(Jet_pt_jesHEMIssueDown_[0]));
+        loaded_Jet_pt_jesHEMIssueDown_ = true;
+    }
+    return v_Jet_pt_jesHEMIssueDown_;
+}
+const vector<float> &Nano::Jet_pt_jesHEMIssueUp() {
+    if (!loaded_Jet_pt_jesHEMIssueUp_) counter_uncached_Jet_pt_jesHEMIssueUp_++;
+    else counter_cached_Jet_pt_jesHEMIssueUp_++;
+    if (!loaded_Jet_pt_jesHEMIssueUp_) {
+        if (!b_Jet_pt_jesHEMIssueUp_) throw std::runtime_error("Jet_pt_jesHEMIssueUp branch doesn't exist");
+        int bytes = b_Jet_pt_jesHEMIssueUp_->GetEntry(index);
+        v_Jet_pt_jesHEMIssueUp_ = vector<float>(Jet_pt_jesHEMIssueUp_,Jet_pt_jesHEMIssueUp_+bytes/sizeof(Jet_pt_jesHEMIssueUp_[0]));
+        loaded_Jet_pt_jesHEMIssueUp_ = true;
+    }
+    return v_Jet_pt_jesHEMIssueUp_;
+}
+const vector<float> &Nano::Jet_pt_jesTotalDown() {
+    if (!loaded_Jet_pt_jesTotalDown_) counter_uncached_Jet_pt_jesTotalDown_++;
+    else counter_cached_Jet_pt_jesTotalDown_++;
+    if (!loaded_Jet_pt_jesTotalDown_) {
+        if (!b_Jet_pt_jesTotalDown_) throw std::runtime_error("Jet_pt_jesTotalDown branch doesn't exist");
+        int bytes = b_Jet_pt_jesTotalDown_->GetEntry(index);
+        v_Jet_pt_jesTotalDown_ = vector<float>(Jet_pt_jesTotalDown_,Jet_pt_jesTotalDown_+bytes/sizeof(Jet_pt_jesTotalDown_[0]));
+        loaded_Jet_pt_jesTotalDown_ = true;
+    }
+    return v_Jet_pt_jesTotalDown_;
+}
+const vector<float> &Nano::Jet_pt_jesTotalUp() {
+    if (!loaded_Jet_pt_jesTotalUp_) counter_uncached_Jet_pt_jesTotalUp_++;
+    else counter_cached_Jet_pt_jesTotalUp_++;
+    if (!loaded_Jet_pt_jesTotalUp_) {
+        if (!b_Jet_pt_jesTotalUp_) throw std::runtime_error("Jet_pt_jesTotalUp branch doesn't exist");
+        int bytes = b_Jet_pt_jesTotalUp_->GetEntry(index);
+        v_Jet_pt_jesTotalUp_ = vector<float>(Jet_pt_jesTotalUp_,Jet_pt_jesTotalUp_+bytes/sizeof(Jet_pt_jesTotalUp_[0]));
+        loaded_Jet_pt_jesTotalUp_ = true;
+    }
+    return v_Jet_pt_jesTotalUp_;
+}
+const vector<float> &Nano::Jet_pt_nom() {
+    if (!loaded_Jet_pt_nom_) counter_uncached_Jet_pt_nom_++;
+    else counter_cached_Jet_pt_nom_++;
+    if (!loaded_Jet_pt_nom_) {
+        if (!b_Jet_pt_nom_) throw std::runtime_error("Jet_pt_nom branch doesn't exist");
+        int bytes = b_Jet_pt_nom_->GetEntry(index);
+        v_Jet_pt_nom_ = vector<float>(Jet_pt_nom_,Jet_pt_nom_+bytes/sizeof(Jet_pt_nom_[0]));
+        loaded_Jet_pt_nom_ = true;
+    }
+    return v_Jet_pt_nom_;
+}
+const vector<float> &Nano::Jet_pt_raw() {
+    if (!loaded_Jet_pt_raw_) counter_uncached_Jet_pt_raw_++;
+    else counter_cached_Jet_pt_raw_++;
+    if (!loaded_Jet_pt_raw_) {
+        if (!b_Jet_pt_raw_) throw std::runtime_error("Jet_pt_raw branch doesn't exist");
+        int bytes = b_Jet_pt_raw_->GetEntry(index);
+        v_Jet_pt_raw_ = vector<float>(Jet_pt_raw_,Jet_pt_raw_+bytes/sizeof(Jet_pt_raw_[0]));
+        loaded_Jet_pt_raw_ = true;
+    }
+    return v_Jet_pt_raw_;
 }
 const vector<int> &Nano::Jet_puId() {
     if (!loaded_Jet_puId_) counter_uncached_Jet_puId_++;
@@ -36163,6 +36577,366 @@ const float &Nano::MET_MetUnclustEnUpDeltaY() {
     }
     return MET_MetUnclustEnUpDeltaY_;
 }
+const float &Nano::MET_T1Smear_phi() {
+    if (!loaded_MET_T1Smear_phi_) counter_uncached_MET_T1Smear_phi_++;
+    else counter_cached_MET_T1Smear_phi_++;
+    if (!loaded_MET_T1Smear_phi_) {
+        if (!b_MET_T1Smear_phi_) throw std::runtime_error("MET_T1Smear_phi branch doesn't exist");
+        b_MET_T1Smear_phi_->GetEntry(index);
+        loaded_MET_T1Smear_phi_ = true;
+    }
+    return MET_T1Smear_phi_;
+}
+const float &Nano::MET_T1Smear_phi_jerDown() {
+    if (!loaded_MET_T1Smear_phi_jerDown_) counter_uncached_MET_T1Smear_phi_jerDown_++;
+    else counter_cached_MET_T1Smear_phi_jerDown_++;
+    if (!loaded_MET_T1Smear_phi_jerDown_) {
+        if (!b_MET_T1Smear_phi_jerDown_) throw std::runtime_error("MET_T1Smear_phi_jerDown branch doesn't exist");
+        b_MET_T1Smear_phi_jerDown_->GetEntry(index);
+        loaded_MET_T1Smear_phi_jerDown_ = true;
+    }
+    return MET_T1Smear_phi_jerDown_;
+}
+const float &Nano::MET_T1Smear_phi_jerUp() {
+    if (!loaded_MET_T1Smear_phi_jerUp_) counter_uncached_MET_T1Smear_phi_jerUp_++;
+    else counter_cached_MET_T1Smear_phi_jerUp_++;
+    if (!loaded_MET_T1Smear_phi_jerUp_) {
+        if (!b_MET_T1Smear_phi_jerUp_) throw std::runtime_error("MET_T1Smear_phi_jerUp branch doesn't exist");
+        b_MET_T1Smear_phi_jerUp_->GetEntry(index);
+        loaded_MET_T1Smear_phi_jerUp_ = true;
+    }
+    return MET_T1Smear_phi_jerUp_;
+}
+const float &Nano::MET_T1Smear_phi_jesHEMIssueDown() {
+    if (!loaded_MET_T1Smear_phi_jesHEMIssueDown_) counter_uncached_MET_T1Smear_phi_jesHEMIssueDown_++;
+    else counter_cached_MET_T1Smear_phi_jesHEMIssueDown_++;
+    if (!loaded_MET_T1Smear_phi_jesHEMIssueDown_) {
+        if (!b_MET_T1Smear_phi_jesHEMIssueDown_) throw std::runtime_error("MET_T1Smear_phi_jesHEMIssueDown branch doesn't exist");
+        b_MET_T1Smear_phi_jesHEMIssueDown_->GetEntry(index);
+        loaded_MET_T1Smear_phi_jesHEMIssueDown_ = true;
+    }
+    return MET_T1Smear_phi_jesHEMIssueDown_;
+}
+const float &Nano::MET_T1Smear_phi_jesHEMIssueUp() {
+    if (!loaded_MET_T1Smear_phi_jesHEMIssueUp_) counter_uncached_MET_T1Smear_phi_jesHEMIssueUp_++;
+    else counter_cached_MET_T1Smear_phi_jesHEMIssueUp_++;
+    if (!loaded_MET_T1Smear_phi_jesHEMIssueUp_) {
+        if (!b_MET_T1Smear_phi_jesHEMIssueUp_) throw std::runtime_error("MET_T1Smear_phi_jesHEMIssueUp branch doesn't exist");
+        b_MET_T1Smear_phi_jesHEMIssueUp_->GetEntry(index);
+        loaded_MET_T1Smear_phi_jesHEMIssueUp_ = true;
+    }
+    return MET_T1Smear_phi_jesHEMIssueUp_;
+}
+const float &Nano::MET_T1Smear_phi_jesTotalDown() {
+    if (!loaded_MET_T1Smear_phi_jesTotalDown_) counter_uncached_MET_T1Smear_phi_jesTotalDown_++;
+    else counter_cached_MET_T1Smear_phi_jesTotalDown_++;
+    if (!loaded_MET_T1Smear_phi_jesTotalDown_) {
+        if (!b_MET_T1Smear_phi_jesTotalDown_) throw std::runtime_error("MET_T1Smear_phi_jesTotalDown branch doesn't exist");
+        b_MET_T1Smear_phi_jesTotalDown_->GetEntry(index);
+        loaded_MET_T1Smear_phi_jesTotalDown_ = true;
+    }
+    return MET_T1Smear_phi_jesTotalDown_;
+}
+const float &Nano::MET_T1Smear_phi_jesTotalUp() {
+    if (!loaded_MET_T1Smear_phi_jesTotalUp_) counter_uncached_MET_T1Smear_phi_jesTotalUp_++;
+    else counter_cached_MET_T1Smear_phi_jesTotalUp_++;
+    if (!loaded_MET_T1Smear_phi_jesTotalUp_) {
+        if (!b_MET_T1Smear_phi_jesTotalUp_) throw std::runtime_error("MET_T1Smear_phi_jesTotalUp branch doesn't exist");
+        b_MET_T1Smear_phi_jesTotalUp_->GetEntry(index);
+        loaded_MET_T1Smear_phi_jesTotalUp_ = true;
+    }
+    return MET_T1Smear_phi_jesTotalUp_;
+}
+const float &Nano::MET_T1Smear_phi_unclustEnDown() {
+    if (!loaded_MET_T1Smear_phi_unclustEnDown_) counter_uncached_MET_T1Smear_phi_unclustEnDown_++;
+    else counter_cached_MET_T1Smear_phi_unclustEnDown_++;
+    if (!loaded_MET_T1Smear_phi_unclustEnDown_) {
+        if (!b_MET_T1Smear_phi_unclustEnDown_) throw std::runtime_error("MET_T1Smear_phi_unclustEnDown branch doesn't exist");
+        b_MET_T1Smear_phi_unclustEnDown_->GetEntry(index);
+        loaded_MET_T1Smear_phi_unclustEnDown_ = true;
+    }
+    return MET_T1Smear_phi_unclustEnDown_;
+}
+const float &Nano::MET_T1Smear_phi_unclustEnUp() {
+    if (!loaded_MET_T1Smear_phi_unclustEnUp_) counter_uncached_MET_T1Smear_phi_unclustEnUp_++;
+    else counter_cached_MET_T1Smear_phi_unclustEnUp_++;
+    if (!loaded_MET_T1Smear_phi_unclustEnUp_) {
+        if (!b_MET_T1Smear_phi_unclustEnUp_) throw std::runtime_error("MET_T1Smear_phi_unclustEnUp branch doesn't exist");
+        b_MET_T1Smear_phi_unclustEnUp_->GetEntry(index);
+        loaded_MET_T1Smear_phi_unclustEnUp_ = true;
+    }
+    return MET_T1Smear_phi_unclustEnUp_;
+}
+const float &Nano::MET_T1Smear_pt() {
+    if (!loaded_MET_T1Smear_pt_) counter_uncached_MET_T1Smear_pt_++;
+    else counter_cached_MET_T1Smear_pt_++;
+    if (!loaded_MET_T1Smear_pt_) {
+        if (!b_MET_T1Smear_pt_) throw std::runtime_error("MET_T1Smear_pt branch doesn't exist");
+        b_MET_T1Smear_pt_->GetEntry(index);
+        loaded_MET_T1Smear_pt_ = true;
+    }
+    return MET_T1Smear_pt_;
+}
+const float &Nano::MET_T1Smear_pt_jerDown() {
+    if (!loaded_MET_T1Smear_pt_jerDown_) counter_uncached_MET_T1Smear_pt_jerDown_++;
+    else counter_cached_MET_T1Smear_pt_jerDown_++;
+    if (!loaded_MET_T1Smear_pt_jerDown_) {
+        if (!b_MET_T1Smear_pt_jerDown_) throw std::runtime_error("MET_T1Smear_pt_jerDown branch doesn't exist");
+        b_MET_T1Smear_pt_jerDown_->GetEntry(index);
+        loaded_MET_T1Smear_pt_jerDown_ = true;
+    }
+    return MET_T1Smear_pt_jerDown_;
+}
+const float &Nano::MET_T1Smear_pt_jerUp() {
+    if (!loaded_MET_T1Smear_pt_jerUp_) counter_uncached_MET_T1Smear_pt_jerUp_++;
+    else counter_cached_MET_T1Smear_pt_jerUp_++;
+    if (!loaded_MET_T1Smear_pt_jerUp_) {
+        if (!b_MET_T1Smear_pt_jerUp_) throw std::runtime_error("MET_T1Smear_pt_jerUp branch doesn't exist");
+        b_MET_T1Smear_pt_jerUp_->GetEntry(index);
+        loaded_MET_T1Smear_pt_jerUp_ = true;
+    }
+    return MET_T1Smear_pt_jerUp_;
+}
+const float &Nano::MET_T1Smear_pt_jesHEMIssueDown() {
+    if (!loaded_MET_T1Smear_pt_jesHEMIssueDown_) counter_uncached_MET_T1Smear_pt_jesHEMIssueDown_++;
+    else counter_cached_MET_T1Smear_pt_jesHEMIssueDown_++;
+    if (!loaded_MET_T1Smear_pt_jesHEMIssueDown_) {
+        if (!b_MET_T1Smear_pt_jesHEMIssueDown_) throw std::runtime_error("MET_T1Smear_pt_jesHEMIssueDown branch doesn't exist");
+        b_MET_T1Smear_pt_jesHEMIssueDown_->GetEntry(index);
+        loaded_MET_T1Smear_pt_jesHEMIssueDown_ = true;
+    }
+    return MET_T1Smear_pt_jesHEMIssueDown_;
+}
+const float &Nano::MET_T1Smear_pt_jesHEMIssueUp() {
+    if (!loaded_MET_T1Smear_pt_jesHEMIssueUp_) counter_uncached_MET_T1Smear_pt_jesHEMIssueUp_++;
+    else counter_cached_MET_T1Smear_pt_jesHEMIssueUp_++;
+    if (!loaded_MET_T1Smear_pt_jesHEMIssueUp_) {
+        if (!b_MET_T1Smear_pt_jesHEMIssueUp_) throw std::runtime_error("MET_T1Smear_pt_jesHEMIssueUp branch doesn't exist");
+        b_MET_T1Smear_pt_jesHEMIssueUp_->GetEntry(index);
+        loaded_MET_T1Smear_pt_jesHEMIssueUp_ = true;
+    }
+    return MET_T1Smear_pt_jesHEMIssueUp_;
+}
+const float &Nano::MET_T1Smear_pt_jesTotalDown() {
+    if (!loaded_MET_T1Smear_pt_jesTotalDown_) counter_uncached_MET_T1Smear_pt_jesTotalDown_++;
+    else counter_cached_MET_T1Smear_pt_jesTotalDown_++;
+    if (!loaded_MET_T1Smear_pt_jesTotalDown_) {
+        if (!b_MET_T1Smear_pt_jesTotalDown_) throw std::runtime_error("MET_T1Smear_pt_jesTotalDown branch doesn't exist");
+        b_MET_T1Smear_pt_jesTotalDown_->GetEntry(index);
+        loaded_MET_T1Smear_pt_jesTotalDown_ = true;
+    }
+    return MET_T1Smear_pt_jesTotalDown_;
+}
+const float &Nano::MET_T1Smear_pt_jesTotalUp() {
+    if (!loaded_MET_T1Smear_pt_jesTotalUp_) counter_uncached_MET_T1Smear_pt_jesTotalUp_++;
+    else counter_cached_MET_T1Smear_pt_jesTotalUp_++;
+    if (!loaded_MET_T1Smear_pt_jesTotalUp_) {
+        if (!b_MET_T1Smear_pt_jesTotalUp_) throw std::runtime_error("MET_T1Smear_pt_jesTotalUp branch doesn't exist");
+        b_MET_T1Smear_pt_jesTotalUp_->GetEntry(index);
+        loaded_MET_T1Smear_pt_jesTotalUp_ = true;
+    }
+    return MET_T1Smear_pt_jesTotalUp_;
+}
+const float &Nano::MET_T1Smear_pt_unclustEnDown() {
+    if (!loaded_MET_T1Smear_pt_unclustEnDown_) counter_uncached_MET_T1Smear_pt_unclustEnDown_++;
+    else counter_cached_MET_T1Smear_pt_unclustEnDown_++;
+    if (!loaded_MET_T1Smear_pt_unclustEnDown_) {
+        if (!b_MET_T1Smear_pt_unclustEnDown_) throw std::runtime_error("MET_T1Smear_pt_unclustEnDown branch doesn't exist");
+        b_MET_T1Smear_pt_unclustEnDown_->GetEntry(index);
+        loaded_MET_T1Smear_pt_unclustEnDown_ = true;
+    }
+    return MET_T1Smear_pt_unclustEnDown_;
+}
+const float &Nano::MET_T1Smear_pt_unclustEnUp() {
+    if (!loaded_MET_T1Smear_pt_unclustEnUp_) counter_uncached_MET_T1Smear_pt_unclustEnUp_++;
+    else counter_cached_MET_T1Smear_pt_unclustEnUp_++;
+    if (!loaded_MET_T1Smear_pt_unclustEnUp_) {
+        if (!b_MET_T1Smear_pt_unclustEnUp_) throw std::runtime_error("MET_T1Smear_pt_unclustEnUp branch doesn't exist");
+        b_MET_T1Smear_pt_unclustEnUp_->GetEntry(index);
+        loaded_MET_T1Smear_pt_unclustEnUp_ = true;
+    }
+    return MET_T1Smear_pt_unclustEnUp_;
+}
+const float &Nano::MET_T1_phi() {
+    if (!loaded_MET_T1_phi_) counter_uncached_MET_T1_phi_++;
+    else counter_cached_MET_T1_phi_++;
+    if (!loaded_MET_T1_phi_) {
+        if (!b_MET_T1_phi_) throw std::runtime_error("MET_T1_phi branch doesn't exist");
+        b_MET_T1_phi_->GetEntry(index);
+        loaded_MET_T1_phi_ = true;
+    }
+    return MET_T1_phi_;
+}
+const float &Nano::MET_T1_phi_jerDown() {
+    if (!loaded_MET_T1_phi_jerDown_) counter_uncached_MET_T1_phi_jerDown_++;
+    else counter_cached_MET_T1_phi_jerDown_++;
+    if (!loaded_MET_T1_phi_jerDown_) {
+        if (!b_MET_T1_phi_jerDown_) throw std::runtime_error("MET_T1_phi_jerDown branch doesn't exist");
+        b_MET_T1_phi_jerDown_->GetEntry(index);
+        loaded_MET_T1_phi_jerDown_ = true;
+    }
+    return MET_T1_phi_jerDown_;
+}
+const float &Nano::MET_T1_phi_jerUp() {
+    if (!loaded_MET_T1_phi_jerUp_) counter_uncached_MET_T1_phi_jerUp_++;
+    else counter_cached_MET_T1_phi_jerUp_++;
+    if (!loaded_MET_T1_phi_jerUp_) {
+        if (!b_MET_T1_phi_jerUp_) throw std::runtime_error("MET_T1_phi_jerUp branch doesn't exist");
+        b_MET_T1_phi_jerUp_->GetEntry(index);
+        loaded_MET_T1_phi_jerUp_ = true;
+    }
+    return MET_T1_phi_jerUp_;
+}
+const float &Nano::MET_T1_phi_jesHEMIssueDown() {
+    if (!loaded_MET_T1_phi_jesHEMIssueDown_) counter_uncached_MET_T1_phi_jesHEMIssueDown_++;
+    else counter_cached_MET_T1_phi_jesHEMIssueDown_++;
+    if (!loaded_MET_T1_phi_jesHEMIssueDown_) {
+        if (!b_MET_T1_phi_jesHEMIssueDown_) throw std::runtime_error("MET_T1_phi_jesHEMIssueDown branch doesn't exist");
+        b_MET_T1_phi_jesHEMIssueDown_->GetEntry(index);
+        loaded_MET_T1_phi_jesHEMIssueDown_ = true;
+    }
+    return MET_T1_phi_jesHEMIssueDown_;
+}
+const float &Nano::MET_T1_phi_jesHEMIssueUp() {
+    if (!loaded_MET_T1_phi_jesHEMIssueUp_) counter_uncached_MET_T1_phi_jesHEMIssueUp_++;
+    else counter_cached_MET_T1_phi_jesHEMIssueUp_++;
+    if (!loaded_MET_T1_phi_jesHEMIssueUp_) {
+        if (!b_MET_T1_phi_jesHEMIssueUp_) throw std::runtime_error("MET_T1_phi_jesHEMIssueUp branch doesn't exist");
+        b_MET_T1_phi_jesHEMIssueUp_->GetEntry(index);
+        loaded_MET_T1_phi_jesHEMIssueUp_ = true;
+    }
+    return MET_T1_phi_jesHEMIssueUp_;
+}
+const float &Nano::MET_T1_phi_jesTotalDown() {
+    if (!loaded_MET_T1_phi_jesTotalDown_) counter_uncached_MET_T1_phi_jesTotalDown_++;
+    else counter_cached_MET_T1_phi_jesTotalDown_++;
+    if (!loaded_MET_T1_phi_jesTotalDown_) {
+        if (!b_MET_T1_phi_jesTotalDown_) throw std::runtime_error("MET_T1_phi_jesTotalDown branch doesn't exist");
+        b_MET_T1_phi_jesTotalDown_->GetEntry(index);
+        loaded_MET_T1_phi_jesTotalDown_ = true;
+    }
+    return MET_T1_phi_jesTotalDown_;
+}
+const float &Nano::MET_T1_phi_jesTotalUp() {
+    if (!loaded_MET_T1_phi_jesTotalUp_) counter_uncached_MET_T1_phi_jesTotalUp_++;
+    else counter_cached_MET_T1_phi_jesTotalUp_++;
+    if (!loaded_MET_T1_phi_jesTotalUp_) {
+        if (!b_MET_T1_phi_jesTotalUp_) throw std::runtime_error("MET_T1_phi_jesTotalUp branch doesn't exist");
+        b_MET_T1_phi_jesTotalUp_->GetEntry(index);
+        loaded_MET_T1_phi_jesTotalUp_ = true;
+    }
+    return MET_T1_phi_jesTotalUp_;
+}
+const float &Nano::MET_T1_phi_unclustEnDown() {
+    if (!loaded_MET_T1_phi_unclustEnDown_) counter_uncached_MET_T1_phi_unclustEnDown_++;
+    else counter_cached_MET_T1_phi_unclustEnDown_++;
+    if (!loaded_MET_T1_phi_unclustEnDown_) {
+        if (!b_MET_T1_phi_unclustEnDown_) throw std::runtime_error("MET_T1_phi_unclustEnDown branch doesn't exist");
+        b_MET_T1_phi_unclustEnDown_->GetEntry(index);
+        loaded_MET_T1_phi_unclustEnDown_ = true;
+    }
+    return MET_T1_phi_unclustEnDown_;
+}
+const float &Nano::MET_T1_phi_unclustEnUp() {
+    if (!loaded_MET_T1_phi_unclustEnUp_) counter_uncached_MET_T1_phi_unclustEnUp_++;
+    else counter_cached_MET_T1_phi_unclustEnUp_++;
+    if (!loaded_MET_T1_phi_unclustEnUp_) {
+        if (!b_MET_T1_phi_unclustEnUp_) throw std::runtime_error("MET_T1_phi_unclustEnUp branch doesn't exist");
+        b_MET_T1_phi_unclustEnUp_->GetEntry(index);
+        loaded_MET_T1_phi_unclustEnUp_ = true;
+    }
+    return MET_T1_phi_unclustEnUp_;
+}
+const float &Nano::MET_T1_pt() {
+    if (!loaded_MET_T1_pt_) counter_uncached_MET_T1_pt_++;
+    else counter_cached_MET_T1_pt_++;
+    if (!loaded_MET_T1_pt_) {
+        if (!b_MET_T1_pt_) throw std::runtime_error("MET_T1_pt branch doesn't exist");
+        b_MET_T1_pt_->GetEntry(index);
+        loaded_MET_T1_pt_ = true;
+    }
+    return MET_T1_pt_;
+}
+const float &Nano::MET_T1_pt_jerDown() {
+    if (!loaded_MET_T1_pt_jerDown_) counter_uncached_MET_T1_pt_jerDown_++;
+    else counter_cached_MET_T1_pt_jerDown_++;
+    if (!loaded_MET_T1_pt_jerDown_) {
+        if (!b_MET_T1_pt_jerDown_) throw std::runtime_error("MET_T1_pt_jerDown branch doesn't exist");
+        b_MET_T1_pt_jerDown_->GetEntry(index);
+        loaded_MET_T1_pt_jerDown_ = true;
+    }
+    return MET_T1_pt_jerDown_;
+}
+const float &Nano::MET_T1_pt_jerUp() {
+    if (!loaded_MET_T1_pt_jerUp_) counter_uncached_MET_T1_pt_jerUp_++;
+    else counter_cached_MET_T1_pt_jerUp_++;
+    if (!loaded_MET_T1_pt_jerUp_) {
+        if (!b_MET_T1_pt_jerUp_) throw std::runtime_error("MET_T1_pt_jerUp branch doesn't exist");
+        b_MET_T1_pt_jerUp_->GetEntry(index);
+        loaded_MET_T1_pt_jerUp_ = true;
+    }
+    return MET_T1_pt_jerUp_;
+}
+const float &Nano::MET_T1_pt_jesHEMIssueDown() {
+    if (!loaded_MET_T1_pt_jesHEMIssueDown_) counter_uncached_MET_T1_pt_jesHEMIssueDown_++;
+    else counter_cached_MET_T1_pt_jesHEMIssueDown_++;
+    if (!loaded_MET_T1_pt_jesHEMIssueDown_) {
+        if (!b_MET_T1_pt_jesHEMIssueDown_) throw std::runtime_error("MET_T1_pt_jesHEMIssueDown branch doesn't exist");
+        b_MET_T1_pt_jesHEMIssueDown_->GetEntry(index);
+        loaded_MET_T1_pt_jesHEMIssueDown_ = true;
+    }
+    return MET_T1_pt_jesHEMIssueDown_;
+}
+const float &Nano::MET_T1_pt_jesHEMIssueUp() {
+    if (!loaded_MET_T1_pt_jesHEMIssueUp_) counter_uncached_MET_T1_pt_jesHEMIssueUp_++;
+    else counter_cached_MET_T1_pt_jesHEMIssueUp_++;
+    if (!loaded_MET_T1_pt_jesHEMIssueUp_) {
+        if (!b_MET_T1_pt_jesHEMIssueUp_) throw std::runtime_error("MET_T1_pt_jesHEMIssueUp branch doesn't exist");
+        b_MET_T1_pt_jesHEMIssueUp_->GetEntry(index);
+        loaded_MET_T1_pt_jesHEMIssueUp_ = true;
+    }
+    return MET_T1_pt_jesHEMIssueUp_;
+}
+const float &Nano::MET_T1_pt_jesTotalDown() {
+    if (!loaded_MET_T1_pt_jesTotalDown_) counter_uncached_MET_T1_pt_jesTotalDown_++;
+    else counter_cached_MET_T1_pt_jesTotalDown_++;
+    if (!loaded_MET_T1_pt_jesTotalDown_) {
+        if (!b_MET_T1_pt_jesTotalDown_) throw std::runtime_error("MET_T1_pt_jesTotalDown branch doesn't exist");
+        b_MET_T1_pt_jesTotalDown_->GetEntry(index);
+        loaded_MET_T1_pt_jesTotalDown_ = true;
+    }
+    return MET_T1_pt_jesTotalDown_;
+}
+const float &Nano::MET_T1_pt_jesTotalUp() {
+    if (!loaded_MET_T1_pt_jesTotalUp_) counter_uncached_MET_T1_pt_jesTotalUp_++;
+    else counter_cached_MET_T1_pt_jesTotalUp_++;
+    if (!loaded_MET_T1_pt_jesTotalUp_) {
+        if (!b_MET_T1_pt_jesTotalUp_) throw std::runtime_error("MET_T1_pt_jesTotalUp branch doesn't exist");
+        b_MET_T1_pt_jesTotalUp_->GetEntry(index);
+        loaded_MET_T1_pt_jesTotalUp_ = true;
+    }
+    return MET_T1_pt_jesTotalUp_;
+}
+const float &Nano::MET_T1_pt_unclustEnDown() {
+    if (!loaded_MET_T1_pt_unclustEnDown_) counter_uncached_MET_T1_pt_unclustEnDown_++;
+    else counter_cached_MET_T1_pt_unclustEnDown_++;
+    if (!loaded_MET_T1_pt_unclustEnDown_) {
+        if (!b_MET_T1_pt_unclustEnDown_) throw std::runtime_error("MET_T1_pt_unclustEnDown branch doesn't exist");
+        b_MET_T1_pt_unclustEnDown_->GetEntry(index);
+        loaded_MET_T1_pt_unclustEnDown_ = true;
+    }
+    return MET_T1_pt_unclustEnDown_;
+}
+const float &Nano::MET_T1_pt_unclustEnUp() {
+    if (!loaded_MET_T1_pt_unclustEnUp_) counter_uncached_MET_T1_pt_unclustEnUp_++;
+    else counter_cached_MET_T1_pt_unclustEnUp_++;
+    if (!loaded_MET_T1_pt_unclustEnUp_) {
+        if (!b_MET_T1_pt_unclustEnUp_) throw std::runtime_error("MET_T1_pt_unclustEnUp branch doesn't exist");
+        b_MET_T1_pt_unclustEnUp_->GetEntry(index);
+        loaded_MET_T1_pt_unclustEnUp_ = true;
+    }
+    return MET_T1_pt_unclustEnUp_;
+}
 const float &Nano::MET_covXX() {
     if (!loaded_MET_covXX_) counter_uncached_MET_covXX_++;
     else counter_cached_MET_covXX_++;
@@ -41825,6 +42599,8 @@ namespace tas {
     const vector<float> &Jet_chFPV3EF() { return nt.Jet_chFPV3EF(); }
     const vector<float> &Jet_chHEF() { return nt.Jet_chHEF(); }
     const vector<UChar_t> &Jet_cleanmask() { return nt.Jet_cleanmask(); }
+    const vector<float> &Jet_corr_JEC() { return nt.Jet_corr_JEC(); }
+    const vector<float> &Jet_corr_JER() { return nt.Jet_corr_JER(); }
     const vector<int> &Jet_electronIdx1() { return nt.Jet_electronIdx1(); }
     const vector<int> &Jet_electronIdx2() { return nt.Jet_electronIdx2(); }
     const vector<float> &Jet_eta() { return nt.Jet_eta(); }
@@ -41836,6 +42612,14 @@ namespace tas {
     const vector<float> &Jet_hfsigmaPhiPhi() { return nt.Jet_hfsigmaPhiPhi(); }
     const vector<int> &Jet_jetId() { return nt.Jet_jetId(); }
     const vector<float> &Jet_mass() { return nt.Jet_mass(); }
+    const vector<float> &Jet_mass_jerDown() { return nt.Jet_mass_jerDown(); }
+    const vector<float> &Jet_mass_jerUp() { return nt.Jet_mass_jerUp(); }
+    const vector<float> &Jet_mass_jesHEMIssueDown() { return nt.Jet_mass_jesHEMIssueDown(); }
+    const vector<float> &Jet_mass_jesHEMIssueUp() { return nt.Jet_mass_jesHEMIssueUp(); }
+    const vector<float> &Jet_mass_jesTotalDown() { return nt.Jet_mass_jesTotalDown(); }
+    const vector<float> &Jet_mass_jesTotalUp() { return nt.Jet_mass_jesTotalUp(); }
+    const vector<float> &Jet_mass_nom() { return nt.Jet_mass_nom(); }
+    const vector<float> &Jet_mass_raw() { return nt.Jet_mass_raw(); }
     const vector<float> &Jet_muEF() { return nt.Jet_muEF(); }
     const vector<int> &Jet_muonIdx1() { return nt.Jet_muonIdx1(); }
     const vector<int> &Jet_muonIdx2() { return nt.Jet_muonIdx2(); }
@@ -41849,6 +42633,14 @@ namespace tas {
     const vector<int> &Jet_partonFlavour() { return nt.Jet_partonFlavour(); }
     const vector<float> &Jet_phi() { return nt.Jet_phi(); }
     const vector<float> &Jet_pt() { return nt.Jet_pt(); }
+    const vector<float> &Jet_pt_jerDown() { return nt.Jet_pt_jerDown(); }
+    const vector<float> &Jet_pt_jerUp() { return nt.Jet_pt_jerUp(); }
+    const vector<float> &Jet_pt_jesHEMIssueDown() { return nt.Jet_pt_jesHEMIssueDown(); }
+    const vector<float> &Jet_pt_jesHEMIssueUp() { return nt.Jet_pt_jesHEMIssueUp(); }
+    const vector<float> &Jet_pt_jesTotalDown() { return nt.Jet_pt_jesTotalDown(); }
+    const vector<float> &Jet_pt_jesTotalUp() { return nt.Jet_pt_jesTotalUp(); }
+    const vector<float> &Jet_pt_nom() { return nt.Jet_pt_nom(); }
+    const vector<float> &Jet_pt_raw() { return nt.Jet_pt_raw(); }
     const vector<int> &Jet_puId() { return nt.Jet_puId(); }
     const vector<float> &Jet_puIdDisc() { return nt.Jet_puIdDisc(); }
     const vector<float> &Jet_qgl() { return nt.Jet_qgl(); }
@@ -42695,6 +43487,42 @@ namespace tas {
     const float &METFixEE2017_sumPtUnclustered() { return nt.METFixEE2017_sumPtUnclustered(); }
     const float &MET_MetUnclustEnUpDeltaX() { return nt.MET_MetUnclustEnUpDeltaX(); }
     const float &MET_MetUnclustEnUpDeltaY() { return nt.MET_MetUnclustEnUpDeltaY(); }
+    const float &MET_T1Smear_phi() { return nt.MET_T1Smear_phi(); }
+    const float &MET_T1Smear_phi_jerDown() { return nt.MET_T1Smear_phi_jerDown(); }
+    const float &MET_T1Smear_phi_jerUp() { return nt.MET_T1Smear_phi_jerUp(); }
+    const float &MET_T1Smear_phi_jesHEMIssueDown() { return nt.MET_T1Smear_phi_jesHEMIssueDown(); }
+    const float &MET_T1Smear_phi_jesHEMIssueUp() { return nt.MET_T1Smear_phi_jesHEMIssueUp(); }
+    const float &MET_T1Smear_phi_jesTotalDown() { return nt.MET_T1Smear_phi_jesTotalDown(); }
+    const float &MET_T1Smear_phi_jesTotalUp() { return nt.MET_T1Smear_phi_jesTotalUp(); }
+    const float &MET_T1Smear_phi_unclustEnDown() { return nt.MET_T1Smear_phi_unclustEnDown(); }
+    const float &MET_T1Smear_phi_unclustEnUp() { return nt.MET_T1Smear_phi_unclustEnUp(); }
+    const float &MET_T1Smear_pt() { return nt.MET_T1Smear_pt(); }
+    const float &MET_T1Smear_pt_jerDown() { return nt.MET_T1Smear_pt_jerDown(); }
+    const float &MET_T1Smear_pt_jerUp() { return nt.MET_T1Smear_pt_jerUp(); }
+    const float &MET_T1Smear_pt_jesHEMIssueDown() { return nt.MET_T1Smear_pt_jesHEMIssueDown(); }
+    const float &MET_T1Smear_pt_jesHEMIssueUp() { return nt.MET_T1Smear_pt_jesHEMIssueUp(); }
+    const float &MET_T1Smear_pt_jesTotalDown() { return nt.MET_T1Smear_pt_jesTotalDown(); }
+    const float &MET_T1Smear_pt_jesTotalUp() { return nt.MET_T1Smear_pt_jesTotalUp(); }
+    const float &MET_T1Smear_pt_unclustEnDown() { return nt.MET_T1Smear_pt_unclustEnDown(); }
+    const float &MET_T1Smear_pt_unclustEnUp() { return nt.MET_T1Smear_pt_unclustEnUp(); }
+    const float &MET_T1_phi() { return nt.MET_T1_phi(); }
+    const float &MET_T1_phi_jerDown() { return nt.MET_T1_phi_jerDown(); }
+    const float &MET_T1_phi_jerUp() { return nt.MET_T1_phi_jerUp(); }
+    const float &MET_T1_phi_jesHEMIssueDown() { return nt.MET_T1_phi_jesHEMIssueDown(); }
+    const float &MET_T1_phi_jesHEMIssueUp() { return nt.MET_T1_phi_jesHEMIssueUp(); }
+    const float &MET_T1_phi_jesTotalDown() { return nt.MET_T1_phi_jesTotalDown(); }
+    const float &MET_T1_phi_jesTotalUp() { return nt.MET_T1_phi_jesTotalUp(); }
+    const float &MET_T1_phi_unclustEnDown() { return nt.MET_T1_phi_unclustEnDown(); }
+    const float &MET_T1_phi_unclustEnUp() { return nt.MET_T1_phi_unclustEnUp(); }
+    const float &MET_T1_pt() { return nt.MET_T1_pt(); }
+    const float &MET_T1_pt_jerDown() { return nt.MET_T1_pt_jerDown(); }
+    const float &MET_T1_pt_jerUp() { return nt.MET_T1_pt_jerUp(); }
+    const float &MET_T1_pt_jesHEMIssueDown() { return nt.MET_T1_pt_jesHEMIssueDown(); }
+    const float &MET_T1_pt_jesHEMIssueUp() { return nt.MET_T1_pt_jesHEMIssueUp(); }
+    const float &MET_T1_pt_jesTotalDown() { return nt.MET_T1_pt_jesTotalDown(); }
+    const float &MET_T1_pt_jesTotalUp() { return nt.MET_T1_pt_jesTotalUp(); }
+    const float &MET_T1_pt_unclustEnDown() { return nt.MET_T1_pt_unclustEnDown(); }
+    const float &MET_T1_pt_unclustEnUp() { return nt.MET_T1_pt_unclustEnUp(); }
     const float &MET_covXX() { return nt.MET_covXX(); }
     const float &MET_covXY() { return nt.MET_covXY(); }
     const float &MET_covYY() { return nt.MET_covYY(); }
@@ -43293,16 +44121,34 @@ namespace tas {
         else if (name == "Jet_chFPV2EF") return nt.Jet_chFPV2EF();
         else if (name == "Jet_chFPV3EF") return nt.Jet_chFPV3EF();
         else if (name == "Jet_chHEF") return nt.Jet_chHEF();
+        else if (name == "Jet_corr_JEC") return nt.Jet_corr_JEC();
+        else if (name == "Jet_corr_JER") return nt.Jet_corr_JER();
         else if (name == "Jet_eta") return nt.Jet_eta();
         else if (name == "Jet_hfsigmaEtaEta") return nt.Jet_hfsigmaEtaEta();
         else if (name == "Jet_hfsigmaPhiPhi") return nt.Jet_hfsigmaPhiPhi();
         else if (name == "Jet_mass") return nt.Jet_mass();
+        else if (name == "Jet_mass_jerDown") return nt.Jet_mass_jerDown();
+        else if (name == "Jet_mass_jerUp") return nt.Jet_mass_jerUp();
+        else if (name == "Jet_mass_jesHEMIssueDown") return nt.Jet_mass_jesHEMIssueDown();
+        else if (name == "Jet_mass_jesHEMIssueUp") return nt.Jet_mass_jesHEMIssueUp();
+        else if (name == "Jet_mass_jesTotalDown") return nt.Jet_mass_jesTotalDown();
+        else if (name == "Jet_mass_jesTotalUp") return nt.Jet_mass_jesTotalUp();
+        else if (name == "Jet_mass_nom") return nt.Jet_mass_nom();
+        else if (name == "Jet_mass_raw") return nt.Jet_mass_raw();
         else if (name == "Jet_muEF") return nt.Jet_muEF();
         else if (name == "Jet_muonSubtrFactor") return nt.Jet_muonSubtrFactor();
         else if (name == "Jet_neEmEF") return nt.Jet_neEmEF();
         else if (name == "Jet_neHEF") return nt.Jet_neHEF();
         else if (name == "Jet_phi") return nt.Jet_phi();
         else if (name == "Jet_pt") return nt.Jet_pt();
+        else if (name == "Jet_pt_jerDown") return nt.Jet_pt_jerDown();
+        else if (name == "Jet_pt_jerUp") return nt.Jet_pt_jerUp();
+        else if (name == "Jet_pt_jesHEMIssueDown") return nt.Jet_pt_jesHEMIssueDown();
+        else if (name == "Jet_pt_jesHEMIssueUp") return nt.Jet_pt_jesHEMIssueUp();
+        else if (name == "Jet_pt_jesTotalDown") return nt.Jet_pt_jesTotalDown();
+        else if (name == "Jet_pt_jesTotalUp") return nt.Jet_pt_jesTotalUp();
+        else if (name == "Jet_pt_nom") return nt.Jet_pt_nom();
+        else if (name == "Jet_pt_raw") return nt.Jet_pt_raw();
         else if (name == "Jet_puIdDisc") return nt.Jet_puIdDisc();
         else if (name == "Jet_qgl") return nt.Jet_qgl();
         else if (name == "Jet_rawFactor") return nt.Jet_rawFactor();
@@ -43589,6 +44435,42 @@ namespace tas {
         else if (name == "METFixEE2017_sumPtUnclustered") return nt.METFixEE2017_sumPtUnclustered();
         else if (name == "MET_MetUnclustEnUpDeltaX") return nt.MET_MetUnclustEnUpDeltaX();
         else if (name == "MET_MetUnclustEnUpDeltaY") return nt.MET_MetUnclustEnUpDeltaY();
+        else if (name == "MET_T1Smear_phi") return nt.MET_T1Smear_phi();
+        else if (name == "MET_T1Smear_phi_jerDown") return nt.MET_T1Smear_phi_jerDown();
+        else if (name == "MET_T1Smear_phi_jerUp") return nt.MET_T1Smear_phi_jerUp();
+        else if (name == "MET_T1Smear_phi_jesHEMIssueDown") return nt.MET_T1Smear_phi_jesHEMIssueDown();
+        else if (name == "MET_T1Smear_phi_jesHEMIssueUp") return nt.MET_T1Smear_phi_jesHEMIssueUp();
+        else if (name == "MET_T1Smear_phi_jesTotalDown") return nt.MET_T1Smear_phi_jesTotalDown();
+        else if (name == "MET_T1Smear_phi_jesTotalUp") return nt.MET_T1Smear_phi_jesTotalUp();
+        else if (name == "MET_T1Smear_phi_unclustEnDown") return nt.MET_T1Smear_phi_unclustEnDown();
+        else if (name == "MET_T1Smear_phi_unclustEnUp") return nt.MET_T1Smear_phi_unclustEnUp();
+        else if (name == "MET_T1Smear_pt") return nt.MET_T1Smear_pt();
+        else if (name == "MET_T1Smear_pt_jerDown") return nt.MET_T1Smear_pt_jerDown();
+        else if (name == "MET_T1Smear_pt_jerUp") return nt.MET_T1Smear_pt_jerUp();
+        else if (name == "MET_T1Smear_pt_jesHEMIssueDown") return nt.MET_T1Smear_pt_jesHEMIssueDown();
+        else if (name == "MET_T1Smear_pt_jesHEMIssueUp") return nt.MET_T1Smear_pt_jesHEMIssueUp();
+        else if (name == "MET_T1Smear_pt_jesTotalDown") return nt.MET_T1Smear_pt_jesTotalDown();
+        else if (name == "MET_T1Smear_pt_jesTotalUp") return nt.MET_T1Smear_pt_jesTotalUp();
+        else if (name == "MET_T1Smear_pt_unclustEnDown") return nt.MET_T1Smear_pt_unclustEnDown();
+        else if (name == "MET_T1Smear_pt_unclustEnUp") return nt.MET_T1Smear_pt_unclustEnUp();
+        else if (name == "MET_T1_phi") return nt.MET_T1_phi();
+        else if (name == "MET_T1_phi_jerDown") return nt.MET_T1_phi_jerDown();
+        else if (name == "MET_T1_phi_jerUp") return nt.MET_T1_phi_jerUp();
+        else if (name == "MET_T1_phi_jesHEMIssueDown") return nt.MET_T1_phi_jesHEMIssueDown();
+        else if (name == "MET_T1_phi_jesHEMIssueUp") return nt.MET_T1_phi_jesHEMIssueUp();
+        else if (name == "MET_T1_phi_jesTotalDown") return nt.MET_T1_phi_jesTotalDown();
+        else if (name == "MET_T1_phi_jesTotalUp") return nt.MET_T1_phi_jesTotalUp();
+        else if (name == "MET_T1_phi_unclustEnDown") return nt.MET_T1_phi_unclustEnDown();
+        else if (name == "MET_T1_phi_unclustEnUp") return nt.MET_T1_phi_unclustEnUp();
+        else if (name == "MET_T1_pt") return nt.MET_T1_pt();
+        else if (name == "MET_T1_pt_jerDown") return nt.MET_T1_pt_jerDown();
+        else if (name == "MET_T1_pt_jerUp") return nt.MET_T1_pt_jerUp();
+        else if (name == "MET_T1_pt_jesHEMIssueDown") return nt.MET_T1_pt_jesHEMIssueDown();
+        else if (name == "MET_T1_pt_jesHEMIssueUp") return nt.MET_T1_pt_jesHEMIssueUp();
+        else if (name == "MET_T1_pt_jesTotalDown") return nt.MET_T1_pt_jesTotalDown();
+        else if (name == "MET_T1_pt_jesTotalUp") return nt.MET_T1_pt_jesTotalUp();
+        else if (name == "MET_T1_pt_unclustEnDown") return nt.MET_T1_pt_unclustEnDown();
+        else if (name == "MET_T1_pt_unclustEnUp") return nt.MET_T1_pt_unclustEnUp();
         else if (name == "MET_covXX") return nt.MET_covXX();
         else if (name == "MET_covXY") return nt.MET_covXY();
         else if (name == "MET_covYY") return nt.MET_covYY();

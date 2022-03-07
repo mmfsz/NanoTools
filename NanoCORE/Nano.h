@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// Generated with args: -t Events -n tas -c Nano -o nt --profiling /hadoop/cms/store/group/snt/nanoaod/nanoclassinputs/28A39133-C103-D743-80ED-8274F3B44754.root,/hadoop/cms/store/group/snt/nanoaod/nanoclassinputs/2D39FA0B-A11E-0141-BBFC-AA943F862EB7_out.root,/hadoop/cms/store/group/snt/nanoaod/nanoclassinputs/62466AA2-182A-3746-BAFA-8D875E05BA90.root,/hadoop/cms/store/group/snt/nanoaod/nanoclassinputs/output_WiHIWMMidC.root,/hadoop/cms/store/group/snt/nanoaod/nanoclassinputs/test_nanoaod_1.root,/hadoop/cms/store/group/snt/nanoaod/nanoclassinputs/test_nanoaod_31.root,/hadoop/cms/store/group/snt/nanoaod/nanoclassinputs/test_nanoaod_412.root
+// Generated with args: -t Events -n tas -c Nano -o nt --profiling /hadoop/cms/store/group/snt/nanoaod/nanoclassinputs/28A39133-C103-D743-80ED-8274F3B44754.root,/hadoop/cms/store/group/snt/nanoaod/nanoclassinputs/2D39FA0B-A11E-0141-BBFC-AA943F862EB7_out.root,/hadoop/cms/store/group/snt/nanoaod/nanoclassinputs/62466AA2-182A-3746-BAFA-8D875E05BA90.root,/hadoop/cms/store/group/snt/nanoaod/nanoclassinputs/output_WiHIWMMidC.root,/hadoop/cms/store/group/snt/nanoaod/nanoclassinputs/test_nanoaod_1.root,/hadoop/cms/store/group/snt/nanoaod/nanoclassinputs/test_nanoaod_31.root,/hadoop/cms/store/group/snt/nanoaod/nanoclassinputs/test_nanoaod_412.root,/hadoop/cms/store/user/yumiao/5D05255A-8B68-FF41-BC82-C746A61AE9D7.root
 #ifndef Nano_H
 #define Nano_H
 #include "Math/LorentzVector.h"
@@ -8216,6 +8216,18 @@ protected:
     bool loaded_Jet_cleanmask_;
     unsigned int counter_cached_Jet_cleanmask_;
     unsigned int counter_uncached_Jet_cleanmask_;
+    float Jet_corr_JEC_[NJET_MAX];
+    vector<float> v_Jet_corr_JEC_;
+    TBranch *b_Jet_corr_JEC_;
+    bool loaded_Jet_corr_JEC_;
+    unsigned int counter_cached_Jet_corr_JEC_;
+    unsigned int counter_uncached_Jet_corr_JEC_;
+    float Jet_corr_JER_[NJET_MAX];
+    vector<float> v_Jet_corr_JER_;
+    TBranch *b_Jet_corr_JER_;
+    bool loaded_Jet_corr_JER_;
+    unsigned int counter_cached_Jet_corr_JER_;
+    unsigned int counter_uncached_Jet_corr_JER_;
     int Jet_electronIdx1_[NJET_MAX];
     vector<int> v_Jet_electronIdx1_;
     TBranch *b_Jet_electronIdx1_;
@@ -8282,6 +8294,54 @@ protected:
     bool loaded_Jet_mass_;
     unsigned int counter_cached_Jet_mass_;
     unsigned int counter_uncached_Jet_mass_;
+    float Jet_mass_jerDown_[NJET_MAX];
+    vector<float> v_Jet_mass_jerDown_;
+    TBranch *b_Jet_mass_jerDown_;
+    bool loaded_Jet_mass_jerDown_;
+    unsigned int counter_cached_Jet_mass_jerDown_;
+    unsigned int counter_uncached_Jet_mass_jerDown_;
+    float Jet_mass_jerUp_[NJET_MAX];
+    vector<float> v_Jet_mass_jerUp_;
+    TBranch *b_Jet_mass_jerUp_;
+    bool loaded_Jet_mass_jerUp_;
+    unsigned int counter_cached_Jet_mass_jerUp_;
+    unsigned int counter_uncached_Jet_mass_jerUp_;
+    float Jet_mass_jesHEMIssueDown_[NJET_MAX];
+    vector<float> v_Jet_mass_jesHEMIssueDown_;
+    TBranch *b_Jet_mass_jesHEMIssueDown_;
+    bool loaded_Jet_mass_jesHEMIssueDown_;
+    unsigned int counter_cached_Jet_mass_jesHEMIssueDown_;
+    unsigned int counter_uncached_Jet_mass_jesHEMIssueDown_;
+    float Jet_mass_jesHEMIssueUp_[NJET_MAX];
+    vector<float> v_Jet_mass_jesHEMIssueUp_;
+    TBranch *b_Jet_mass_jesHEMIssueUp_;
+    bool loaded_Jet_mass_jesHEMIssueUp_;
+    unsigned int counter_cached_Jet_mass_jesHEMIssueUp_;
+    unsigned int counter_uncached_Jet_mass_jesHEMIssueUp_;
+    float Jet_mass_jesTotalDown_[NJET_MAX];
+    vector<float> v_Jet_mass_jesTotalDown_;
+    TBranch *b_Jet_mass_jesTotalDown_;
+    bool loaded_Jet_mass_jesTotalDown_;
+    unsigned int counter_cached_Jet_mass_jesTotalDown_;
+    unsigned int counter_uncached_Jet_mass_jesTotalDown_;
+    float Jet_mass_jesTotalUp_[NJET_MAX];
+    vector<float> v_Jet_mass_jesTotalUp_;
+    TBranch *b_Jet_mass_jesTotalUp_;
+    bool loaded_Jet_mass_jesTotalUp_;
+    unsigned int counter_cached_Jet_mass_jesTotalUp_;
+    unsigned int counter_uncached_Jet_mass_jesTotalUp_;
+    float Jet_mass_nom_[NJET_MAX];
+    vector<float> v_Jet_mass_nom_;
+    TBranch *b_Jet_mass_nom_;
+    bool loaded_Jet_mass_nom_;
+    unsigned int counter_cached_Jet_mass_nom_;
+    unsigned int counter_uncached_Jet_mass_nom_;
+    float Jet_mass_raw_[NJET_MAX];
+    vector<float> v_Jet_mass_raw_;
+    TBranch *b_Jet_mass_raw_;
+    bool loaded_Jet_mass_raw_;
+    unsigned int counter_cached_Jet_mass_raw_;
+    unsigned int counter_uncached_Jet_mass_raw_;
     float Jet_muEF_[NJET_MAX];
     vector<float> v_Jet_muEF_;
     TBranch *b_Jet_muEF_;
@@ -8359,6 +8419,54 @@ protected:
     bool loaded_Jet_pt_;
     unsigned int counter_cached_Jet_pt_;
     unsigned int counter_uncached_Jet_pt_;
+    float Jet_pt_jerDown_[NJET_MAX];
+    vector<float> v_Jet_pt_jerDown_;
+    TBranch *b_Jet_pt_jerDown_;
+    bool loaded_Jet_pt_jerDown_;
+    unsigned int counter_cached_Jet_pt_jerDown_;
+    unsigned int counter_uncached_Jet_pt_jerDown_;
+    float Jet_pt_jerUp_[NJET_MAX];
+    vector<float> v_Jet_pt_jerUp_;
+    TBranch *b_Jet_pt_jerUp_;
+    bool loaded_Jet_pt_jerUp_;
+    unsigned int counter_cached_Jet_pt_jerUp_;
+    unsigned int counter_uncached_Jet_pt_jerUp_;
+    float Jet_pt_jesHEMIssueDown_[NJET_MAX];
+    vector<float> v_Jet_pt_jesHEMIssueDown_;
+    TBranch *b_Jet_pt_jesHEMIssueDown_;
+    bool loaded_Jet_pt_jesHEMIssueDown_;
+    unsigned int counter_cached_Jet_pt_jesHEMIssueDown_;
+    unsigned int counter_uncached_Jet_pt_jesHEMIssueDown_;
+    float Jet_pt_jesHEMIssueUp_[NJET_MAX];
+    vector<float> v_Jet_pt_jesHEMIssueUp_;
+    TBranch *b_Jet_pt_jesHEMIssueUp_;
+    bool loaded_Jet_pt_jesHEMIssueUp_;
+    unsigned int counter_cached_Jet_pt_jesHEMIssueUp_;
+    unsigned int counter_uncached_Jet_pt_jesHEMIssueUp_;
+    float Jet_pt_jesTotalDown_[NJET_MAX];
+    vector<float> v_Jet_pt_jesTotalDown_;
+    TBranch *b_Jet_pt_jesTotalDown_;
+    bool loaded_Jet_pt_jesTotalDown_;
+    unsigned int counter_cached_Jet_pt_jesTotalDown_;
+    unsigned int counter_uncached_Jet_pt_jesTotalDown_;
+    float Jet_pt_jesTotalUp_[NJET_MAX];
+    vector<float> v_Jet_pt_jesTotalUp_;
+    TBranch *b_Jet_pt_jesTotalUp_;
+    bool loaded_Jet_pt_jesTotalUp_;
+    unsigned int counter_cached_Jet_pt_jesTotalUp_;
+    unsigned int counter_uncached_Jet_pt_jesTotalUp_;
+    float Jet_pt_nom_[NJET_MAX];
+    vector<float> v_Jet_pt_nom_;
+    TBranch *b_Jet_pt_nom_;
+    bool loaded_Jet_pt_nom_;
+    unsigned int counter_cached_Jet_pt_nom_;
+    unsigned int counter_uncached_Jet_pt_nom_;
+    float Jet_pt_raw_[NJET_MAX];
+    vector<float> v_Jet_pt_raw_;
+    TBranch *b_Jet_pt_raw_;
+    bool loaded_Jet_pt_raw_;
+    unsigned int counter_cached_Jet_pt_raw_;
+    unsigned int counter_uncached_Jet_pt_raw_;
     int Jet_puId_[NJET_MAX];
     vector<int> v_Jet_puId_;
     TBranch *b_Jet_puId_;
@@ -12637,6 +12745,186 @@ protected:
     bool loaded_MET_MetUnclustEnUpDeltaY_;
     unsigned int counter_cached_MET_MetUnclustEnUpDeltaY_;
     unsigned int counter_uncached_MET_MetUnclustEnUpDeltaY_;
+    float MET_T1Smear_phi_;
+    TBranch *b_MET_T1Smear_phi_;
+    bool loaded_MET_T1Smear_phi_;
+    unsigned int counter_cached_MET_T1Smear_phi_;
+    unsigned int counter_uncached_MET_T1Smear_phi_;
+    float MET_T1Smear_phi_jerDown_;
+    TBranch *b_MET_T1Smear_phi_jerDown_;
+    bool loaded_MET_T1Smear_phi_jerDown_;
+    unsigned int counter_cached_MET_T1Smear_phi_jerDown_;
+    unsigned int counter_uncached_MET_T1Smear_phi_jerDown_;
+    float MET_T1Smear_phi_jerUp_;
+    TBranch *b_MET_T1Smear_phi_jerUp_;
+    bool loaded_MET_T1Smear_phi_jerUp_;
+    unsigned int counter_cached_MET_T1Smear_phi_jerUp_;
+    unsigned int counter_uncached_MET_T1Smear_phi_jerUp_;
+    float MET_T1Smear_phi_jesHEMIssueDown_;
+    TBranch *b_MET_T1Smear_phi_jesHEMIssueDown_;
+    bool loaded_MET_T1Smear_phi_jesHEMIssueDown_;
+    unsigned int counter_cached_MET_T1Smear_phi_jesHEMIssueDown_;
+    unsigned int counter_uncached_MET_T1Smear_phi_jesHEMIssueDown_;
+    float MET_T1Smear_phi_jesHEMIssueUp_;
+    TBranch *b_MET_T1Smear_phi_jesHEMIssueUp_;
+    bool loaded_MET_T1Smear_phi_jesHEMIssueUp_;
+    unsigned int counter_cached_MET_T1Smear_phi_jesHEMIssueUp_;
+    unsigned int counter_uncached_MET_T1Smear_phi_jesHEMIssueUp_;
+    float MET_T1Smear_phi_jesTotalDown_;
+    TBranch *b_MET_T1Smear_phi_jesTotalDown_;
+    bool loaded_MET_T1Smear_phi_jesTotalDown_;
+    unsigned int counter_cached_MET_T1Smear_phi_jesTotalDown_;
+    unsigned int counter_uncached_MET_T1Smear_phi_jesTotalDown_;
+    float MET_T1Smear_phi_jesTotalUp_;
+    TBranch *b_MET_T1Smear_phi_jesTotalUp_;
+    bool loaded_MET_T1Smear_phi_jesTotalUp_;
+    unsigned int counter_cached_MET_T1Smear_phi_jesTotalUp_;
+    unsigned int counter_uncached_MET_T1Smear_phi_jesTotalUp_;
+    float MET_T1Smear_phi_unclustEnDown_;
+    TBranch *b_MET_T1Smear_phi_unclustEnDown_;
+    bool loaded_MET_T1Smear_phi_unclustEnDown_;
+    unsigned int counter_cached_MET_T1Smear_phi_unclustEnDown_;
+    unsigned int counter_uncached_MET_T1Smear_phi_unclustEnDown_;
+    float MET_T1Smear_phi_unclustEnUp_;
+    TBranch *b_MET_T1Smear_phi_unclustEnUp_;
+    bool loaded_MET_T1Smear_phi_unclustEnUp_;
+    unsigned int counter_cached_MET_T1Smear_phi_unclustEnUp_;
+    unsigned int counter_uncached_MET_T1Smear_phi_unclustEnUp_;
+    float MET_T1Smear_pt_;
+    TBranch *b_MET_T1Smear_pt_;
+    bool loaded_MET_T1Smear_pt_;
+    unsigned int counter_cached_MET_T1Smear_pt_;
+    unsigned int counter_uncached_MET_T1Smear_pt_;
+    float MET_T1Smear_pt_jerDown_;
+    TBranch *b_MET_T1Smear_pt_jerDown_;
+    bool loaded_MET_T1Smear_pt_jerDown_;
+    unsigned int counter_cached_MET_T1Smear_pt_jerDown_;
+    unsigned int counter_uncached_MET_T1Smear_pt_jerDown_;
+    float MET_T1Smear_pt_jerUp_;
+    TBranch *b_MET_T1Smear_pt_jerUp_;
+    bool loaded_MET_T1Smear_pt_jerUp_;
+    unsigned int counter_cached_MET_T1Smear_pt_jerUp_;
+    unsigned int counter_uncached_MET_T1Smear_pt_jerUp_;
+    float MET_T1Smear_pt_jesHEMIssueDown_;
+    TBranch *b_MET_T1Smear_pt_jesHEMIssueDown_;
+    bool loaded_MET_T1Smear_pt_jesHEMIssueDown_;
+    unsigned int counter_cached_MET_T1Smear_pt_jesHEMIssueDown_;
+    unsigned int counter_uncached_MET_T1Smear_pt_jesHEMIssueDown_;
+    float MET_T1Smear_pt_jesHEMIssueUp_;
+    TBranch *b_MET_T1Smear_pt_jesHEMIssueUp_;
+    bool loaded_MET_T1Smear_pt_jesHEMIssueUp_;
+    unsigned int counter_cached_MET_T1Smear_pt_jesHEMIssueUp_;
+    unsigned int counter_uncached_MET_T1Smear_pt_jesHEMIssueUp_;
+    float MET_T1Smear_pt_jesTotalDown_;
+    TBranch *b_MET_T1Smear_pt_jesTotalDown_;
+    bool loaded_MET_T1Smear_pt_jesTotalDown_;
+    unsigned int counter_cached_MET_T1Smear_pt_jesTotalDown_;
+    unsigned int counter_uncached_MET_T1Smear_pt_jesTotalDown_;
+    float MET_T1Smear_pt_jesTotalUp_;
+    TBranch *b_MET_T1Smear_pt_jesTotalUp_;
+    bool loaded_MET_T1Smear_pt_jesTotalUp_;
+    unsigned int counter_cached_MET_T1Smear_pt_jesTotalUp_;
+    unsigned int counter_uncached_MET_T1Smear_pt_jesTotalUp_;
+    float MET_T1Smear_pt_unclustEnDown_;
+    TBranch *b_MET_T1Smear_pt_unclustEnDown_;
+    bool loaded_MET_T1Smear_pt_unclustEnDown_;
+    unsigned int counter_cached_MET_T1Smear_pt_unclustEnDown_;
+    unsigned int counter_uncached_MET_T1Smear_pt_unclustEnDown_;
+    float MET_T1Smear_pt_unclustEnUp_;
+    TBranch *b_MET_T1Smear_pt_unclustEnUp_;
+    bool loaded_MET_T1Smear_pt_unclustEnUp_;
+    unsigned int counter_cached_MET_T1Smear_pt_unclustEnUp_;
+    unsigned int counter_uncached_MET_T1Smear_pt_unclustEnUp_;
+    float MET_T1_phi_;
+    TBranch *b_MET_T1_phi_;
+    bool loaded_MET_T1_phi_;
+    unsigned int counter_cached_MET_T1_phi_;
+    unsigned int counter_uncached_MET_T1_phi_;
+    float MET_T1_phi_jerDown_;
+    TBranch *b_MET_T1_phi_jerDown_;
+    bool loaded_MET_T1_phi_jerDown_;
+    unsigned int counter_cached_MET_T1_phi_jerDown_;
+    unsigned int counter_uncached_MET_T1_phi_jerDown_;
+    float MET_T1_phi_jerUp_;
+    TBranch *b_MET_T1_phi_jerUp_;
+    bool loaded_MET_T1_phi_jerUp_;
+    unsigned int counter_cached_MET_T1_phi_jerUp_;
+    unsigned int counter_uncached_MET_T1_phi_jerUp_;
+    float MET_T1_phi_jesHEMIssueDown_;
+    TBranch *b_MET_T1_phi_jesHEMIssueDown_;
+    bool loaded_MET_T1_phi_jesHEMIssueDown_;
+    unsigned int counter_cached_MET_T1_phi_jesHEMIssueDown_;
+    unsigned int counter_uncached_MET_T1_phi_jesHEMIssueDown_;
+    float MET_T1_phi_jesHEMIssueUp_;
+    TBranch *b_MET_T1_phi_jesHEMIssueUp_;
+    bool loaded_MET_T1_phi_jesHEMIssueUp_;
+    unsigned int counter_cached_MET_T1_phi_jesHEMIssueUp_;
+    unsigned int counter_uncached_MET_T1_phi_jesHEMIssueUp_;
+    float MET_T1_phi_jesTotalDown_;
+    TBranch *b_MET_T1_phi_jesTotalDown_;
+    bool loaded_MET_T1_phi_jesTotalDown_;
+    unsigned int counter_cached_MET_T1_phi_jesTotalDown_;
+    unsigned int counter_uncached_MET_T1_phi_jesTotalDown_;
+    float MET_T1_phi_jesTotalUp_;
+    TBranch *b_MET_T1_phi_jesTotalUp_;
+    bool loaded_MET_T1_phi_jesTotalUp_;
+    unsigned int counter_cached_MET_T1_phi_jesTotalUp_;
+    unsigned int counter_uncached_MET_T1_phi_jesTotalUp_;
+    float MET_T1_phi_unclustEnDown_;
+    TBranch *b_MET_T1_phi_unclustEnDown_;
+    bool loaded_MET_T1_phi_unclustEnDown_;
+    unsigned int counter_cached_MET_T1_phi_unclustEnDown_;
+    unsigned int counter_uncached_MET_T1_phi_unclustEnDown_;
+    float MET_T1_phi_unclustEnUp_;
+    TBranch *b_MET_T1_phi_unclustEnUp_;
+    bool loaded_MET_T1_phi_unclustEnUp_;
+    unsigned int counter_cached_MET_T1_phi_unclustEnUp_;
+    unsigned int counter_uncached_MET_T1_phi_unclustEnUp_;
+    float MET_T1_pt_;
+    TBranch *b_MET_T1_pt_;
+    bool loaded_MET_T1_pt_;
+    unsigned int counter_cached_MET_T1_pt_;
+    unsigned int counter_uncached_MET_T1_pt_;
+    float MET_T1_pt_jerDown_;
+    TBranch *b_MET_T1_pt_jerDown_;
+    bool loaded_MET_T1_pt_jerDown_;
+    unsigned int counter_cached_MET_T1_pt_jerDown_;
+    unsigned int counter_uncached_MET_T1_pt_jerDown_;
+    float MET_T1_pt_jerUp_;
+    TBranch *b_MET_T1_pt_jerUp_;
+    bool loaded_MET_T1_pt_jerUp_;
+    unsigned int counter_cached_MET_T1_pt_jerUp_;
+    unsigned int counter_uncached_MET_T1_pt_jerUp_;
+    float MET_T1_pt_jesHEMIssueDown_;
+    TBranch *b_MET_T1_pt_jesHEMIssueDown_;
+    bool loaded_MET_T1_pt_jesHEMIssueDown_;
+    unsigned int counter_cached_MET_T1_pt_jesHEMIssueDown_;
+    unsigned int counter_uncached_MET_T1_pt_jesHEMIssueDown_;
+    float MET_T1_pt_jesHEMIssueUp_;
+    TBranch *b_MET_T1_pt_jesHEMIssueUp_;
+    bool loaded_MET_T1_pt_jesHEMIssueUp_;
+    unsigned int counter_cached_MET_T1_pt_jesHEMIssueUp_;
+    unsigned int counter_uncached_MET_T1_pt_jesHEMIssueUp_;
+    float MET_T1_pt_jesTotalDown_;
+    TBranch *b_MET_T1_pt_jesTotalDown_;
+    bool loaded_MET_T1_pt_jesTotalDown_;
+    unsigned int counter_cached_MET_T1_pt_jesTotalDown_;
+    unsigned int counter_uncached_MET_T1_pt_jesTotalDown_;
+    float MET_T1_pt_jesTotalUp_;
+    TBranch *b_MET_T1_pt_jesTotalUp_;
+    bool loaded_MET_T1_pt_jesTotalUp_;
+    unsigned int counter_cached_MET_T1_pt_jesTotalUp_;
+    unsigned int counter_uncached_MET_T1_pt_jesTotalUp_;
+    float MET_T1_pt_unclustEnDown_;
+    TBranch *b_MET_T1_pt_unclustEnDown_;
+    bool loaded_MET_T1_pt_unclustEnDown_;
+    unsigned int counter_cached_MET_T1_pt_unclustEnDown_;
+    unsigned int counter_uncached_MET_T1_pt_unclustEnDown_;
+    float MET_T1_pt_unclustEnUp_;
+    TBranch *b_MET_T1_pt_unclustEnUp_;
+    bool loaded_MET_T1_pt_unclustEnUp_;
+    unsigned int counter_cached_MET_T1_pt_unclustEnUp_;
+    unsigned int counter_uncached_MET_T1_pt_unclustEnUp_;
     float MET_covXX_;
     TBranch *b_MET_covXX_;
     bool loaded_MET_covXX_;
@@ -16372,6 +16660,8 @@ public:
     const vector<float> &Jet_chFPV3EF();
     const vector<float> &Jet_chHEF();
     const vector<UChar_t> &Jet_cleanmask();
+    const vector<float> &Jet_corr_JEC();
+    const vector<float> &Jet_corr_JER();
     const vector<int> &Jet_electronIdx1();
     const vector<int> &Jet_electronIdx2();
     const vector<float> &Jet_eta();
@@ -16383,6 +16673,14 @@ public:
     const vector<float> &Jet_hfsigmaPhiPhi();
     const vector<int> &Jet_jetId();
     const vector<float> &Jet_mass();
+    const vector<float> &Jet_mass_jerDown();
+    const vector<float> &Jet_mass_jerUp();
+    const vector<float> &Jet_mass_jesHEMIssueDown();
+    const vector<float> &Jet_mass_jesHEMIssueUp();
+    const vector<float> &Jet_mass_jesTotalDown();
+    const vector<float> &Jet_mass_jesTotalUp();
+    const vector<float> &Jet_mass_nom();
+    const vector<float> &Jet_mass_raw();
     const vector<float> &Jet_muEF();
     const vector<int> &Jet_muonIdx1();
     const vector<int> &Jet_muonIdx2();
@@ -16396,6 +16694,14 @@ public:
     const vector<int> &Jet_partonFlavour();
     const vector<float> &Jet_phi();
     const vector<float> &Jet_pt();
+    const vector<float> &Jet_pt_jerDown();
+    const vector<float> &Jet_pt_jerUp();
+    const vector<float> &Jet_pt_jesHEMIssueDown();
+    const vector<float> &Jet_pt_jesHEMIssueUp();
+    const vector<float> &Jet_pt_jesTotalDown();
+    const vector<float> &Jet_pt_jesTotalUp();
+    const vector<float> &Jet_pt_nom();
+    const vector<float> &Jet_pt_raw();
     const vector<int> &Jet_puId();
     const vector<float> &Jet_puIdDisc();
     const vector<float> &Jet_qgl();
@@ -17242,6 +17548,42 @@ public:
     const float &METFixEE2017_sumPtUnclustered();
     const float &MET_MetUnclustEnUpDeltaX();
     const float &MET_MetUnclustEnUpDeltaY();
+    const float &MET_T1Smear_phi();
+    const float &MET_T1Smear_phi_jerDown();
+    const float &MET_T1Smear_phi_jerUp();
+    const float &MET_T1Smear_phi_jesHEMIssueDown();
+    const float &MET_T1Smear_phi_jesHEMIssueUp();
+    const float &MET_T1Smear_phi_jesTotalDown();
+    const float &MET_T1Smear_phi_jesTotalUp();
+    const float &MET_T1Smear_phi_unclustEnDown();
+    const float &MET_T1Smear_phi_unclustEnUp();
+    const float &MET_T1Smear_pt();
+    const float &MET_T1Smear_pt_jerDown();
+    const float &MET_T1Smear_pt_jerUp();
+    const float &MET_T1Smear_pt_jesHEMIssueDown();
+    const float &MET_T1Smear_pt_jesHEMIssueUp();
+    const float &MET_T1Smear_pt_jesTotalDown();
+    const float &MET_T1Smear_pt_jesTotalUp();
+    const float &MET_T1Smear_pt_unclustEnDown();
+    const float &MET_T1Smear_pt_unclustEnUp();
+    const float &MET_T1_phi();
+    const float &MET_T1_phi_jerDown();
+    const float &MET_T1_phi_jerUp();
+    const float &MET_T1_phi_jesHEMIssueDown();
+    const float &MET_T1_phi_jesHEMIssueUp();
+    const float &MET_T1_phi_jesTotalDown();
+    const float &MET_T1_phi_jesTotalUp();
+    const float &MET_T1_phi_unclustEnDown();
+    const float &MET_T1_phi_unclustEnUp();
+    const float &MET_T1_pt();
+    const float &MET_T1_pt_jerDown();
+    const float &MET_T1_pt_jerUp();
+    const float &MET_T1_pt_jesHEMIssueDown();
+    const float &MET_T1_pt_jesHEMIssueUp();
+    const float &MET_T1_pt_jesTotalDown();
+    const float &MET_T1_pt_jesTotalUp();
+    const float &MET_T1_pt_unclustEnDown();
+    const float &MET_T1_pt_unclustEnUp();
     const float &MET_covXX();
     const float &MET_covXY();
     const float &MET_covYY();
@@ -19203,6 +19545,8 @@ namespace tas {
     const vector<float> &Jet_chFPV3EF(); // charged fromPV==3 Energy Fraction (component of the total charged Energy Fraction).
     const vector<float> &Jet_chHEF(); // charged Hadron Energy Fraction
     const vector<UChar_t> &Jet_cleanmask(); // simple cleaning mask with priority to leptons
+    const vector<float> &Jet_corr_JEC(); // Jet_corr_JEC[nJet]/F
+    const vector<float> &Jet_corr_JER(); // Jet_corr_JER[nJet]/F
     const vector<int> &Jet_electronIdx1(); // index of first matching electron
     const vector<int> &Jet_electronIdx2(); // index of second matching electron
     const vector<float> &Jet_eta(); // eta
@@ -19214,6 +19558,14 @@ namespace tas {
     const vector<float> &Jet_hfsigmaPhiPhi(); // sigmaPhiPhi for HF jets (noise discriminating variable)
     const vector<int> &Jet_jetId(); // Jet ID flags bit1 is loose (always false in 2017 since it does not exist), bit2 is tight, bit3 is tightLepVeto
     const vector<float> &Jet_mass(); // mass
+    const vector<float> &Jet_mass_jerDown(); // Jet_mass_jerDown[nJet]/F
+    const vector<float> &Jet_mass_jerUp(); // Jet_mass_jerUp[nJet]/F
+    const vector<float> &Jet_mass_jesHEMIssueDown(); // Jet_mass_jesHEMIssueDown[nJet]/F
+    const vector<float> &Jet_mass_jesHEMIssueUp(); // Jet_mass_jesHEMIssueUp[nJet]/F
+    const vector<float> &Jet_mass_jesTotalDown(); // Jet_mass_jesTotalDown[nJet]/F
+    const vector<float> &Jet_mass_jesTotalUp(); // Jet_mass_jesTotalUp[nJet]/F
+    const vector<float> &Jet_mass_nom(); // Jet_mass_nom[nJet]/F
+    const vector<float> &Jet_mass_raw(); // Jet_mass_raw[nJet]/F
     const vector<float> &Jet_muEF(); // muon Energy Fraction
     const vector<int> &Jet_muonIdx1(); // index of first matching muon
     const vector<int> &Jet_muonIdx2(); // index of second matching muon
@@ -19227,6 +19579,14 @@ namespace tas {
     const vector<int> &Jet_partonFlavour(); // flavour from parton matching
     const vector<float> &Jet_phi(); // phi
     const vector<float> &Jet_pt(); // pt
+    const vector<float> &Jet_pt_jerDown(); // Jet_pt_jerDown[nJet]/F
+    const vector<float> &Jet_pt_jerUp(); // Jet_pt_jerUp[nJet]/F
+    const vector<float> &Jet_pt_jesHEMIssueDown(); // Jet_pt_jesHEMIssueDown[nJet]/F
+    const vector<float> &Jet_pt_jesHEMIssueUp(); // Jet_pt_jesHEMIssueUp[nJet]/F
+    const vector<float> &Jet_pt_jesTotalDown(); // Jet_pt_jesTotalDown[nJet]/F
+    const vector<float> &Jet_pt_jesTotalUp(); // Jet_pt_jesTotalUp[nJet]/F
+    const vector<float> &Jet_pt_nom(); // Jet_pt_nom[nJet]/F
+    const vector<float> &Jet_pt_raw(); // Jet_pt_raw[nJet]/F
     const vector<int> &Jet_puId(); // Pilup ID flags with 80X (2016) training
     const vector<float> &Jet_puIdDisc(); // Pilup ID discriminant with 102X (2018) training
     const vector<float> &Jet_qgl(); // Quark vs Gluon likelihood discriminator
@@ -20073,6 +20433,42 @@ namespace tas {
     const float &METFixEE2017_sumPtUnclustered(); // sumPt used for MET significance
     const float &MET_MetUnclustEnUpDeltaX(); // Delta (METx_mod-METx) Unclustered Energy Up
     const float &MET_MetUnclustEnUpDeltaY(); // Delta (METy_mod-METy) Unclustered Energy Up
+    const float &MET_T1Smear_phi(); // MET_T1Smear_phi/F
+    const float &MET_T1Smear_phi_jerDown(); // MET_T1Smear_phi_jerDown/F
+    const float &MET_T1Smear_phi_jerUp(); // MET_T1Smear_phi_jerUp/F
+    const float &MET_T1Smear_phi_jesHEMIssueDown(); // MET_T1Smear_phi_jesHEMIssueDown/F
+    const float &MET_T1Smear_phi_jesHEMIssueUp(); // MET_T1Smear_phi_jesHEMIssueUp/F
+    const float &MET_T1Smear_phi_jesTotalDown(); // MET_T1Smear_phi_jesTotalDown/F
+    const float &MET_T1Smear_phi_jesTotalUp(); // MET_T1Smear_phi_jesTotalUp/F
+    const float &MET_T1Smear_phi_unclustEnDown(); // MET_T1Smear_phi_unclustEnDown/F
+    const float &MET_T1Smear_phi_unclustEnUp(); // MET_T1Smear_phi_unclustEnUp/F
+    const float &MET_T1Smear_pt(); // MET_T1Smear_pt/F
+    const float &MET_T1Smear_pt_jerDown(); // MET_T1Smear_pt_jerDown/F
+    const float &MET_T1Smear_pt_jerUp(); // MET_T1Smear_pt_jerUp/F
+    const float &MET_T1Smear_pt_jesHEMIssueDown(); // MET_T1Smear_pt_jesHEMIssueDown/F
+    const float &MET_T1Smear_pt_jesHEMIssueUp(); // MET_T1Smear_pt_jesHEMIssueUp/F
+    const float &MET_T1Smear_pt_jesTotalDown(); // MET_T1Smear_pt_jesTotalDown/F
+    const float &MET_T1Smear_pt_jesTotalUp(); // MET_T1Smear_pt_jesTotalUp/F
+    const float &MET_T1Smear_pt_unclustEnDown(); // MET_T1Smear_pt_unclustEnDown/F
+    const float &MET_T1Smear_pt_unclustEnUp(); // MET_T1Smear_pt_unclustEnUp/F
+    const float &MET_T1_phi(); // MET_T1_phi/F
+    const float &MET_T1_phi_jerDown(); // MET_T1_phi_jerDown/F
+    const float &MET_T1_phi_jerUp(); // MET_T1_phi_jerUp/F
+    const float &MET_T1_phi_jesHEMIssueDown(); // MET_T1_phi_jesHEMIssueDown/F
+    const float &MET_T1_phi_jesHEMIssueUp(); // MET_T1_phi_jesHEMIssueUp/F
+    const float &MET_T1_phi_jesTotalDown(); // MET_T1_phi_jesTotalDown/F
+    const float &MET_T1_phi_jesTotalUp(); // MET_T1_phi_jesTotalUp/F
+    const float &MET_T1_phi_unclustEnDown(); // MET_T1_phi_unclustEnDown/F
+    const float &MET_T1_phi_unclustEnUp(); // MET_T1_phi_unclustEnUp/F
+    const float &MET_T1_pt(); // MET_T1_pt/F
+    const float &MET_T1_pt_jerDown(); // MET_T1_pt_jerDown/F
+    const float &MET_T1_pt_jerUp(); // MET_T1_pt_jerUp/F
+    const float &MET_T1_pt_jesHEMIssueDown(); // MET_T1_pt_jesHEMIssueDown/F
+    const float &MET_T1_pt_jesHEMIssueUp(); // MET_T1_pt_jesHEMIssueUp/F
+    const float &MET_T1_pt_jesTotalDown(); // MET_T1_pt_jesTotalDown/F
+    const float &MET_T1_pt_jesTotalUp(); // MET_T1_pt_jesTotalUp/F
+    const float &MET_T1_pt_unclustEnDown(); // MET_T1_pt_unclustEnDown/F
+    const float &MET_T1_pt_unclustEnUp(); // MET_T1_pt_unclustEnUp/F
     const float &MET_covXX(); // xx element of met covariance matrix
     const float &MET_covXY(); // xy element of met covariance matrix
     const float &MET_covYY(); // yy element of met covariance matrix
