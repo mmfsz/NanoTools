@@ -28,9 +28,9 @@ vector<int> GenPart_daughters(int i)
     return daughters;
 }
 
-GenPart::GenPart(int idx)
+GenPart::GenPart(int const& idx_)
+  : idx(idx_)
 {
-    idx = idx;
     pdg_id = GenPart_pdgId().at(idx);
     is_last = (GenPart_statusFlags().at(idx) & (1 << 13)) == (1 << 13);
     is_fromHard = (GenPart_statusFlags().at(idx) & (1 << 8)) == (1 << 8);
