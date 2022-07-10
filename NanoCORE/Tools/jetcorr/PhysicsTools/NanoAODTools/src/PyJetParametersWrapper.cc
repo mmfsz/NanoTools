@@ -1,4 +1,4 @@
-#include "PhysicsTools/NanoAODTools/interface/PyJetParametersWrapper.h"
+#include "../interface/PyJetParametersWrapper.h"
 
 #include <algorithm>
 

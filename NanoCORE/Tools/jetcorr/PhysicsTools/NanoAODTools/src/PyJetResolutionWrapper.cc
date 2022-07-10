@@ -1,4 +1,4 @@
-#include "PhysicsTools/NanoAODTools/interface/PyJetResolutionWrapper.h"
+#include "../interface/PyJetResolutionWrapper.h"
 
 PyJetResolutionWrapper::PyJetResolutionWrapper(const std::string& filename)
    : JME::JetResolution(filename)

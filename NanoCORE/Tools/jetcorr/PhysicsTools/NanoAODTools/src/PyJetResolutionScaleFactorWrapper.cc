@@ -1,4 +1,4 @@
-#include "PhysicsTools/NanoAODTools/interface/PyJetResolutionScaleFactorWrapper.h"
+#include "../interface/PyJetResolutionScaleFactorWrapper.h"
 
 PyJetResolutionScaleFactorWrapper::PyJetResolutionScaleFactorWrapper(const std::string& filename)
    : JME::JetResolutionScaleFactor(filename)
