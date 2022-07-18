@@ -1,6 +1,6 @@
 include Makefile.arch
 
-SOURCES=$(wildcard *.cc) $(wildcard Tools/*.cc) $(wildcard Tools/btagsf/*.cc) $(wildcard Tools/jetcorr/PhysicsTools/NanoAODTools/src/*.cc)
+SOURCES=$(wildcard *.cc) $(wildcard Tools/*.cc) $(wildcard Tools/btagsf/*.cc)
 OBJECTS=$(SOURCES:.cc=.o)
 LIB=NANO_CORE.so
 
@@ -9,7 +9,7 @@ $(LIB): $(OBJECTS)
 	ln -sf $(LIB) lib$(LIB)
 
 %.o:	%.cc
-	$(CXX) $(CXXFLAGS) -I${CMSSW_BASE}/../../../external/boost/1.67.0/include -I${CMSSW_BASE}/src -c $< -o $@ -fno-var-tracking
+	$(CXX) $(CXXFLAGS) -c $< -o $@ -fno-var-tracking
 
 test: all
 	python Tools/unit_tests/tests.py
@@ -25,3 +25,4 @@ clean:
 	rm -f Tools/*.o \
 	rm -f Tools/*.d \
 	rm -f Tools/*.so
+
