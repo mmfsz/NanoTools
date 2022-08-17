@@ -1,8 +1,9 @@
 include Makefile.arch
 
-SOURCES_NOCMSSW=$(wildcard *.cc) $(wildcard Tools/*.cc) $(wildcard Tools/btagsf/*.cc)
-SOURCES=$(SOURCES_NOCMSSW) $(wildcard Tools/jetcorr/PhysicsTools/NanoAODTools/src/*.cc)
-OBJECTS_NOCMSSW=$(SOURCES_NOCMSSW:.cc=.o)
+SOURCES=$(wildcard *.cc) $(wildcard Tools/*.cc) $(wildcard Tools/btagsf/*.cc)
+ifdef CMSSW_BASE
+SOURCES+=$(wildcard Tools/jetcorr/PhysicsTools/NanoAODTools/src/*.cc)
+endif
 OBJECTS=$(SOURCES:.cc=.o)
 LIB=NANO_CORE.so
 
@@ -20,9 +21,6 @@ testpy3: all
 	python3 Tools/unit_tests/tests.py
 
 all: $(LIB) 
-nocmssw: $(OBJECTS_NOCMSSW) 
-	$(LD) $(LDFLAGS) $(SOFLAGS) $(OBJECTS_NOCMSSW) $(ROOTLIBS) -lTMVA -lEG -lGenVector -lXMLIO -lMLP -lTreePlayer -o $@
-	ln -sf $(LIB) lib$(LIB)
 clean:
 	rm -f *.o \
 	rm -f *.d \
