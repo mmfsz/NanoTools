@@ -160,6 +160,8 @@ void Nano::Init(TTree *tree) {
     if (b_Electron_mvaFall17V1noIso_WP80_) { b_Electron_mvaFall17V1noIso_WP80_->SetAddress(&Electron_mvaFall17V1noIso_WP80_); }
     b_Electron_mvaFall17V1noIso_WP90_ = tree->GetBranch("Electron_mvaFall17V1noIso_WP90");
     if (b_Electron_mvaFall17V1noIso_WP90_) { b_Electron_mvaFall17V1noIso_WP90_->SetAddress(&Electron_mvaFall17V1noIso_WP90_); }
+    b_Electron_mvaNoIso_Fall17V2_WPL_ = tree->GetBranch("Electron_mvaNoIso_Fall17V2_WPL");
+    if (b_Electron_mvaNoIso_Fall17V2_WPL_) { b_Electron_mvaNoIso_Fall17V2_WPL_->SetAddress(&Electron_mvaNoIso_Fall17V2_WPL_); }
     b_Electron_mvaFall17V1noIso_WPL_ = tree->GetBranch("Electron_mvaFall17V1noIso_WPL");
     if (b_Electron_mvaFall17V1noIso_WPL_) { b_Electron_mvaFall17V1noIso_WPL_->SetAddress(&Electron_mvaFall17V1noIso_WPL_); }
     b_Electron_mvaFall17V2Iso_ = tree->GetBranch("Electron_mvaFall17V2Iso");
@@ -178,6 +180,8 @@ void Nano::Init(TTree *tree) {
     if (b_Electron_mvaFall17V2noIso_WP90_) { b_Electron_mvaFall17V2noIso_WP90_->SetAddress(&Electron_mvaFall17V2noIso_WP90_); }
     b_Electron_mvaFall17V2noIso_WPL_ = tree->GetBranch("Electron_mvaFall17V2noIso_WPL");
     if (b_Electron_mvaFall17V2noIso_WPL_) { b_Electron_mvaFall17V2noIso_WPL_->SetAddress(&Electron_mvaFall17V2noIso_WPL_); }
+    b_Electron_mvaNoIso_WPL_ = tree->GetBranch("Electron_mvaNoIso_WPL");
+    if (b_Electron_mvaNoIso_WPL_) { b_Electron_mvaNoIso_WPL_->SetAddress(&Electron_mvaNoIso_WPL_); }
     b_Electron_mvaSpring16GP_ = tree->GetBranch("Electron_mvaSpring16GP");
     if (b_Electron_mvaSpring16GP_) { b_Electron_mvaSpring16GP_->SetAddress(&Electron_mvaSpring16GP_); }
     b_Electron_mvaSpring16GP_WP80_ = tree->GetBranch("Electron_mvaSpring16GP_WP80");
@@ -5731,6 +5735,7 @@ void Nano::ParseYear(TTree* tree) {
     if (full_file_path.Contains("RunIIAutumn18NanoAOD")) year_ = 2018;
     else if (full_file_path.Contains("RunIIFall17NanoAOD")) year_ = 2017;
     else if (full_file_path.Contains("RunIISummer16NanoAOD")) year_ = 2016;
+    else if (full_file_path.Contains("Run3Summer22")) year_ = 2022;
     // Ultra-legacy
     else if (full_file_path.Contains("RunIISummer20UL18")) year_ = 2018;
     else if (full_file_path.Contains("RunIISummer20UL17")) year_ = 2017;
@@ -5743,6 +5748,7 @@ void Nano::ParseYear(TTree* tree) {
     else if (full_file_path.Contains("Run2018")) year_ = 2018;
     else if (full_file_path.Contains("Run2017")) year_ = 2017;
     else if (full_file_path.Contains("Run2016")) year_ = 2016;
+    else if (full_file_path.Contains("Run2022")) year_ = 2022;
     else throw std::runtime_error("Nano::parseYear():: ERROR - Failed to recognize which year this NanoAOD is !\nPlease make sure the path has one of the following keywords:\n  2016: 'Run2016' or 'RunIISummer16NanoAOD' or 'RunIISummer20UL16'\n  2017: 'Run2017' or 'RunIIFall17NanoAOD' or 'RunIISummer20UL17'\n  2018: 'Run2018' or 'RunIIAutumn18NanoAOD' or 'RunIISummer20UL18'\nOR, use Nano::SetYear(int year) before Nano::Init()");
 }
 
@@ -5838,6 +5844,7 @@ void Nano::PrintUsage() {
     std::cout << "Electron_mvaFall17V1noIso_WP80 (uncached/cached calls): " << counter_uncached_Electron_mvaFall17V1noIso_WP80_ << " / " << counter_cached_Electron_mvaFall17V1noIso_WP80_ << std::endl;;
     std::cout << "Electron_mvaFall17V1noIso_WP90 (uncached/cached calls): " << counter_uncached_Electron_mvaFall17V1noIso_WP90_ << " / " << counter_cached_Electron_mvaFall17V1noIso_WP90_ << std::endl;;
     std::cout << "Electron_mvaFall17V1noIso_WPL (uncached/cached calls): " << counter_uncached_Electron_mvaFall17V1noIso_WPL_ << " / " << counter_cached_Electron_mvaFall17V1noIso_WPL_ << std::endl;;
+    std::cout << "Electron_mvaNoIso_Fall17V2_WPL (uncached/cached calls): " << counter_uncached_Electron_mvaNoIso_Fall17V2_WPL_ << " / " << counter_cached_Electron_mvaNoIso_Fall17V2_WPL_ << std::endl;;
     std::cout << "Electron_mvaFall17V2Iso (uncached/cached calls): " << counter_uncached_Electron_mvaFall17V2Iso_ << " / " << counter_cached_Electron_mvaFall17V2Iso_ << std::endl;;
     std::cout << "Electron_mvaFall17V2Iso_WP80 (uncached/cached calls): " << counter_uncached_Electron_mvaFall17V2Iso_WP80_ << " / " << counter_cached_Electron_mvaFall17V2Iso_WP80_ << std::endl;;
     std::cout << "Electron_mvaFall17V2Iso_WP90 (uncached/cached calls): " << counter_uncached_Electron_mvaFall17V2Iso_WP90_ << " / " << counter_cached_Electron_mvaFall17V2Iso_WP90_ << std::endl;;
@@ -5846,6 +5853,7 @@ void Nano::PrintUsage() {
     std::cout << "Electron_mvaFall17V2noIso_WP80 (uncached/cached calls): " << counter_uncached_Electron_mvaFall17V2noIso_WP80_ << " / " << counter_cached_Electron_mvaFall17V2noIso_WP80_ << std::endl;;
     std::cout << "Electron_mvaFall17V2noIso_WP90 (uncached/cached calls): " << counter_uncached_Electron_mvaFall17V2noIso_WP90_ << " / " << counter_cached_Electron_mvaFall17V2noIso_WP90_ << std::endl;;
     std::cout << "Electron_mvaFall17V2noIso_WPL (uncached/cached calls): " << counter_uncached_Electron_mvaFall17V2noIso_WPL_ << " / " << counter_cached_Electron_mvaFall17V2noIso_WPL_ << std::endl;;
+    std::cout << "Electron_mvaNoIso_WPL (uncached/cached calls): " << counter_uncached_Electron_mvaNoIso_WPL_ << " / " << counter_cached_Electron_mvaNoIso_WPL_ << std::endl;;
     std::cout << "Electron_mvaSpring16GP (uncached/cached calls): " << counter_uncached_Electron_mvaSpring16GP_ << " / " << counter_cached_Electron_mvaSpring16GP_ << std::endl;;
     std::cout << "Electron_mvaSpring16GP_WP80 (uncached/cached calls): " << counter_uncached_Electron_mvaSpring16GP_WP80_ << " / " << counter_cached_Electron_mvaSpring16GP_WP80_ << std::endl;;
     std::cout << "Electron_mvaSpring16GP_WP90 (uncached/cached calls): " << counter_uncached_Electron_mvaSpring16GP_WP90_ << " / " << counter_cached_Electron_mvaSpring16GP_WP90_ << std::endl;;
@@ -8718,6 +8726,7 @@ void Nano::GetEntry(unsigned int idx) {
     loaded_Electron_mvaFall17V1noIso_WP80_ = false;
     loaded_Electron_mvaFall17V1noIso_WP90_ = false;
     loaded_Electron_mvaFall17V1noIso_WPL_ = false;
+    loaded_Electron_mvaNoIso_Fall17V2_WPL_ = false;
     loaded_Electron_mvaFall17V2Iso_ = false;
     loaded_Electron_mvaFall17V2Iso_WP80_ = false;
     loaded_Electron_mvaFall17V2Iso_WP90_ = false;
@@ -8726,6 +8735,7 @@ void Nano::GetEntry(unsigned int idx) {
     loaded_Electron_mvaFall17V2noIso_WP80_ = false;
     loaded_Electron_mvaFall17V2noIso_WP90_ = false;
     loaded_Electron_mvaFall17V2noIso_WPL_ = false;
+    loaded_Electron_mvaNoIso_WPL_ = false;
     loaded_Electron_mvaSpring16GP_ = false;
     loaded_Electron_mvaSpring16GP_WP80_ = false;
     loaded_Electron_mvaSpring16GP_WP90_ = false;
@@ -12386,6 +12396,17 @@ const vector<bool> &Nano::Electron_mvaFall17V1noIso_WPL() {
     }
     return v_Electron_mvaFall17V1noIso_WPL_;
 }
+const vector<bool> &Nano::Electron_mvaNoIso_Fall17V2_WPL() {
+    if (!loaded_Electron_mvaNoIso_Fall17V2_WPL_) counter_uncached_Electron_mvaNoIso_Fall17V2_WPL_++;
+    else counter_cached_Electron_mvaNoIso_Fall17V2_WPL_++;
+    if (!loaded_Electron_mvaNoIso_Fall17V2_WPL_) {
+        if (!b_Electron_mvaNoIso_Fall17V2_WPL_) throw std::runtime_error("Electron_mvaNoIso_Fall17V2_WPL branch doesn't exist");
+        int bytes = b_Electron_mvaNoIso_Fall17V2_WPL_->GetEntry(index);
+        v_Electron_mvaNoIso_Fall17V2_WPL_ = vector<bool>(Electron_mvaNoIso_Fall17V2_WPL_,Electron_mvaNoIso_Fall17V2_WPL_+bytes/sizeof(Electron_mvaNoIso_Fall17V2_WPL_[0]));
+        loaded_Electron_mvaNoIso_Fall17V2_WPL_ = true;
+    }
+    return v_Electron_mvaNoIso_Fall17V2_WPL_;
+}
 const vector<float> &Nano::Electron_mvaFall17V2Iso() {
     if (!loaded_Electron_mvaFall17V2Iso_) counter_uncached_Electron_mvaFall17V2Iso_++;
     else counter_cached_Electron_mvaFall17V2Iso_++;
@@ -12473,6 +12494,17 @@ const vector<bool> &Nano::Electron_mvaFall17V2noIso_WPL() {
         loaded_Electron_mvaFall17V2noIso_WPL_ = true;
     }
     return v_Electron_mvaFall17V2noIso_WPL_;
+}
+const vector<bool> &Nano::Electron_mvaNoIso_WPL() {
+    if (!loaded_Electron_mvaNoIso_WPL_) counter_uncached_Electron_mvaNoIso_WPL_++;
+    else counter_cached_Electron_mvaNoIso_WPL_++;
+    if (!loaded_Electron_mvaNoIso_WPL_) {
+        if (!b_Electron_mvaNoIso_WPL_) throw std::runtime_error("Electron_mvaNoIso_WPL branch doesn't exist");
+        int bytes = b_Electron_mvaNoIso_WPL_->GetEntry(index);
+        v_Electron_mvaNoIso_WPL_ = vector<bool>(Electron_mvaNoIso_WPL_,Electron_mvaNoIso_WPL_+bytes/sizeof(Electron_mvaNoIso_WPL_[0]));
+        loaded_Electron_mvaNoIso_WPL_ = true;
+    }
+    return v_Electron_mvaNoIso_WPL_;
 }
 const vector<float> &Nano::Electron_mvaSpring16GP() {
     if (!loaded_Electron_mvaSpring16GP_) counter_uncached_Electron_mvaSpring16GP_++;
@@ -41105,6 +41137,7 @@ namespace tas {
     const vector<bool> &Electron_mvaFall17V1noIso_WP80() { return nt.Electron_mvaFall17V1noIso_WP80(); }
     const vector<bool> &Electron_mvaFall17V1noIso_WP90() { return nt.Electron_mvaFall17V1noIso_WP90(); }
     const vector<bool> &Electron_mvaFall17V1noIso_WPL() { return nt.Electron_mvaFall17V1noIso_WPL(); }
+    const vector<bool> &Electron_mvaNoIso_Fall17V2_WPL() { return nt.Electron_mvaNoIso_Fall17V2_WPL(); }
     const vector<float> &Electron_mvaFall17V2Iso() { return nt.Electron_mvaFall17V2Iso(); }
     const vector<bool> &Electron_mvaFall17V2Iso_WP80() { return nt.Electron_mvaFall17V2Iso_WP80(); }
     const vector<bool> &Electron_mvaFall17V2Iso_WP90() { return nt.Electron_mvaFall17V2Iso_WP90(); }
@@ -41113,6 +41146,7 @@ namespace tas {
     const vector<bool> &Electron_mvaFall17V2noIso_WP80() { return nt.Electron_mvaFall17V2noIso_WP80(); }
     const vector<bool> &Electron_mvaFall17V2noIso_WP90() { return nt.Electron_mvaFall17V2noIso_WP90(); }
     const vector<bool> &Electron_mvaFall17V2noIso_WPL() { return nt.Electron_mvaFall17V2noIso_WPL(); }
+    const vector<bool> &Electron_mvaNoIso_WPL() { return nt.Electron_mvaNoIso_WPL(); }
     const vector<float> &Electron_mvaSpring16GP() { return nt.Electron_mvaSpring16GP(); }
     const vector<bool> &Electron_mvaSpring16GP_WP80() { return nt.Electron_mvaSpring16GP_WP80(); }
     const vector<bool> &Electron_mvaSpring16GP_WP90() { return nt.Electron_mvaSpring16GP_WP90(); }
@@ -46662,12 +46696,14 @@ namespace tas {
         else if (name == "Electron_mvaFall17V1noIso_WP80") return nt.Electron_mvaFall17V1noIso_WP80();
         else if (name == "Electron_mvaFall17V1noIso_WP90") return nt.Electron_mvaFall17V1noIso_WP90();
         else if (name == "Electron_mvaFall17V1noIso_WPL") return nt.Electron_mvaFall17V1noIso_WPL();
+        else if (name == "Electron_mvaNoIso_Fall17V2_WPL") return nt.Electron_mvaNoIso_Fall17V2_WPL();
         else if (name == "Electron_mvaFall17V2Iso_WP80") return nt.Electron_mvaFall17V2Iso_WP80();
         else if (name == "Electron_mvaFall17V2Iso_WP90") return nt.Electron_mvaFall17V2Iso_WP90();
         else if (name == "Electron_mvaFall17V2Iso_WPL") return nt.Electron_mvaFall17V2Iso_WPL();
         else if (name == "Electron_mvaFall17V2noIso_WP80") return nt.Electron_mvaFall17V2noIso_WP80();
         else if (name == "Electron_mvaFall17V2noIso_WP90") return nt.Electron_mvaFall17V2noIso_WP90();
         else if (name == "Electron_mvaFall17V2noIso_WPL") return nt.Electron_mvaFall17V2noIso_WPL();
+        else if (name == "Electron_mvaNoIso_WPL") return nt.Electron_mvaNoIso_WPL();
         else if (name == "Electron_mvaSpring16GP_WP80") return nt.Electron_mvaSpring16GP_WP80();
         else if (name == "Electron_mvaSpring16GP_WP90") return nt.Electron_mvaSpring16GP_WP90();
         else if (name == "Electron_mvaSpring16HZZ_WPL") return nt.Electron_mvaSpring16HZZ_WPL();

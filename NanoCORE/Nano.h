@@ -530,6 +530,12 @@ protected:
     bool loaded_Electron_mvaFall17V1noIso_WPL_;
     unsigned int counter_cached_Electron_mvaFall17V1noIso_WPL_;
     unsigned int counter_uncached_Electron_mvaFall17V1noIso_WPL_;
+    bool Electron_mvaNoIso_Fall17V2_WPL_[NELECTRON_MAX];
+    vector<bool> v_Electron_mvaNoIso_Fall17V2_WPL_;
+    TBranch *b_Electron_mvaNoIso_Fall17V2_WPL_;
+    bool loaded_Electron_mvaNoIso_Fall17V2_WPL_;
+    unsigned int counter_cached_Electron_mvaNoIso_Fall17V2_WPL_;
+    unsigned int counter_uncached_Electron_mvaNoIso_Fall17V2_WPL_;
     float Electron_mvaFall17V2Iso_[NELECTRON_MAX];
     vector<float> v_Electron_mvaFall17V2Iso_;
     TBranch *b_Electron_mvaFall17V2Iso_;
@@ -572,6 +578,12 @@ protected:
     bool loaded_Electron_mvaFall17V2noIso_WP90_;
     unsigned int counter_cached_Electron_mvaFall17V2noIso_WP90_;
     unsigned int counter_uncached_Electron_mvaFall17V2noIso_WP90_;
+    bool Electron_mvaNoIso_WPL_[NELECTRON_MAX];
+    vector<bool> v_Electron_mvaNoIso_WPL_;
+    TBranch *b_Electron_mvaNoIso_WPL_;
+    bool loaded_Electron_mvaNoIso_WPL_;
+    unsigned int counter_cached_Electron_mvaNoIso_WPL_;
+    unsigned int counter_uncached_Electron_mvaNoIso_WPL_;
     bool Electron_mvaFall17V2noIso_WPL_[NELECTRON_MAX];
     vector<bool> v_Electron_mvaFall17V2noIso_WPL_;
     TBranch *b_Electron_mvaFall17V2noIso_WPL_;
@@ -15166,6 +15178,7 @@ public:
     const vector<bool> &Electron_mvaFall17V1noIso_WP80();
     const vector<bool> &Electron_mvaFall17V1noIso_WP90();
     const vector<bool> &Electron_mvaFall17V1noIso_WPL();
+    const vector<bool> &Electron_mvaNoIso_Fall17V2_WPL();
     const vector<float> &Electron_mvaFall17V2Iso();
     const vector<bool> &Electron_mvaFall17V2Iso_WP80();
     const vector<bool> &Electron_mvaFall17V2Iso_WP90();
@@ -15174,6 +15187,7 @@ public:
     const vector<bool> &Electron_mvaFall17V2noIso_WP80();
     const vector<bool> &Electron_mvaFall17V2noIso_WP90();
     const vector<bool> &Electron_mvaFall17V2noIso_WPL();
+    const vector<bool> &Electron_mvaNoIso_WPL();
     const vector<float> &Electron_mvaSpring16GP();
     const vector<bool> &Electron_mvaSpring16GP_WP80();
     const vector<bool> &Electron_mvaSpring16GP_WP90();
@@ -18051,6 +18065,7 @@ namespace tas {
     const vector<bool> &Electron_mvaFall17V1noIso_WP80(); // MVA noIso ID V1 WP80
     const vector<bool> &Electron_mvaFall17V1noIso_WP90(); // MVA noIso ID V1 WP90
     const vector<bool> &Electron_mvaFall17V1noIso_WPL(); // MVA noIso ID V1 loose WP
+    const vector<bool> &Electron_mvaNoIso_Fall17V2_WPL(); // MVA noIso ID V1 loose WP
     const vector<float> &Electron_mvaFall17V2Iso(); // MVA Iso ID V2 score
     const vector<bool> &Electron_mvaFall17V2Iso_WP80(); // MVA Iso ID V2 WP80
     const vector<bool> &Electron_mvaFall17V2Iso_WP90(); // MVA Iso ID V2 WP90
@@ -18064,6 +18079,7 @@ namespace tas {
     const vector<bool> &Electron_mvaSpring16GP_WP90(); // MVA Spring16 general-purpose ID WP90
     const vector<float> &Electron_mvaSpring16HZZ(); // MVA Spring16 HZZ ID score
     const vector<bool> &Electron_mvaSpring16HZZ_WPL(); // MVA Spring16 HZZ ID loose WP
+    const vector<bool> &Electron_mvaNoIso_WPL(); // MVA Summer22
     const vector<float> &Electron_mvaTTH(); // TTH MVA lepton ID score
     const vector<LorentzVector> &Electron_p4(); // from Electron_pt,eta,phi,mass
     const vector<int> &Electron_pdgId(); // PDG code assigned by the event reconstruction (not by MC truth)
