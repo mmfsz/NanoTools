@@ -41,7 +41,7 @@ class GenPart {
       float eta;
       float phi;
       float mass;
-      GenPart(int idx);
+      GenPart(int const& idx_);
 };
 
 bool is_bad_copy(GenPart part);
