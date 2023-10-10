@@ -41,12 +41,8 @@ struct Lepton {
 typedef std::pair<Lepton, Lepton> Hyp;
 typedef std::vector<Lepton> Leptons;
 
-std::ostream &operator<<(std::ostream &os, Lepton &lep) {
-    std::string lepstr = (abs(lep.id()) == 11) ? "Electron" : "Muon";
-    return os << "<" << lepstr << " id=" << std::showpos << setw(3) << lep.id() << std::noshowpos << ", idx=" << setw(2)
-              << lep.idx() << ", level=" << lep.idlevel() << ", (pT,eta)="
-              << "(" << lep.pt() << "," << lep.eta() << ")>";
-}
+std::ostream &operator<<(std::ostream &os, Lepton &lep); 
+
 template <typename T1, typename T2> std::ostream &operator<<(std::ostream &os, std::pair<T1, T2> &p) {
     return os << "(" << p.first << ", " << p.second << ")";
 }

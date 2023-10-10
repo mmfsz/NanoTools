@@ -309,3 +309,10 @@ SS::IDLevel whichLeptonLevel(int id, int idx) {
         return SS::IDdefault;
     }
 }
+
+std::ostream &operator<<(std::ostream &os, Lepton &lep) {
+    std::string lepstr = (abs(lep.id()) == 11) ? "Electron" : "Muon";
+    return os << "<" << lepstr << " id=" << std::showpos << setw(3) << lep.id() << std::noshowpos << ", idx=" << setw(2)
+              << lep.idx() << ", level=" << lep.idlevel() << ", (pT,eta)="
+              << "(" << lep.pt() << "," << lep.eta() << ")>";
+}
