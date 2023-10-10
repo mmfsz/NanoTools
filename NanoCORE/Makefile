@@ -9,7 +9,7 @@ $(LIB): $(OBJECTS)
 	ln -sf $(LIB) lib$(LIB)
 
 %.o:	%.cc
-	$(CXX) $(CXXFLAGS) -I${CMSSW_BASE}/../../../external/boost/1.67.0/include -I${CMSSW_BASE}/src -c $< -o $@ -fno-var-tracking
+	$(CXX) $(CXXFLAGS) -I${CMSSW_BASE}/../../../external/boost/1.80.0-2266b8f9c5c3ec1784bdd015fb86b58f/include/ -I${CMSSW_BASE}/src -c $< -o $@ -fno-var-tracking
 
 test: all
 	python Tools/unit_tests/tests.py
