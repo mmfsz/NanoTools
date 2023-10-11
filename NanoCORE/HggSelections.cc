@@ -172,22 +172,26 @@ Photons getPhotons()
 }
 
 //copy from diphoton skims
+[[deprecated]]
 bool useLowR9(Photon& photon, float rho, float isEB)
 {
+    std::cout << "HggSelections.cc:useLowR9() DO NOT USE THIS FUNCTION" << std::endl;
     if(isEB)
     {
         if(Photon_sieie()[photon.idx()] >= 0.015)
         {
             return false;
         }
-        if(Photon_trkSumPtHollowConeDR03()[photon.idx()] >= 6.0)
-        {
-            return false;
-        }
-        if(Photon_photonIso()[photon.idx()] - 0.16544 * rho >= 4.0)
-        {
-            return false;
-        }
+        // ***********************************************************
+        // if(Photon_trkSumPtHollowConeDR03()[photon.idx()] >= 6.0)
+        // {
+        //     return false;
+        // }
+        // if(Photon_photonIso()[photon.idx()] - 0.16544 * rho >= 4.0)
+        // {
+        //     return false;
+        // }
+        // ***********************************************************
     }
     else
     {
@@ -195,14 +199,16 @@ bool useLowR9(Photon& photon, float rho, float isEB)
         {
             return false;
         }
-        if(Photon_trkSumPtHollowConeDR03()[photon.idx()] >= 6.0)
-        {
-            return false;
-        }
-        if(Photon_photonIso()[photon.idx()] - 0.13212 * rho >= 4.0)
-        {
-            return false;
-        }  
+        // ***********************************************************
+        // if(Photon_trkSumPtHollowConeDR03()[photon.idx()] >= 6.0)
+        // {
+        //     return false;
+        // }
+        // if(Photon_photonIso()[photon.idx()] - 0.13212 * rho >= 4.0)
+        // {
+        //     return false;
+        // }  
+        // ***********************************************************
     }
     return true;
 }
@@ -230,8 +236,10 @@ bool EE_lowR9(Photon& photon)
 
 }
 
+[[deprecated]]
 DiPhoton makeDiPhotonResonance(Photons& photons)
 {
+    std::cout << "HggSelections.cc:makeDiPhotonResonance() DO NOT USE THIS FUNCTION" << std::endl;
     //copy selections from skim!
     Photons goodPhotons;
     DiPhoton diPhoton;
@@ -241,7 +249,7 @@ DiPhoton makeDiPhotonResonance(Photons& photons)
         if(ph.eveto_cut() >= 0.5 and (EE_highR9(ph) or EB_highR9(ph) or EB_lowR9(ph) or EE_lowR9(ph)))
         {
             if(Photon_hoe()[ph.idx()] < 0.08 and std::abs(ph.eta()) < 2.5 and (std::abs(ph.eta()) < 1.442 or abs(ph.eta()) > 1.566) and (Photon_r9()[ph.idx()] > 0.8 \
-                        or Photon_chargedHadronIso()[ph.idx()] < 20 or Photon_chargedHadronIso()[ph.idx()]/ph.pt() < 0.3))
+                        /*or Photon_chargedHadronIso()[ph.idx()] < 20 or Photon_chargedHadronIso()[ph.idx()]/ph.pt() < 0.3*/))
             {
                 goodPhotons.push_back(ph);
             }

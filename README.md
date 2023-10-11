@@ -3,7 +3,7 @@
 git clone https://github.com/cmstas/NanoTools
 cd NanoTools/
 source /cvmfs/cms.cern.ch/cmsset_default.sh
-cd /cvmfs/cms.cern.ch/el8_amd64_gcc10/cms/cmssw/CMSSW_12_5_0/ ; cmsenv ; cd -
+cd /cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_2_13/ ; cmsenv ; cd -
 cd NanoCORE
 make test -j12
 cd ..
@@ -16,7 +16,9 @@ Unit tests of `NanoCORE/` are inside `NanoCORE/Tools/unit_tests/` and can be run
 
 ### Skimmer
 
-Assuming that one logs on to ```uaf-2```
+One must long on to ```uaf-10``` for this.
+The newer linux version won't work.
+For future we will have to one day fix this.
 
 ```bash
 cd skimmer/
