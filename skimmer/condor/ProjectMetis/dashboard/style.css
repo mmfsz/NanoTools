@@ -1,0 +1,130 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,900);
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+    font-family: Open Sans;
+}
+body.dark {
+    background-color: #222;
+    color: #ccc;
+}
+
+
+.navbar {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+#nav-admin.active {
+    color: #ffc107;
+}
+
+.container-fluid {
+    width: 99%;
+    /* margin: auto; */
+    margin-top: 8px;
+    /* margin-left: 10px; */
+    /* margin-right: 100px; */
+    /* margin: 10px; */
+    /* border: solid 2px black; */
+}
+
+.task-badge {
+    margin-right: 3px;
+    font-weight: normal;
+    max-width: 12%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dataset-label {
+    font-size: 75%;
+    padding-left: 3px;
+    padding-right: 3px;
+    font-weight: normal;
+    /* font-weight: bold; */
+
+    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* max-width: 65%; */
+  max-width: 60%;
+}
+
+div.tooltip-inner {
+     max-width: 700px;
+}
+
+.task-text-row {
+    margin-bottom: 3px;
+}
+.task {
+    margin-bottom: 3px;
+}
+
+.progress {
+    position: relative;
+    width: 20%;
+    height: inherit;
+	/* height: 20px; */
+    margin-right: 3px;
+}
+.progress.dark {
+    background-color: #bbb;
+}
+.progress > .progress-type {
+	position: absolute;
+	left: 0px;
+    /* line-height: 20px; */
+    vertical-align: middle;
+    padding-left: 5px;
+	/* color: rgb(255, 255, 255); */
+	color: #000;
+	/* background-color: rgba(25, 25, 25, 0.2); */
+}
+.progress > .progress-completed {
+	position: absolute;
+	right: 0px;
+    /* line-height: 20px; */
+    vertical-align: middle;
+    padding-right: 5px;
+	/* color: rgb(255, 255, 255); */
+	color: #000;
+	/* background-color: rgba(25, 25, 25, 0.2); */
+}
+
+
+.details {
+    font-size: 75%;
+    border: 1px solid #bbb;
+    background: #f3f3f3;
+    padding: 5px;
+    border-radius: 5px;
+    display: block;
+    unicode-bidi: embed;
+    /* font-family: monospace; */
+    white-space: pre-wrap;
+    margin-bottom: 2px;
+
+
+}
+.details.dark {
+    background-color: #333;
+}
+
+.details > .string { color: #339; }
+.details > .number { color: #393; }
+.details > .boolean { color: blue; }
+.details > .null { color: magenta; }
+.details > .key { color: #333; }
+
+
+.details > .dark.string { color: #bbdefb; }
+.details > .dark.number { color: #4caf50; }
+.details > .dark.boolean { color: #ffc107; }
+.details > .dark.null { color: #ff5722; }
+.details > .dark.key { color: #ccc; }
+

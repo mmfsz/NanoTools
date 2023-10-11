@@ -130,3 +130,75 @@ bool ttH::muonID(unsigned int idx, ttH::IDLevel id_level, int year) {
     }
     return true;
 }
+
+bool WWZ::muonID(int idx, WWZ::IDLevel id_level, int year) {
+    // Year-specific checks
+    switch (year) {
+    case (2016):
+        return WWZ::muon2016ID(idx, id_level);
+        break;
+    case (2017):
+        return WWZ::muon2017ID(idx, id_level);
+        break;
+    case (2018):
+        return WWZ::muon2018ID(idx, id_level);
+        break;
+    case (2022):
+        return WWZ::muon2022ID(idx, id_level);
+        break;
+    default:
+        throw std::runtime_error("MuonSelections.cc: ERROR - invalid year");
+        return false;
+        break;
+    }
+}
+
+bool WWZ::muon2016ID(unsigned int idx, WWZ::IDLevel id_level) {
+    if (not (Muon_pt().at(idx)               >  10.  )) return false;
+    if (not (fabs(Muon_eta().at(idx))        <  2.4  )) return false;
+    if (not (fabs(Muon_dxy().at(idx))        <  0.05 )) return false;
+    if (not (fabs(Muon_dz().at(idx))         <  0.1  )) return false;
+    if (not (fabs(Muon_sip3d().at(idx))      <  8    )) return false;
+    if (not (Muon_miniPFRelIso_all().at(idx) <  0.4  )) return false;
+    if (not (Muon_looseId().at(idx)                  )) return false;
+    return true;
+}
+
+bool WWZ::muon2017ID(unsigned int idx, WWZ::IDLevel id_level) {
+    if (not (Muon_pt().at(idx)               >  10.  )) return false;
+    if (not (fabs(Muon_eta().at(idx))        <  2.4  )) return false;
+    if (not (fabs(Muon_dxy().at(idx))        <  0.05 )) return false;
+    if (not (fabs(Muon_dz().at(idx))         <  0.1  )) return false;
+    if (not (fabs(Muon_sip3d().at(idx))      <  8    )) return false;
+    if (not (Muon_miniPFRelIso_all().at(idx) <  0.4  )) return false;
+    if (not (Muon_looseId().at(idx)                  )) return false;
+    return true;
+}
+
+bool WWZ::muon2018ID(unsigned int idx, WWZ::IDLevel id_level) {
+    if (not (Muon_pt().at(idx)               >  10.  )) return false;
+    if (not (fabs(Muon_eta().at(idx))        <  2.4  )) return false;
+    if (not (fabs(Muon_dxy().at(idx))        <  0.05 )) return false;
+    if (not (fabs(Muon_dz().at(idx))         <  0.1  )) return false;
+    if (not (fabs(Muon_sip3d().at(idx))      <  8    )) return false;
+    if (not (Muon_miniPFRelIso_all().at(idx) <  0.4  )) return false;
+    if (not (Muon_looseId().at(idx)                  )) return false;
+    return true;
+}
+
+bool WWZ::muon2022ID(unsigned int idx, WWZ::IDLevel id_level) {
+    if (not (Muon_pt().at(idx)               >  10.  )) return false;
+    if (not (fabs(Muon_eta().at(idx))        <  2.4  )) return false;
+    if (not (fabs(Muon_dxy().at(idx))        <  0.05 )) return false;
+    if (not (fabs(Muon_dz().at(idx))         <  0.1  )) return false;
+    if (not (Muon_mediumId().at(idx)                 )) return false;
+    if (id_level == WWZ::IDveto)
+    {
+        if (not (Muon_pfRelIso03_all().at(idx)   <  0.40 )) return false;
+    }
+    else if (id_level == WWZ::IDtight)
+    {
+        if (not (Muon_pfRelIso03_all().at(idx)   <  0.15 )) return false;
+    }
+    return true;
+}

@@ -20,4 +20,12 @@ namespace ttH {
     };
 }
 
+namespace WWZ {
+    enum IDLevel {
+        IDveto = 0,
+        IDfakable = 1, // for fake background + jet cleaning
+        IDtight = 2 // for analysis
+    };
+}
+
 #endif

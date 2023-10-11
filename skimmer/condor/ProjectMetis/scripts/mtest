@@ -1,0 +1,78 @@
+#!/usr/bin/env python
+
+import argparse
+import unittest
+import metis.Utils as Utils
+import time
+import os
+
+class TimingTextTestResult(unittest.TextTestResult):
+    t0 = 0.
+
+    def startTest(self, test):
+        self.dots = False
+        self.t0 = time.time()
+        super(TimingTextTestResult, self).startTest(test)
+
+    def addSuccess(self, test):
+        self.showAll = False
+        super(TimingTextTestResult, self).addSuccess(test)
+        self.showAll = True
+        col = '\033[92m'
+        end = '\033[0m'
+        if self.showAll:
+            spacing = " "*(70-len(self.getDescription(test)))
+            to_write = "{}{}ok{}".format(spacing,col,end)
+            to_write += " [{}ms]".format(int(1000.0*(time.time()-self.t0)))
+            self.stream.writeln(to_write)
+        self.t0 = time.time()
+
+    def addFailure(self, test, err):
+        self.showAll = False
+        super(TimingTextTestResult, self).addFailure(test, err)
+        self.showAll = True
+        col = '\033[91m'
+        end = '\033[0m'
+        if self.showAll:
+            spacing = " "*(70-len(self.getDescription(test)))
+            to_write = "{}{}FAIL{}".format(spacing,col,end)
+            to_write += " [{}ms]".format(int(1000.0*(time.time()-self.t0)))
+            self.stream.writeln(to_write)
+        self.t0 = time.time()
+
+    def addError(self, test, err):
+        self.showAll = False
+        super(TimingTextTestResult, self).addError(test, err)
+        self.showAll = True
+        col = '\033[91m'
+        end = '\033[0m'
+        if self.showAll:
+            spacing = " "*(70-len(self.getDescription(test)))
+            to_write = "{}{}ERROR{}".format(spacing,col,end)
+            to_write += " [{}ms]".format(int(1000.0*(time.time()-self.t0)))
+            self.stream.writeln(to_write)
+        self.t0 = time.time()
+
+def main(args):
+    """
+    Finds all the tests modules in test/, and runs them.
+    """
+    test_dir = Utils.metis_base() + "/test/"
+    test_patt = args.pattern
+    tests = unittest.TestLoader().discover(test_dir, test_patt)
+    timingresultclass = TimingTextTestResult
+    test_runner = unittest.TextTestRunner(verbosity = int(args.verbosity), resultclass=timingresultclass)
+    test_runner.run(tests)
+
+if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-v", "--verbosity", help="verbosity level (1 or 2)", default=2)
+    parser.add_argument("-p", "--pattern", help="test file globber enclosed in quotes (e.g., *Log*py)", default="*.py")
+    parser.add_argument("-f", "--fast", help="skip longer unittests (condor, gfalcopy, etc)", action="store_true")
+
+    args = parser.parse_args()
+
+    if args.fast:
+        os.environ["FAST"] = "1"
+    main(args)

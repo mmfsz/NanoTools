@@ -1,0 +1,117 @@
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
+<script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.1.2/dist/js/tabulator.min.js"></script>
+<!-- <script src="http://tabulator.info/js/sparkline.js"></script> -->
+<!-- <link href="https://unpkg.com/tabulator-tables@4.1.2/dist/css/tabulator.min.css" rel="stylesheet"> -->
+<link href="https://unpkg.com/tabulator-tables@4.1.2/dist/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet">
+<!-- <link href="https://unpkg.com/tabulator-tables@4.1.2/dist/css/bootstrap/tabulator_bootstrap.min.css" rel="stylesheet"> -->
+<!-- <link href="https://unpkg.com/tabulator-tables@4.1.2/dist/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet"> -->
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="chirpdata.js"></script>
+
+<style>
+body {
+    font-family: Sans-Serif;
+    font-size: 80%;
+}
+.tabulator {
+    font-size: inherit;
+}
+.tabulator-row {
+    min-height: 12px;
+}
+.tabulator-row .tabulator-cell {
+    padding: 3px;
+}
+.tabulator .tabulator-cell[tabulator-field="taskname"] {
+    font-size: 60%;
+    padding: 7px;
+}
+.tabulator .tabulator-cell[tabulator-field="tag"] {
+    font-size: 60%;
+    padding: 7px;
+}
+[data-min]:first-child {
+    border: 0.1em solid gray;
+    top:4px !important;
+    bottom:4px !important;
+    left:3px !important;
+    right:3px !important;
+}
+</style>
+<script>
+//trigger AJAX load on "Load Data via AJAX" button click
+
+var table;
+$(function(){
+
+    //Build Tabulator
+    table = new Tabulator("#main-table", {
+        data:tableData,
+        // height:"311px",
+        layout:"fitColumns",
+        // tooltips:true,
+        // tooltipGenerationMode:"hover", //regenerate tooltip as users mouse enters the cell;
+        responsiveLayout:"collapse",
+        // placeholder:"No Data Set",
+
+        columns:[
+        {title:"id", field:"condorid", sorter:"number", headerFilter:true, bottomCalc:"count"},
+        {title:"tag", field:"tag",sorter:"string", headerFilter:true},
+        {title:"task", field:"taskname",sorter:"string", headerFilter:true,headerTooltip:true},
+        {title:"index", field:"jobnum",sorter:"number"},
+        {title:"retries", field:"metis_retries",sorter:"number"},
+        {title:"site", field:"site", sorter:"string", headerFilter:true},
+        // {title:"status", field:"ChirpMetisStatus", sorter:"string", headerFilter:true},
+        {title:"status", field:"ChirpMetisStatus", sorter:"string", headerFilter:true},
+        {title:"lastupdate", field:"ChirpCMSSWLastUpdate", formatter:"datetimediff", formatterParams:{humanize:true}, bottomCalc:"count"},
+        {title:"elapsed", field:"ChirpCMSSWElapsed", formatter:"datetimediff", formatterParams:{humanize:true}},
+        {title:"currevents", field:"ChirpCMSSWEvents", bottomCalc:"sum"},
+        {title:"totevents", field:"ChirpMetisExpectedNevents", bottomCalc:"sum"},
+        {title:"rate", field:"ChirpCMSSWEventRate", bottomCalc:"avg"},
+        {title:"readGB", field:"ChirpCMSSWReadGB"},
+        // {title:"readMBps", field:"ChirpCMSSWReadMBps"},
+        {title:"readMBps", field:"ChirpCMSSWReadMBps",
+            // tooltip:function(cell) { return cell.getData().readtimepct; },
+            // tooltips:function(cell) { return cell.getData().readtimepct; },
+            // tooltip:function(cell) { 
+            //     return cell.getData().ChirpCMSSWReadTimePctStr; 
+            // },
+            // tooltips:function(cell) { return "test"; },
+        },
+        {title:"writeGB", field:"ChirpCMSSWWriteGB"},
+        {title:"ETA", field:"ChirpCMSSWETA", formatter:"datetimediff", formatterParams:{humanize:true}},
+        {title:"progress", field:"ChirpCMSSWProgress", formatter:"progress", formatterParams:{ color:["red", "orange", "#00dd00"], legend:function(v) {return v+"%";}, }, sorter:"number"}, 
+        {title:"readtimepct", field:"ChirpCMSSWReadTimePctStr",visible:false},
+        // {title:"readtimepct", field:"ChirpCMSSWReadTimePctStr"},
+        ],
+
+    });
+    $("#main-table").tooltip();
+
+    // table.setData(tableData);
+    // table.setGroupBy(["tag","task"]);
+
+});
+
+function groupBy(k) {
+    // table.setGroupBy(["tag","task"]);
+    table.setGroupBy(k);
+}
+</script>
+</head>
+<body>
+<a href="javascript:groupBy('tag');">group by tag</a> | 
+<a href="javascript:groupBy('taskname');">group by task</a> | 
+<a href="javascript:groupBy('site');">group by site</a> | 
+<a href="javascript:groupBy('');">ungroup</a>
+<div id="main-table" class="table-sm"></div>
+</body>
+</html>

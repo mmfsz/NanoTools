@@ -348,3 +348,75 @@ bool ttH::isTriggerSafeNoIso(int idx) {
     }
     return true;
 }
+
+bool WWZ::electronID(int idx, WWZ::IDLevel id_level, int year) {
+    // Year-specific checks
+    switch (year) {
+    case (2016):
+        return WWZ::electron2016ID(idx, id_level);
+        break;
+    case (2017):
+        return WWZ::electron2017ID(idx, id_level);
+        break;
+    case (2018):
+        return WWZ::electron2018ID(idx, id_level);
+        break;
+    case (2022):
+        return WWZ::electron2022ID(idx, id_level);
+        break;
+    default:
+        throw std::runtime_error("ElectronSelections.cc: ERROR - invalid year");
+        return false;
+        break;
+    }
+}
+
+bool WWZ::electron2016ID(int idx, WWZ::IDLevel id_level) {
+    if (not (fabs(Electron_eta().at(idx) + Electron_deltaEtaSC().at(idx)) < 2.5)) return false;
+    if (not (Electron_pt().at(idx)               > 10.   )) return false;
+    if (not (fabs(Electron_dxy().at(idx))        <  0.05 )) return false;
+    if (not (fabs(Electron_dz().at(idx))         <  0.1  )) return false;
+    if (not (fabs(Electron_sip3d().at(idx))      <  8    )) return false;
+    if (not (Electron_miniPFRelIso_all().at(idx) <  0.4  )) return false;
+    return true;
+}
+
+bool WWZ::electron2017ID(int idx, WWZ::IDLevel id_level) {
+    if (not (fabs(Electron_eta().at(idx) + Electron_deltaEtaSC().at(idx)) < 2.5)) return false;
+    if (not (Electron_pt().at(idx)               > 10.   )) return false;
+    if (not (fabs(Electron_dxy().at(idx))        <  0.05 )) return false;
+    if (not (fabs(Electron_dz().at(idx))         <  0.1  )) return false;
+    if (not (fabs(Electron_sip3d().at(idx))      <  8    )) return false;
+    if (not (Electron_miniPFRelIso_all().at(idx) <  0.4  )) return false;
+    return true;
+}
+
+bool WWZ::electron2018ID(int idx, WWZ::IDLevel id_level) {
+    if (not (fabs(Electron_eta().at(idx) + Electron_deltaEtaSC().at(idx)) < 2.5)) return false;
+    if (not (Electron_pt().at(idx)               > 10.   )) return false;
+    if (not (fabs(Electron_dxy().at(idx))        <  0.05 )) return false;
+    if (not (fabs(Electron_dz().at(idx))         <  0.1  )) return false;
+    if (not (fabs(Electron_sip3d().at(idx))      <  8    )) return false;
+    if (not (Electron_miniPFRelIso_all().at(idx) <  0.4  )) return false;
+    return true;
+}
+
+bool WWZ::electron2022ID(int idx, WWZ::IDLevel id_level) {
+    float abseta = fabs(Electron_eta().at(idx) + Electron_deltaEtaSC().at(idx));
+    if (not (abseta                              < 2.5   )) return false;
+    if (not (abseta < 1.566 and abseta > 1.444           )) return false;
+    if (not (Electron_pt().at(idx)               > 10.   )) return false;
+    if (not (fabs(Electron_dxy().at(idx))        <  0.05 )) return false;
+    if (not (fabs(Electron_dz().at(idx))         <  0.1  )) return false;
+    if (not (Electron_mvaNoIso_WP90().at(idx)            )) return false;
+    if (id_level == WWZ::IDveto)
+    {
+        if (not (Electron_pfRelIso03_all().at(idx)   <  0.40 )) return false;
+    }
+    else if (id_level == WWZ::IDtight)
+    {
+        if (not (Electron_pfRelIso03_all().at(idx)   <  0.15 )) return false;
+    }
+    return true;
+}
+

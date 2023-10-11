@@ -1,0 +1,128 @@
+#!/usr/bin/env python
+
+import json
+import argparse
+import datetime
+import os
+from fnmatch import fnmatch
+
+from metis.Utils import hsv_to_rgb, from_timestamp, timedelta_to_human
+
+"""
+Multiple scripts using metis to submit jobs will write to the same
+summary JSON files, appending new tasks to prevent any kind of 
+clobbering. This can become a pain when looking at the dashboard
+(or using msummary) which will show old/irrelevant tasks. 
+
+This script lets you clean up the jsons. Ex.,
+$ mclean MINIAODSIM
+will tell you what datasets in the jsons match your pattern MINIAODSIM
+and tell you to re-run the command with `--rm` tacked on if you want
+to get rid of those.
+
+If you like to see the njob vs time plot on the dashboard, you'll eventually
+want to trim the timestamps so you're not staring at a plot going back months
+with no ability to see trends in the past few days. 
+
+You can do
+$ mclean nomatch -d 15
+which will prompt you to delete *no* tasks (unless something matches nomatch),
+but that's ok. We want to keep everything, but only retain the last 15
+days of timestamps (-d 15) for current tasks. Then similarly add `--rm`
+if you're sure you want to modify the jsons.
+"""
+
+
+def get_summaries(web_summary, total_summary="summary.json"):
+    web_summary = os.path.join(os.getenv("METIS_BASE"),web_summary)
+    if os.path.exists(web_summary):
+        with open(web_summary, "r") as fhin:
+            data = json.load(fhin)
+    else:
+        raise Exception("{0} file doesn't exist!".format(web_summary))
+
+    total_summary = os.path.join(os.getenv("METIS_BASE"),total_summary)
+    data_raw = {}
+    if os.path.exists(total_summary):
+        with open(total_summary, "r") as fhin:
+            data_raw = json.load(fhin)
+
+    return {"web": (web_summary,data), "raw": (total_summary,data_raw)}
+
+def main(args):
+
+    web_summary = args.summary
+    pattern = "*{0}*".format(args.pattern)
+    tag = args.tag
+    do_rm = args.rm
+    drop_before_days = int(args.days)
+
+    summaries = get_summaries(web_summary)
+    webpath, data = summaries["web"]
+    totalpath, data_raw = summaries["raw"]
+
+    matching_dsnames = []
+    for itask,task in enumerate(data["tasks"]):
+        dsname = task["general"]["dataset"]
+        if tag and tag != task["general"]["tag"]: continue
+        if not fnmatch(dsname, pattern): continue
+        matching_dsnames.append(dsname)
+
+
+    if not do_rm:
+        print "\033[93mFound {0} matching tasks\033[0m".format(len(matching_dsnames))
+        for dsname in sorted(matching_dsnames):
+            print "\t{0}".format(dsname)
+        if len(matching_dsnames):
+            print "\033[93mTo prune them from monitoring only, re-run same command with \033[38;2;250;50;50m--rm\033[0m".format(len(matching_dsnames))
+            if drop_before_days > 0:
+                print "\033[93mAdditionally, timestamps will be dropped if before {0} days ago\033[0m".format(drop_before_days)
+    else:
+
+        minimum_timestamp = int((datetime.datetime.now() - datetime.timedelta(days=drop_before_days)).strftime("%s"))
+
+        ndropped = 0
+        new_tasks = []
+        for itask,task in enumerate(data["tasks"]):
+            dsname = task["general"]["dataset"]
+            if tag and tag != task["general"]["tag"]: continue
+            if dsname in matching_dsnames:
+                ndropped += 1
+                continue
+
+            if drop_before_days > 0:
+                history = task["history"]
+                timestamps = history.get("timestamps", [])
+                # Find the index of first element in timestamps list which is newer than
+                # the minimum timestamp, then use it to trim all values in the history dictionary
+                try:
+                    minimum_idx = next(its for its, ts in enumerate(timestamps) if ts > minimum_timestamp)
+                except:
+                    minimum_idx = 0
+                for key in history:
+                    task["history"][key] = history[key][minimum_idx:]
+
+            new_tasks.append(task)
+
+        # Form the new data and data_raw that we will force back into the jsons
+        data["tasks"] = new_tasks
+        data_raw = { k:v for k,v in data_raw.items() if k not in matching_dsnames }
+
+        with open(webpath,"w") as fhout:
+            json.dump(data, fhout)
+        with open(totalpath,"w") as fhout:
+            json.dump(data_raw, fhout)
+
+        print "\033[38;2;250;50;50mRemoved {0} matching tasks\033[0m".format(ndropped)
+
+if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("pattern", help="dataset matching pattern, e.g., SingleElectron. Wildcards assumed on both sides.")
+    parser.add_argument("-i", "--summary", help="web summary JSON file", default="web_summary.json")
+    parser.add_argument("-r", "--rm", help="do removal", action="store_true")
+    parser.add_argument("-d", "--days", help="remove timestamp data before this many days", default=-1)
+    parser.add_argument("-t", "--tag", help="consider pattern for a particular tag", default="", type=str)
+    args = parser.parse_args()
+    main(args)
+

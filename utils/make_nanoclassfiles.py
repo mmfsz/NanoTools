@@ -67,6 +67,7 @@ void Nano::ParseYear(TTree* tree) {{
     if (full_file_path.Contains("RunIIAutumn18NanoAOD")) year_ = 2018;
     else if (full_file_path.Contains("RunIIFall17NanoAOD")) year_ = 2017;
     else if (full_file_path.Contains("RunIISummer16NanoAOD")) year_ = 2016;
+    else if (full_file_path.Contains("Run3Summer22")) year_ = 2022;
     // Ultra-legacy
     else if (full_file_path.Contains("RunIISummer20UL18")) year_ = 2018;
     else if (full_file_path.Contains("RunIISummer20UL17")) year_ = 2017;
@@ -79,6 +80,7 @@ void Nano::ParseYear(TTree* tree) {{
     else if (full_file_path.Contains("Run2018")) year_ = 2018;
     else if (full_file_path.Contains("Run2017")) year_ = 2017;
     else if (full_file_path.Contains("Run2016")) year_ = 2016;
+    else if (full_file_path.Contains("Run2022")) year_ = 2022;
     else throw std::runtime_error("Nano::parseYear():: ERROR - Failed to recognize which year this NanoAOD is !\\nPlease make sure the path has one of the following keywords:\\n  2016: 'Run2016' or 'RunIISummer16NanoAOD' or 'RunIISummer20UL16'\\n  2017: 'Run2017' or 'RunIIFall17NanoAOD' or 'RunIISummer20UL17'\\n  2018: 'Run2018' or 'RunIIAutumn18NanoAOD' or 'RunIISummer20UL18'\\nOR, use Nano::SetYear(int year) before Nano::Init()");
 }}
 
@@ -433,7 +435,7 @@ if __name__ == "__main__":
             bi["desc"] = "from {}_pt,eta,phi,mass".format(prefix)
             for_p4s.append(bi)
 
-    vals = d_branch_info.values() + for_p4s
+    vals = list(d_branch_info.values()) + for_p4s
     binfo = sorted(vals, key=lambda x: x["name"])
 
     types = set(b["typename"] for b in binfo if "U" not in b["typename"])  # drop things like Uints
@@ -442,10 +444,12 @@ if __name__ == "__main__":
             "vector<int>": "VI",
             "vector<LorentzVector>": "VLV",
             "vector<bool>": "VB",
+            "vector<Char_t>": "VC",
             "float": "F",
             "int": "I",
             "LorentzVector": "LV",
             "bool": "B",
+            "Char_t": "C",
             }
 
     def extra_h_tas():

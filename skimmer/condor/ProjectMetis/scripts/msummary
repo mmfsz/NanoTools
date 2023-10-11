@@ -1,0 +1,196 @@
+#!/usr/bin/env python
+
+import json
+import argparse
+import datetime
+import os
+from fnmatch import fnmatch
+from metis.Utils import hsv_to_rgb, from_timestamp, timedelta_to_human
+import metis.LogParser as logparser
+
+
+def is_open_dataset(d_general):
+    return d_general["open_dataset"]
+
+def get_progress(d_general, jobs=True):
+    which = "njobs" if jobs else "nevents"
+    done = d_general.get("{0}_done".format(which), 0)
+    total = d_general.get("{0}_total".format(which), 0)
+    if not total:
+        frac = 0.
+    else:
+        frac = 1.0 * done / total
+    return done, total, frac
+
+def progress_bar(fraction, width=40, do_color=True, do_unicode=True,override_color=[]):
+    fraction = min(max(fraction, 0.), 1.)
+    nfilled = int(fraction * width)
+    color_open, color_close = "", ""
+    filled = "#"*nfilled
+    unfilled = "-"*(width-nfilled)
+    if do_unicode:
+        filled = unichr(0x2588).encode('utf-8') * nfilled
+        unfilled = unichr(0x2594+24).encode('utf-8')*(width-nfilled)
+        # unfilled = unichr(0x2594).encode('utf-8')*(width-nfilled)
+        # nleftover_eighths = int((fraction*width-nfilled)*8)
+        # if nleftover_eighths > 0:
+        #     if nleftover_eighths == 4: nleftover_eighths += 1
+        #     filled = filled[:-1]+unichr(0x2590-nleftover_eighths).encode('utf-8')
+
+    if do_color:
+        if override_color:
+            rgb = override_color
+        else:
+            rgb = hsv_to_rgb(1.0 / 3.6 * fraction, 0.9, 0.9)
+        color_open = "\033[38;2;%i;%i;%im" % tuple(rgb)
+        color_close = "\033[0m"
+    return "|{0}{1}{2}{3}|".format(color_open,filled, color_close,unfilled)
+
+def get_summaries(web_summary, total_summary="summary.json"):
+    check_path = os.path.join(os.getenv("METIS_BASE"),web_summary)
+    if os.path.exists(check_path):
+        web_summary = check_path
+    if os.path.exists(web_summary):
+        with open(web_summary, "r") as fhin:
+            data = json.load(fhin)
+    else:
+        raise Exception("{0} file doesn't exist!".format(web_summary))
+
+    check_path = os.path.join(os.getenv("METIS_BASE"),total_summary)
+    data_raw = {}
+    if os.path.exists(check_path):
+        total_summary = check_path
+    if os.path.exists(total_summary):
+        with open(total_summary, "r") as fhin:
+            data_raw = json.load(fhin)
+
+    return data, data_raw
+
+def main(args):
+
+    web_summary = args.summary
+    which_sort = args.sort
+    reverse_sort = args.reverse
+    nlines = int(args.nlines)
+    verbosity = int(args.verbosity)
+    do_color = not args.nocolor
+    do_unicode = not args.nounicode
+    pattern = str(args.pattern)
+    width = int(args.width)
+    show_total = args.total
+    if pattern:
+        pattern = "*{0}*".format(args.pattern)
+
+
+    data, data_raw = get_summaries(web_summary)
+
+
+
+    if which_sort == "progress":
+        data["tasks"] = sorted(data["tasks"], key=lambda x: get_progress(x["general"])[-1], reverse=reverse_sort)
+    elif which_sort == "name":
+        data["tasks"] = sorted(data["tasks"], key=lambda x: x["general"]["dataset"], reverse=reverse_sort)
+    elif which_sort == "era":
+        data["tasks"] = sorted(data["tasks"], key=lambda x: x["general"]["dataset"].split("/")[2], reverse=reverse_sort)
+
+    dt = from_timestamp(data["last_updated"])
+    if do_color and not do_unicode:
+        print "\033[93mSummary as of {0}\033[0m".format(dt.strftime("%a %b %d %T %Y"))
+    else:
+        print "Summary as of {0}".format(dt.strftime("%a %b %d %T %Y"))
+
+    tasks = data["tasks"]
+    if pattern:
+        tasks = filter(lambda t: fnmatch(t["general"]["dataset"], pattern), tasks)
+
+
+    dswidth = width if width > 0 else max(len(x["general"]["dataset"]) for x in tasks)
+    for d_ds in tasks:
+        d_general = d_ds["general"]
+        tag = d_general["tag"]
+        d_bad = d_ds["bad"]
+        dataset = d_general["dataset"]
+
+        done, total, fraction = get_progress(d_general)
+        is_open = is_open_dataset(d_general)
+        if is_open:
+            progress =  progress_bar(fraction, override_color=[255,170,59], do_color=do_color, do_unicode=do_unicode)
+        else:
+            progress =  progress_bar(fraction, do_color=do_color, do_unicode=do_unicode)
+
+        dataset_short = dataset
+        if len(dataset) > dswidth:
+            dataset_short = dataset[:dswidth-3]+"..."
+        ending = ""
+        if done == total:
+            ending = " [DONE]"
+        tag_short = "[{}]".format(tag[:15])
+        print ("{:<17s} {} {:3.0f}%% [{:4d}/{:4d}] {:<%is}{}" % dswidth).format(tag_short, progress, 100.0*fraction, done, total, dataset_short, ending)
+
+        if verbosity > 0:
+            for iout,info in d_bad["jobs_not_done"].items():
+                nretries = info["retries"]
+                last_log = info["last_log"].replace(".out",".err")
+                red_open, color_close = "", ""
+                duration_str = ""
+                if do_color:
+                    red_open = "\033[38;2;250;50;50m"
+                    color_close = "\033[0m"
+                duration_str = ""
+                if nretries > 5 and data_raw:
+                    first_job = data_raw[dataset]["jobs"][str(iout)]["condor_jobs"][0]
+                    first_log = first_job["logfile_out"]
+                    try:
+                        arginfo = logparser.log_parser(first_log)["args"]
+                        if arginfo:
+                            first_timestamp = arginfo["time"]
+                            time_then = from_timestamp(first_timestamp)
+                            time_now = datetime.datetime.now()
+                            duration_str = " (over {})".format(timedelta_to_human(time_now - time_then))
+                    except:
+                        pass
+
+                print "\toutput {}: {}{} retries{}{}, {}".format(iout, red_open, nretries, duration_str, color_close, last_log)
+                if verbosity > 1:
+                    if os.path.exists(last_log):
+                        with open(last_log,"r") as fhlog:
+                            print "\t\t __________ LAST {} LINES >>>>>> __________".format(nlines)
+                            for line in fhlog.readlines()[-nlines:]:
+                                print "\t\t{}".format(line.replace("\n",""))
+                            print "\t\t __________ LAST {} LINES <<<<<< __________".format(nlines)
+
+                if verbosity > 2:
+                    if os.path.exists(info["last_log"]):
+                        with open(info["last_log"]) as fhlog:
+                            print "\t\t __________ FIRST {} LINES >>>>>> __________".format(nlines)
+                            for line in fhlog.readlines()[:nlines]:
+                                print "\t\t{}".format(line.replace("\n",""))
+                            print "\t\t __________ FIRST {} LINES <<<<<< __________".format(nlines)
+
+    if show_total:
+        done,total,fraction = map(sum,zip(*[get_progress(t["general"]) for t in tasks]))
+        fraction = 1.0*done/total
+        progress =  progress_bar(fraction, do_color=do_color, do_unicode=do_unicode)
+        print ("{0:<%is} {1} {2:3.0f}%% [{3}/{4}]{5}" % dswidth).format(
+                "-"*15+" TOTAL "+"-"*15,
+                progress, 100.0*fraction, done, total, ""
+                )
+
+
+if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i", "--summary", help="web summary JSON file", default="web_summary.json")
+    parser.add_argument("-c", "--nocolor", help="disable colors", action="store_true")
+    parser.add_argument("-u", "--nounicode", help="disable unicode", action="store_true")
+    parser.add_argument("-s", "--sort", help="sort type: 'progress', 'name', or 'era'", default="progress")
+    parser.add_argument("-r", "--reverse", help="reverse sort", action="store_true")
+    parser.add_argument("-v", "--verbosity", help="verbosity (default is 1)", default="1")
+    parser.add_argument("-n", "--nlines", help="number of logfile lines for verbose mode", default="15")
+    parser.add_argument("-p", "--pattern", help="dataset matching pattern, e.g., SingleElectron. Wildcards assumed on both sides.", default="")
+    parser.add_argument("-w", "--width", help="number of characters for dataset name width (45 by default; -1 to fit all dataset names)", default=45, type=int)
+    parser.add_argument("-t", "--total", help="show total progress", action="store_true")
+
+    args = parser.parse_args()
+
+    main(args)

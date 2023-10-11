@@ -1,0 +1,216 @@
+#!/usr/bin/env python
+
+import re
+import os
+import glob
+import argparse
+
+from metis.Utils import metis_base
+
+header = """
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Metis Docs</title>
+        <style>
+            body {
+                padding: 0px;
+                margin: 0px;
+                /* font-size: 90%; */
+                font-family: Sans-serif;
+                /* font-family: Open Sans; */
+            }
+            #container {
+                padding: 10px 10px 10px 10px;
+                /* width: 72%; */
+                /* float: right; */
+            }
+            #navcolumn {
+                padding: 10px 0px 10px 10px;
+                margin: 10px 0px 10px 10px;
+                width: 23%;
+                float: left;
+                border: 1px solid #999;
+            }
+            .classcontainer {
+                padding: 10px 10px 10px 10px;
+                border: 1px solid #999;
+            }
+            .thin { font-weight: 500; }
+            a:link, a:visited {
+                color: inherit;
+                text-decoration: underline;
+            }
+            .light { font-weight: 500; font-style:italic; color: #999;}
+            .thick { font-weight: 900; }
+            .bold { font-weight:bold; }
+            .class { font-weight:bold; color: #339; }
+            .namedparams { font-style:italic; }
+            .code { font-family: monospace; }
+            .classinfo { margin-left: 30px; }
+            .kwarg { margin-left: 30px; }
+            .docstr { 
+                /* display: inline-block; */
+                padding: 5px 5px 5px 5px;
+                margin-left: 30px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                background: #DDD; 
+            }
+        </style>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+        <!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
+    </head>
+    <body>
+        <!-- <div id="navcolumn"> test <br> test<br> test </div> -->
+        <div id="container">
+
+"""
+
+footer = """
+
+        </div>
+    </body>
+</html>
+"""
+
+def parse_init(s):
+    params = s.split("__init__(")[-1].split(")")[0].split(",")
+    params = map(lambda x: x.strip(), params)
+    named = list(set(params) - set(["self","**kwargs"]))
+    return named
+
+def parse_class(s):
+    s = s.replace("class","",1).replace(")","").replace(":","").strip()
+    classname, parentclass = s.split("(")
+    return classname, parentclass
+
+def parse_kwarg(s):
+    s = s.strip().split("kwargs.get(")[-1]
+    name, default = s.split(",",1)
+    name = name.replace('"',"")
+    default = default.rsplit(")",1)[0].strip()
+    return name, default
+
+def get_kwarg_doc(s):
+    name, doc = s.split(":kwarg",1)[1].split(":",1)
+    # match `blah` and turn into <code>blah</code> (inline code)
+    # but do not match ```blah```, since we'll do that later
+    # for multiline code
+    doc = re.sub("`([^`]+)`([^`])","<code>\\1</code>\\2",doc)
+    return name.strip(), doc.strip()
+
+def get_inheritance(info, classname):
+    inheritance = []
+    parent = None
+    if classname in info:
+        parent = info[classname]["parent"]
+    if parent in ["object",None]: 
+        return []
+    else:
+        inheritance.append(parent)
+    inheritance.extend(get_inheritance(info,parent))
+    return inheritance
+
+def get_documentation_dict(include_inherited_kwargs = False):
+    d_info = {}
+    # fnames = [
+    #         "metis/File.py",
+    #         "metis/Sample.py",
+    #         "metis/Task.py",
+    #         "metis/CMSSWTask.py",
+    #         "metis/CondorTask.py",
+    #         "metis/UserTarball.py",
+    #         ]
+    fnames = glob.glob(metis_base()+"/metis/*.py")
+    for fname in fnames:
+        if any(x in fname for x in ["Utils.py"]): continue
+        classname = None
+        parentclass = None
+        with open(fname,"r") as fhin:
+            # map from kwarg name to doc
+            d_docs = {}
+            for iline,line in enumerate(fhin):
+                if "super(" in line: continue
+                if line.strip().startswith("#"): continue
+
+                if classname and classname not in d_info: d_info[classname] = {
+                        "parent": parentclass,
+                        "kwargs": [],
+                        }
+
+                if line.startswith("class"):
+                    classname, parentclass = parse_class(line)
+                if "__init__" in line:
+                    named_params = parse_init(line)
+                    d_info[classname]["named_params"] = named_params
+                if line.strip().startswith(":kwarg"):
+                    name, doc = get_kwarg_doc(line)
+                    d_docs[name] = doc
+                if "kwargs.get" in line:
+                    name, default = parse_kwarg(line)
+                    doc = d_docs.get(name,"")
+                    d_info[classname]["kwargs"].append([classname,name,default,doc,iline])
+
+
+    for classname in d_info:
+        parents = get_inheritance(d_info, classname)
+        d_info[classname]["parents"] = parents
+        if include_inherited_kwargs:
+            for parent in parents:
+                d_info[classname]["kwargs"].extend(d_info[parent]["kwargs"])
+
+    return d_info
+
+def get_documentation_str(d_info):
+    buff = ""
+    for cname in sorted(d_info.keys()):
+        buff += "<div id='{0}' class='classcontainer'>".format(cname)
+        buff += "  <span class='thick'>class</span>\n"
+        buff += "  <a href='#{0}'><span class='class'>{0}</span></a>(".format(cname)
+        named = d_info[cname].get("named_params",[])
+        if named:
+            buff += ", ".join(map(lambda x: "<span class='namedparams'>{0}</span>".format(x), named))
+        buff += ")<br>\n"
+        buff += "  <div class='classinfo'>\n"
+        parents = d_info[cname]["parents"]
+        if parents:
+            buff += "    inherits from: "
+            buff += " &rarr; ".join(map(
+                lambda x: "<a href='#{0}'><span class='class'>{0}</span></a>".format(x),
+                parents))
+            buff += "<br>\n"
+        kwargs = d_info[cname]["kwargs"]
+        if kwargs:
+            buff += "      kwargs:<br>\n"
+            for cls,kw,default,docstr,lineno in kwargs:
+                buff += "      <div class='kwarg'>"
+                buff += " <span class='light'>{0}</span> &nbsp; {1}  (default: <span class='code'>{2}</span>)<br> ".format(cls,kw,default)
+                if docstr:
+                    buff += " <div class='docstr'>{0}</div>".format(docstr)
+                buff += " </div>\n"
+        buff += "  </div>\n" # end classinfo
+        buff += "</div></br>\n" # end class div
+
+    return header+buff+footer
+
+def make_documentation(args):
+    d_info = get_documentation_dict(include_inherited_kwargs=args.showinherited)
+    doc = get_documentation_str(d_info)
+
+    webfile = os.path.expanduser("~/public_html/doc.html")
+    relpath = webfile.split("public_html/")[1]
+    url = "http://{0}/~{1}/{2}".format(os.uname()[1],os.getenv("USER"),relpath)
+    print "Copied documentation to {0}".format(url)
+
+    with open(webfile,"w") as fhout:
+        fhout.write(doc)
+
+if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i", "--showinherited", help="show inherited arguments", action="store_true")
+
+    args = parser.parse_args()
+
+    make_documentation(args)

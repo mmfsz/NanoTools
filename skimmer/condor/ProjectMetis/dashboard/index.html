@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Metis Dashboard</title>
+        <link rel="icon" type="image/png" sizes="96x96" href="images/workflowtransparent.png">
+        <link defer rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link defer rel="stylesheet" href="style.css" />
+
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script defer type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+        <!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
+        <script defer src="main.js"></script>
+
+    </head>
+    <body class="has-dark">
+
+
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <img class="d-inline-block align-top" height="30px" style="" src="http://uaf-8.t2.ucsd.edu/~namin/dump/metis/images/workflowtransparent.png"></img>
+            &nbsp;&nbsp;
+            <a class="navbar-brand" href="https://github.com/aminnj/ProjectMetis/">ProjectMetis</a>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-summary" href="#" onclick="toggleSummary();">Summary<span id="nav-summary-ntasks"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-chart" href="#" onclick="toggleChart();">Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-expand" href="#" onclick="toggleExpand();">Expand</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-admin" href="#" onclick="toggleAdmin();">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-dark" href="#" onclick="toggleDarkMode();">Dark</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSortLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Sort
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownSortLink">
+                        <a class="dropdown-item" onclick="toggleSort('az');" href="#">a-z</a>
+                        <a class="dropdown-item" onclick="toggleSort('pct');" href="#">%</a>
+                        <a class="dropdown-item" onclick="toggleSort('tag');" href="#">tag</a>
+                        <a class="dropdown-item" onclick="toggleSort('rev');" href="#">reverse</a>
+                        <a class="dropdown-item" onclick="toggleSort('era');" href="#">era</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownColorLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Colors
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownColorLink">
+                        <a class="dropdown-item" onclick="fillDOM(alldata,0);" href="#">red-green</a>
+                        <a class="dropdown-item" onclick="fillDOM(alldata,1);" href="#">blue</a>
+                        <a class="dropdown-item" onclick="fillDOM(alldata,2);" href="#">orange</a>
+                    </div>
+                </li>
+                <li class="nav-item text-warning">
+                    <a class="nav-link text-warning" onclick="showAllTasks();" id="nav-taskbadgefilter" style="display:none;" href="#"></a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <small><a href="#" id="last_updated" class="nav-link" onclick="loadJSON();"></a></small>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="chart" class="container-fluid" style="display:none;"> </div>
+        <div id="summary" class="container-fluid" style="display:none;"> </div>
+
+        <div id="tasks-container" class="container-fluid">
+        </div>
+
+    </body>
+</html>
+
