@@ -12,6 +12,6 @@ git rev-parse HEAD >> gitversion.txt
 git log >> gitversion.txt
 git diff >> gitversion.txt
 
-tar -chJf $DIR/package.tar.xz sklimmer gitversion.txt
+tar -chJf $DIR/package.tar.xz skim gitversion.txt
 
 rm gitversion.txt

@@ -36,7 +36,7 @@ if __name__ == "__main__":
     samples = samples.samples_to_submit
 
     # submission tag
-    tag = "sklim_v1"
+    tag = "skim_v1"
 
     # Task summary for printing out msummary
     task_summary = {}
@@ -69,7 +69,7 @@ if __name__ == "__main__":
                     scram_arch = "slc7_amd64_gcc700",
                     input_executable = "{}/condor_executable_metis.sh".format(condorpath), # your condor executable here
                     tarfile = "{}/package.tar.xz".format(condorpath), # your tarfile with assorted goodies here
-                    special_dir = "sklim/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
+                    special_dir = "skim/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
                     min_completion_fraction = 0.50 if skip_tail else 1.0,
                     # max_jobs = 1,
             )
@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
         # Parse the summary and make a summary.txt that will be used to pretty status of the jobs
         os.system("rm web_summary.json")
-        webdir="~/public_html/sklimmer"
+        webdir="~/public_html/skim"
         StatsParser(data=task_summary, webdir=webdir).do()
         os.system("chmod -R 755 {}".format(webdir))
         os.system("msummary -r -i {}/web_summary.json".format(webdir))

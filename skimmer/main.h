@@ -1,5 +1,5 @@
-#ifndef MAINSKLIMMER_H
-#define MAINSKLIMMER_H
+#ifndef MAINSKIMMER_H
+#define MAINSKIMMER_H
 
 #include "Base.h"
 #include "Config.h"

@@ -1,6 +1,6 @@
 # Simple makefile
 
-EXE=sklimmer
+EXE=skim
 
 SOURCES=$(wildcard *.cc) $(wildcard ../rapido/src/*.cc) ../NanoCORE/Nano.cc  ../NanoCORE/ElectronSelections.cc ../NanoCORE/MuonSelections.cc ../NanoCORE/Config.cc ../NanoCORE/IsolationTools.cc
 OBJECTS=$(SOURCES:.cc=.o)
@@ -30,4 +30,7 @@ $(EXE): $(OBJECTS)
 	$(CC) $(CFLAGS) $(EXTRACFLAGS) $< -c -o $@
 
 clean:
+	rm -f main.o $(EXE)
+
+cleanall:
 	rm -f $(OBJECTS) $(EXE)

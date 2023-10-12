@@ -137,15 +137,15 @@ EXTRAARGS="$(getjobad metis_extraargs)"
 # else
 #     INPUTFILENAMES=${INPUTFILENAMES/\/store/root:\/\/cmsxrootd.fnal.gov\/\/store}
 # fi
-echo Executing ./sklimmer $INPUTFILENAMES -n ${OUTPUTNAME} ${EXTRAARGS}
-./sklimmer $INPUTFILENAMES -n ${OUTPUTNAME} ${EXTRAARGS}
+echo Executing ./skim $INPUTFILENAMES -n ${OUTPUTNAME} ${EXTRAARGS}
+./skim $INPUTFILENAMES -n ${OUTPUTNAME} ${EXTRAARGS}
 RET=$?
 
 if [ ${RET} != 0 ]; then
     if [[ "${EXTRAARGS}" = *"ignorebadfiles"* ]]; then
         echo "Ignoring exit code of ${RET}"
     else
-        echo "Removing output file because ./sklimmer returned exit code ${RET}"
+        echo "Removing output file because ./skim returned exit code ${RET}"
         rm ${OUTPUTNAME}.root
     fi
 fi
