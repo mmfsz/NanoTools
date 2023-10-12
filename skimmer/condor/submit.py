@@ -36,7 +36,7 @@ if __name__ == "__main__":
     samples = samples.testsamples
 
     # submission tag
-    tag = "sklim_v2"
+    tag = "sklim_v1"
 
     # Task summary for printing out msummary
     task_summary = {}
