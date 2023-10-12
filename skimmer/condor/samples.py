@@ -3,7 +3,7 @@ from metis.Sample import DirectorySample, DBSSample
 # Master list of all samples
 # Specify a dataset name and a short name for the output root file on nfs
 
-testsamples = [
+samples_to_submit = [
 
     # Data
     DBSSample(dataset="/Muon/Run2022G-PromptNanoAODv11_v1-v2/NANOAOD"),

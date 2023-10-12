@@ -33,7 +33,7 @@ def split_func(dsname):
 if __name__ == "__main__":
 
     # Samples
-    samples = samples.testsamples
+    samples = samples.samples_to_submit
 
     # submission tag
     tag = "sklim_v1"
