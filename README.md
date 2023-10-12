@@ -41,6 +41,7 @@ make -j;
 cd condor/ProjectMetis
 source setup.sh
 cd ../
+sh maketar.sh # create tarball to submit to condor jobs
 # Setup voms proxy (certificate)
 voms-proxy-init -hours 168 -voms cms -rfc
 # Submit jobs to condor
