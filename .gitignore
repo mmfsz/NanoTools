@@ -4,6 +4,8 @@
 *.o
 *.d
 *.so
+*.pyc
 tags
 .gitignore
 NanoCORE/Tools/jetcorr/data/Summer*
+skimmer/skim
