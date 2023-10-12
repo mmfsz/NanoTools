@@ -21,9 +21,20 @@ The newer linux version won't work.
 For future we will have to one day fix this.
 
 ```bash
+ssh uaf-10.t2.ucsd.edu
+mkdir -p workarea/skimtest
+cd workarea/skimtest
+git clone https://github.com/cmstas/NanoTools
+cd NanoTools/
+source /cvmfs/cms.cern.ch/cmsset_default.sh
+cd /cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_2_13/ ; cmsenv ; cd -
+cd NanoCORE
+make test -j12
+cd ..
 cd skimmer/
 make -j;
-./sklimmer /data/userdata/phchang/nanoaod/mc/Run3Summer22EENanoAODv11/TTto2L2Nu_TuneCP5_13p6TeV_powheg-pythia8/NANOAODSIM/126X_mcRun3_2022_realistic_postEE_v1-v1/30000/3f60166c-edbe-4a47-b455-ebad7407ca44.root
+./sklimmer -h # To print help information
+./sklimmer /ceph/cms/store/user/phchang/nanoclass/mc/RunIISummer20UL18NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/120000/87DEE912-70CF-A549-B10B-1A229B256E88.root
 ```
 
 ### Style
