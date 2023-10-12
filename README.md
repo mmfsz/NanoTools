@@ -16,9 +16,9 @@ Unit tests of `NanoCORE/` are inside `NanoCORE/Tools/unit_tests/` and can be run
 
 ### Skimmer
 
-One must long on to ```uaf-10``` for this.
-The newer linux version won't work.
-For future we will have to one day fix this.
+One must long on to ```slc7``` machines (e.g. ```uaf-1/7/8/10``` for this.
+The newer linux version won't work. (e.g. ```uaf-2/3```)
+For future we will have to one day fix this as ```slc7``` will be gone.
 
 ```bash
 ssh uaf-10.t2.ucsd.edu
