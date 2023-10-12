@@ -34,9 +34,9 @@ cd ..
 cd skimmer/
 make -j;
 ./sklimmer -h # To print help information
-# Testing one job
+# Testing one job (-d option defines where the output directory will be. below example sets it to current directory)
 ./sklimmer \
-    -d ./ \ # where the outputs will go (current directory)
+    -d ./ \
     /ceph/cms/store/user/phchang/nanoclass/mc/RunIISummer20UL18NanoAODv9/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/120000/87DEE912-70CF-A549-B10B-1A229B256E88.root
 cd condor/ProjectMetis
 source setup.sh
