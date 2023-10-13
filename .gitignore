@@ -9,3 +9,8 @@ tags
 .gitignore
 NanoCORE/Tools/jetcorr/data/Summer*
 skimmer/skim
+skimmer/condor/logger_metis.log
+skimmer/condor/package.tar.xz
+skimmer/condor/summary.json
+skimmer/condor/tasks/
+skimmer/condor/web_summary.json
