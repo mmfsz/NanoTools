@@ -404,7 +404,7 @@ bool WWZ::electron2018ID(int idx, WWZ::IDLevel id_level) {
 bool WWZ::electron2022ID(int idx, WWZ::IDLevel id_level) {
     float abseta = fabs(Electron_eta().at(idx) + Electron_deltaEtaSC().at(idx));
     if (not (abseta                              < 2.5   )) return false;
-    if (not (abseta < 1.566 and abseta > 1.444           )) return false;
+    if (not (abseta > 1.566 or abseta < 1.444            )) return false;
     if (not (Electron_pt().at(idx)               > 10.   )) return false;
     if (not (fabs(Electron_dxy().at(idx))        <  0.05 )) return false;
     if (not (fabs(Electron_dz().at(idx))         <  0.1  )) return false;
