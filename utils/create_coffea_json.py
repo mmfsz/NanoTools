@@ -124,7 +124,7 @@ for sample in samples:
             if not sd["isData"]:
                 nGenEvents += run.genEventCount
                 nSumOfWeights += run.genEventSumw
-                sumOfWeights.append((rootfile, run.genEventSumw))
+                sumOfWeights.append((rootfile, t.GetEntries(), run.genEventCount, run.genEventSumw))
             else:
                 nGenEvents = 0
                 nSumOfWeights = 0.0
