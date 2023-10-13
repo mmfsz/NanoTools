@@ -114,6 +114,7 @@ for sample in samples:
     nEvents = 0
     nGenEvents = 0
     nSumOfWeights = 0
+    sumOfWeights = []
     for rootfile in rootfiles:
         f = r.TFile(rootfile)
         t = f.Get(sd["treeName"])
@@ -121,8 +122,9 @@ for sample in samples:
         rt = f.Get("Runs")
         for run in rt:
             if not sd["isData"]:
-                nGenEvents = run.genEventCount
-                nSumOfWeights = run.genEventSumw
+                nGenEvents += run.genEventCount
+                nSumOfWeights += run.genEventSumw
+                sumOfWeights.append((rootfile, run.genEventSumw))
             else:
                 nGenEvents = 0
                 nSumOfWeights = 0.0
@@ -130,6 +132,7 @@ for sample in samples:
     sd["nEvents"] = nEvents
     sd["nGenEvents"] = nGenEvents
     sd["nSumOfWeights"] = nSumOfWeights
+    sd["sumOfWeights"] = sumOfWeights
 
     with io.open("{}/jsons/{}.json".format(cephdir, sd["histAxisName"]), "w") as f:
         str_to_write = json.dumps(sd, indent=4)
