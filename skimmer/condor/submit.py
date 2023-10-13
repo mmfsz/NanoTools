@@ -30,13 +30,20 @@ def split_func(dsname):
     # else:
     #     return 2
 
+def njobs_to_process(dsname):
+    if "TTTo2L2Nu" in dsname:
+        return 14
+    if "DYto2L" in dsname:
+        return 25
+    return -1
+
 if __name__ == "__main__":
 
     # Samples
     samples = samples.samples_to_submit
 
     # submission tag
-    tag = "skim_v1"
+    tag = "skim_v2"
 
     # Task summary for printing out msummary
     task_summary = {}
@@ -65,13 +72,13 @@ if __name__ == "__main__":
                             ["metis_extraargs", "-d ./"]
                             ]
                         },
+                    max_jobs = njobs_to_process(ds.get_datasetname()),
                     cmssw_version = "CMSSW_10_2_13",
                     scram_arch = "slc7_amd64_gcc700",
                     input_executable = "{}/condor_executable_metis.sh".format(condorpath), # your condor executable here
                     tarfile = "{}/package.tar.xz".format(condorpath), # your tarfile with assorted goodies here
                     special_dir = "skim/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
                     min_completion_fraction = 0.50 if skip_tail else 1.0,
-                    # max_jobs = 1,
             )
             # Straightforward logic
             if not task.complete():
