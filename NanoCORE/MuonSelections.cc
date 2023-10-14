@@ -241,13 +241,13 @@ bool WWZ::muonID(int idx, WWZ::IDLevel id_level, int year) {
     // Year-specific checks
     switch (year) {
     case (2016):
-        return WWZ::muonRun2ID(idx, id_level);
+        return WWZ::muonRun2ID(idx);
         break;
     case (2017):
-        return WWZ::muonRun2ID(idx, id_level);
+        return WWZ::muonRun2ID(idx);
         break;
     case (2018):
-        return WWZ::muonRun2ID(idx, id_level);
+        return WWZ::muonRun2ID(idx);
         break;
     case (2022):
         return WWZ::muon2022ID(idx, id_level);
@@ -259,7 +259,7 @@ bool WWZ::muonID(int idx, WWZ::IDLevel id_level, int year) {
     }
 }
 
-bool WWZ::muonRun2ID(unsigned int idx, WWZ::IDLevel id_level) {
+bool WWZ::muonRun2ID(unsigned int idx) {
     // These cuts are common for all ID levels of Muon
     if (not (tas::Muon_pt().at(idx)               > 10.  )) return false;
     if (not (fabs(tas::Muon_eta().at(idx))        < 2.4  )) return false;
