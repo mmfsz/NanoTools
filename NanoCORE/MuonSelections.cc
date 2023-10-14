@@ -259,36 +259,16 @@ bool WWZ::muonID(int idx, WWZ::IDLevel id_level, int year) {
     }
 }
 
-bool WWZ::muon2016ID(unsigned int idx, WWZ::IDLevel id_level) {
-    if (not (Muon_pt().at(idx)               >  10.  )) return false;
-    if (not (fabs(Muon_eta().at(idx))        <  2.4  )) return false;
-    if (not (fabs(Muon_dxy().at(idx))        <  0.05 )) return false;
-    if (not (fabs(Muon_dz().at(idx))         <  0.1  )) return false;
-    if (not (fabs(Muon_sip3d().at(idx))      <  8    )) return false;
-    if (not (Muon_miniPFRelIso_all().at(idx) <  0.4  )) return false;
-    if (not (Muon_looseId().at(idx)                  )) return false;
-    return true;
-}
-
-bool WWZ::muon2017ID(unsigned int idx, WWZ::IDLevel id_level) {
-    if (not (Muon_pt().at(idx)               >  10.  )) return false;
-    if (not (fabs(Muon_eta().at(idx))        <  2.4  )) return false;
-    if (not (fabs(Muon_dxy().at(idx))        <  0.05 )) return false;
-    if (not (fabs(Muon_dz().at(idx))         <  0.1  )) return false;
-    if (not (fabs(Muon_sip3d().at(idx))      <  8    )) return false;
-    if (not (Muon_miniPFRelIso_all().at(idx) <  0.4  )) return false;
-    if (not (Muon_looseId().at(idx)                  )) return false;
-    return true;
-}
-
-bool WWZ::muon2018ID(unsigned int idx, WWZ::IDLevel id_level) {
-    if (not (Muon_pt().at(idx)               >  10.  )) return false;
-    if (not (fabs(Muon_eta().at(idx))        <  2.4  )) return false;
-    if (not (fabs(Muon_dxy().at(idx))        <  0.05 )) return false;
-    if (not (fabs(Muon_dz().at(idx))         <  0.1  )) return false;
-    if (not (fabs(Muon_sip3d().at(idx))      <  8    )) return false;
-    if (not (Muon_miniPFRelIso_all().at(idx) <  0.4  )) return false;
-    if (not (Muon_looseId().at(idx)                  )) return false;
+bool WWZ::muonRun2ID(unsigned int idx, WWZ::IDLevel id_level) {
+    // These cuts are common for all ID levels of Muon
+    if (not (tas::Muon_pt().at(idx)               > 10.  )) return false;
+    if (not (fabs(tas::Muon_eta().at(idx))        < 2.4  )) return false;
+    if (not (fabs(tas::Muon_dxy().at(idx))        < 0.05 )) return false;
+    if (not (fabs(tas::Muon_dz().at(idx))         < 0.1  )) return false;
+    if (not (fabs(tas::Muon_sip3d().at(idx))      < 8    )) return false;
+    if (not (tas::Muon_miniPFRelIso_all().at(idx) < 0.4  )) return false;
+    if (not (tas::Muon_mediumId().at(idx)                )) return false;
+    if (not (computeMuonTopMVAScore(idx)          > 0.64 )) return false;
     return true;
 }
 

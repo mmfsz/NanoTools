@@ -20,9 +20,7 @@ namespace WWZ {
     void muonLoadMVA(int year, bool isAPV);
     float computeMuonTopMVAScore(unsigned int idx);
     bool muonID(int idx, WWZ::IDLevel id_level, int year);
-    bool muon2016ID(unsigned int idx, WWZ::IDLevel id_level);
-    bool muon2017ID(unsigned int idx, WWZ::IDLevel id_level);
-    bool muon2018ID(unsigned int idx, WWZ::IDLevel id_level);
+    bool muonRun2ID(unsigned int idx);
     bool muon2022ID(unsigned int idx, WWZ::IDLevel id_level);
 }
 

@@ -478,33 +478,17 @@ bool WWZ::electronID(int idx, WWZ::IDLevel id_level, int year) {
     }
 }
 
-bool WWZ::electron2016ID(int idx, WWZ::IDLevel id_level) {
-    if (not (fabs(Electron_eta().at(idx) + Electron_deltaEtaSC().at(idx)) < 2.5)) return false;
-    if (not (Electron_pt().at(idx)               > 10.   )) return false;
-    if (not (fabs(Electron_dxy().at(idx))        <  0.05 )) return false;
-    if (not (fabs(Electron_dz().at(idx))         <  0.1  )) return false;
-    if (not (fabs(Electron_sip3d().at(idx))      <  8    )) return false;
-    if (not (Electron_miniPFRelIso_all().at(idx) <  0.4  )) return false;
-    return true;
-}
-
-bool WWZ::electron2017ID(int idx, WWZ::IDLevel id_level) {
-    if (not (fabs(Electron_eta().at(idx) + Electron_deltaEtaSC().at(idx)) < 2.5)) return false;
-    if (not (Electron_pt().at(idx)               > 10.   )) return false;
-    if (not (fabs(Electron_dxy().at(idx))        <  0.05 )) return false;
-    if (not (fabs(Electron_dz().at(idx))         <  0.1  )) return false;
-    if (not (fabs(Electron_sip3d().at(idx))      <  8    )) return false;
-    if (not (Electron_miniPFRelIso_all().at(idx) <  0.4  )) return false;
-    return true;
-}
-
-bool WWZ::electron2018ID(int idx, WWZ::IDLevel id_level) {
-    if (not (fabs(Electron_eta().at(idx) + Electron_deltaEtaSC().at(idx)) < 2.5)) return false;
-    if (not (Electron_pt().at(idx)               > 10.   )) return false;
-    if (not (fabs(Electron_dxy().at(idx))        <  0.05 )) return false;
-    if (not (fabs(Electron_dz().at(idx))         <  0.1  )) return false;
-    if (not (fabs(Electron_sip3d().at(idx))      <  8    )) return false;
-    if (not (Electron_miniPFRelIso_all().at(idx) <  0.4  )) return false;
+bool WWZ::electronRun2ID(int idx) {
+    if (not (tas::Electron_pt().at(idx)               >  10. )) return false;
+    if (not (fabs(tas::Electron_eta().at(idx))        <  2.5 )) return false;
+    if (not (fabs(tas::Electron_dxy().at(idx))        <  0.05)) return false;
+    if (not (fabs(tas::Electron_dz().at(idx))         <  0.1 )) return false;
+    if (not (fabs(tas::Electron_sip3d().at(idx))      <  8   )) return false;
+    if (not (tas::Electron_miniPFRelIso_all().at(idx) <  0.4 )) return false;
+    if (not (tas::Electron_lostHits().at(idx)         <= 1   )) return false;
+    if (not (tas::Electron_convVeto().at(idx)                )) return false;
+    if (not (tas::Electron_tightCharge().at(idx)      == 2   )) return false;
+    if (not (computeElectronTopMVAScore(idx)          > 0.81 )) return false;
     return true;
 }
 

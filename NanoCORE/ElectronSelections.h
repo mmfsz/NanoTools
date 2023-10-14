@@ -36,9 +36,7 @@ namespace WWZ {
     void electronLoadMVA(int year, bool isAPV);
     float computeElectronTopMVAScore(unsigned int idx);
     bool electronID(int idx, WWZ::IDLevel id_level, int year);
-    bool electron2016ID(int idx, WWZ::IDLevel id_level);
-    bool electron2017ID(int idx, WWZ::IDLevel id_level);
-    bool electron2018ID(int idx, WWZ::IDLevel id_level);
+    bool electronRun2ID(int idx);
     bool electron2022ID(int idx, WWZ::IDLevel id_level);
 }
 
