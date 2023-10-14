@@ -2,6 +2,7 @@
 #define MUONSELECTIONS_H
 #include "Nano.h"
 #include "Base.h"
+#include "Tools/xgboost/XGBoostInterface.h"
 
 namespace SS {
     bool muonID(unsigned int idx, SS::IDLevel id_level, int year);
@@ -15,6 +16,9 @@ namespace ttH {
 }
 
 namespace WWZ {
+    extern std::shared_ptr<XGBoostInterface> muon_mvareader_map;
+    void muonLoadMVA(int year, bool isAPV);
+    float computeMuonTopMVAScore(unsigned int idx);
     bool muonID(int idx, WWZ::IDLevel id_level, int year);
     bool muon2016ID(unsigned int idx, WWZ::IDLevel id_level);
     bool muon2017ID(unsigned int idx, WWZ::IDLevel id_level);
