@@ -135,7 +135,7 @@ bool ttH::muonID(unsigned int idx, ttH::IDLevel id_level, int year) {
     return true;
 }
 
-void WWZ::muonLoadMVA(int year, bool isAPV)
+void WWZ::muonLoadMVA(std::string fname)
 {
 
     if (muon_mvareader_map)
@@ -143,25 +143,6 @@ void WWZ::muonLoadMVA(int year, bool isAPV)
         std::cout << "WARNING: XGBoost already loaded, but is trying to load again!" << std::endl;
         return;
     }
-
-    std::string file_path = __FILE__;
-    std::string dir_path = file_path.substr(0, file_path.rfind("/"));
-    std::string fname = "mu_TOP";
-    if (year == 2018)
-        fname += "UL18";
-    else if (year == 2017)
-        fname += "UL17";
-    else if (year == 2016)
-    {
-        fname += "UL16";
-        // Need to add option for APV as well....
-        if (isAPV)
-        {
-            fname += "APV";
-        }
-    }
-    fname += "_XGB.weights.bin";
-    fname = dir_path + "/data/TopLeptonMVA/" + fname;
 
     std::cout << "muonLoadMVA(): Loading XGBoost binary file = " << fname << std::endl;
 

@@ -17,7 +17,7 @@ namespace ttH {
 
 namespace WWZ {
     extern std::shared_ptr<XGBoostInterface> muon_mvareader_map;
-    void muonLoadMVA(int year, bool isAPV);
+    void muonLoadMVA(std::string fname);
     float computeMuonTopMVAScore(unsigned int idx);
     bool muonID(int idx, WWZ::IDLevel id_level, int year);
     bool muonRun2ID(unsigned int idx);

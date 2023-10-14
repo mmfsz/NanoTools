@@ -33,7 +33,7 @@ namespace ttH {
 
 namespace WWZ {
     extern std::shared_ptr<XGBoostInterface> electron_mvareader_map;
-    void electronLoadMVA(int year, bool isAPV);
+    void electronLoadMVA(std::string fname);
     float computeElectronTopMVAScore(unsigned int idx);
     bool electronID(int idx, WWZ::IDLevel id_level, int year);
     bool electronRun2ID(int idx);
