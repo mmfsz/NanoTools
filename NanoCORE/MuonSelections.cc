@@ -241,13 +241,13 @@ bool WWZ::muonID(int idx, WWZ::IDLevel id_level, int year) {
     // Year-specific checks
     switch (year) {
     case (2016):
-        return WWZ::muon2016ID(idx, id_level);
+        return WWZ::muonRun2ID(idx, id_level);
         break;
     case (2017):
-        return WWZ::muon2017ID(idx, id_level);
+        return WWZ::muonRun2ID(idx, id_level);
         break;
     case (2018):
-        return WWZ::muon2018ID(idx, id_level);
+        return WWZ::muonRun2ID(idx, id_level);
         break;
     case (2022):
         return WWZ::muon2022ID(idx, id_level);

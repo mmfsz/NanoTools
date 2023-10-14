@@ -460,13 +460,13 @@ bool WWZ::electronID(int idx, WWZ::IDLevel id_level, int year) {
     // Year-specific checks
     switch (year) {
     case (2016):
-        return WWZ::electron2016ID(idx, id_level);
+        return WWZ::electronRun2ID(idx, id_level);
         break;
     case (2017):
-        return WWZ::electron2017ID(idx, id_level);
+        return WWZ::electronRun2ID(idx, id_level);
         break;
     case (2018):
-        return WWZ::electron2018ID(idx, id_level);
+        return WWZ::electronRun2ID(idx, id_level);
         break;
     case (2022):
         return WWZ::electron2022ID(idx, id_level);
