@@ -31,10 +31,12 @@ def split_func(dsname):
     #     return 2
 
 def njobs_to_process(dsname):
-    if "TTTo2L2Nu" in dsname:
+    if "TTto2L2Nu_TuneCP5_13p6TeV_powheg-pythia8" in dsname:
         return 14
-    if "DYto2L" in dsname:
+    if "DYto2L-2Jets_MLL-50_TuneCP5_13p6TeV_amcatnloFXFX-pythia8" in dsname:
         return 25
+    if "WtoLNu-2Jets_TuneCP5_13p6TeV_amcatnloFXFX-pythia8" in dsname:
+        return 16
     return -1
 
 if __name__ == "__main__":
@@ -43,7 +45,7 @@ if __name__ == "__main__":
     samples = samples.samples_to_submit
 
     # submission tag
-    tag = "skim_v2"
+    tag = "skim_v1"
 
     # Task summary for printing out msummary
     task_summary = {}
