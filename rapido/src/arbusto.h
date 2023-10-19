@@ -29,11 +29,12 @@ public:
      * @param branch_names std::vector of branch names to keep
      * @return none
      */
-    Arbusto(TFile* new_tfile, TChain* tchain, std::vector<TString> branch_names);
+    Arbusto(TFile* new_tfile, TChain* tchain, std::vector<TString> branch_names, bool remove);
     /**
      * Arbusto object overload constructor
      * @param cli HEPCLI object
      * @param branch_names std::vector of branch names to keep
+     * @param invert selections so branches are dropped not kept
      * @return none
      */
     Arbusto(HEPCLI& cli, std::vector<TString> branch_names);

@@ -1,15 +1,16 @@
 Arbusto::Arbusto() {}
 
-Arbusto::Arbusto(TFile* new_tfile, TChain* tchain, std::vector<TString> keep_branch_names) 
+Arbusto::Arbusto(TFile* new_tfile, TChain* tchain, std::vector<TString> keep_branch_names, bool remove) 
 : keep_branch_names(keep_branch_names)
 {
+    // If remove is true, this inverts the selection to drop the listed branches
     tfile = new_tfile;
     // Disable all branches
-    tchain->SetBranchStatus("*", 0); 
+    tchain->SetBranchStatus("*", remove); 
     // Enable selected branches
     for (auto branch_name : keep_branch_names)
     {
-        tchain->SetBranchStatus(branch_name, 1);
+        tchain->SetBranchStatus(branch_name, !remove);
     }
     ttree = (TTree*)tchain->CloneTree(0);
 }
