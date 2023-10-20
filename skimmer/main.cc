@@ -68,7 +68,7 @@ int main(int argc, char** argv)
             lumitree->SetDirectory(0);
             lumis->Add(lumitree);
 
-            arbusto.init(ttree, remove);
+            arbusto.init(ttree);
             TString file_name = cli.input_tchain->GetCurrentFile()->GetName();
             gconf.GetConfigs(nt.year());
             gconf.isAPV = (file_name.Contains("HIPM_UL2016") || file_name.Contains("NanoAODAPV") || file_name.Contains("UL16APV"));

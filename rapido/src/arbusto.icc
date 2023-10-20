@@ -40,7 +40,7 @@ Arbusto::~Arbusto()
     branches.clear();
 }
 
-void Arbusto::init(TTree* next_ttree, bool remove)
+void Arbusto::init(TTree* next_ttree)
 {
     // Disable all branches
     next_ttree->SetBranchStatus("*", remove); 

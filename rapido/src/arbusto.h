@@ -12,6 +12,8 @@
 class Arbusto : public Arbol
 {
 protected:
+    /** Invert how the branches are kept */
+    bool remove;
     /** Names of branches in original ROOT TTree to keep */
     std::vector<TString> keep_branch_names;
     /** Pointer to current TTree to skim */
@@ -48,11 +50,10 @@ public:
      * @param next_ttree pointer to the next of the original TTree objects
      * @return none
      */
-    void init(TTree* next_ttree, bool remove);
+    void init(TTree* next_ttree);
     /**
      * Fill TTree with all current leaves
      * @param entry current entry
-     * @param invert keep/drop listing
      * @return none
      */
     void fill(int entry);
