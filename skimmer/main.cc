@@ -17,14 +17,32 @@ int main(int argc, char** argv)
     );
 
     // Set to true to specify branches to DROP instead of keep
-    bool remove = true;
+    bool remove = false;
 
     // Output setting (setting which TBranches to save from original Nano)
     Arbusto arbusto = Arbusto(
         output_tfile,
         cli.input_tchain,
         {
-            "Jet*"
+           "Electron*",
+            "Muon*",
+            "Jet*",
+            "Tau*",
+            "GenPart*",
+            "Generator*",
+            "FatJet*",
+            "MET*",
+            "event*",
+            "run*",
+            "luminosityBlock*",
+            "genWeight*",
+            "btagWeight*",
+            "LHE*",
+            "*Weight*",
+            "Flag*",
+            "SubJet*",
+            "HLT_*",
+            "Pileup*"
         },
         remove
     );
@@ -50,7 +68,7 @@ int main(int argc, char** argv)
             lumitree->SetDirectory(0);
             lumis->Add(lumitree);
 
-            arbusto.init(ttree);
+            arbusto.init(ttree, remove);
             TString file_name = cli.input_tchain->GetCurrentFile()->GetName();
             gconf.GetConfigs(nt.year());
             gconf.isAPV = (file_name.Contains("HIPM_UL2016") || file_name.Contains("NanoAODAPV") || file_name.Contains("UL16APV"));

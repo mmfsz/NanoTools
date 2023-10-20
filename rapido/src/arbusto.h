@@ -48,10 +48,11 @@ public:
      * @param next_ttree pointer to the next of the original TTree objects
      * @return none
      */
-    void init(TTree* next_ttree);
+    void init(TTree* next_ttree, bool remove);
     /**
      * Fill TTree with all current leaves
      * @param entry current entry
+     * @param invert keep/drop listing
      * @return none
      */
     void fill(int entry);
