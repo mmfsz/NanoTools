@@ -17,34 +17,17 @@ int main(int argc, char** argv)
     );
 
     // Set to true to specify branches to DROP instead of keep
-    bool remove = false;
+    bool remove_branches = true;
 
     // Output setting (setting which TBranches to save from original Nano)
     Arbusto arbusto = Arbusto(
         output_tfile,
         cli.input_tchain,
         {
-           "Electron*",
-            "Muon*",
             "Jet*",
-            "Tau*",
-            "GenPart*",
-            "Generator*",
             "FatJet*",
-            "MET*",
-            "event*",
-            "run*",
-            "luminosityBlock*",
-            "genWeight*",
-            "btagWeight*",
-            "LHE*",
-            "*Weight*",
-            "Flag*",
-            "SubJet*",
-            "HLT_*",
-            "Pileup*"
         },
-        remove
+        remove_branches
     );
 
     // Initialize TLists for metadata TTrees
