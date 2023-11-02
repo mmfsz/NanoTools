@@ -29,7 +29,7 @@ public:
      * @param new_tfile pointer to output TFile
      * @param tchain pointer to TChain of input TFiles
      * @param branch_names std::vector of branch names to keep
-     * @param invert selections so branches are dropped not kept
+     * @param remove_branches bool selections so branches are dropped not kept
      * @return none
      */
     Arbusto(TFile* new_tfile, TChain* tchain, std::vector<TString> branch_names, bool remove_branches);
