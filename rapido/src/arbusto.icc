@@ -1,27 +1,28 @@
 Arbusto::Arbusto() {}
 
-Arbusto::Arbusto(TFile* new_tfile, TChain* tchain, std::vector<TString> keep_branch_names) 
-: keep_branch_names(keep_branch_names)
+Arbusto::Arbusto(TFile* new_tfile, TChain* tchain, std::vector<TString> branch_names, bool remove_branches) 
+: remove_branches(remove_branches), branch_names(branch_names)
 {
+    // If remove_branches is true, this inverts the selection to drop the listed branches
     tfile = new_tfile;
     // Disable all branches
-    tchain->SetBranchStatus("*", 0); 
+    tchain->SetBranchStatus("*", remove_branches); 
     // Enable selected branches
-    for (auto branch_name : keep_branch_names)
+    for (auto branch_name : branch_names)
     {
-        tchain->SetBranchStatus(branch_name, 1);
+        tchain->SetBranchStatus(branch_name, !remove_branches);
     }
     ttree = (TTree*)tchain->CloneTree(0);
 }
 
-Arbusto::Arbusto(HEPCLI& cli, std::vector<TString> keep_branch_names) 
-: keep_branch_names(keep_branch_names)
+Arbusto::Arbusto(HEPCLI& cli, std::vector<TString> branch_names) 
+: branch_names(branch_names)
 {
     tfile = new TFile(TString(cli.output_dir+"/"+cli.output_name+".root"), "RECREATE");
     // Disable all branches
     cli.input_tchain->SetBranchStatus("*", 0); 
     // Enable selected branches
-    for (auto branch_name : keep_branch_names)
+    for (auto branch_name : branch_names)
     {
         cli.input_tchain->SetBranchStatus(branch_name, 1);
     }
@@ -42,11 +43,11 @@ Arbusto::~Arbusto()
 void Arbusto::init(TTree* next_ttree)
 {
     // Disable all branches
-    next_ttree->SetBranchStatus("*", 0); 
+    next_ttree->SetBranchStatus("*", remove_branches); 
     // Enable selected branches
-    for (auto branch_name : keep_branch_names)
+    for (auto branch_name : branch_names)
     {
-        next_ttree->SetBranchStatus(branch_name, 1);
+        next_ttree->SetBranchStatus(branch_name, !remove_branches);
     }
     next_ttree->CopyAddresses(ttree);
     orig_ttree = next_ttree;

@@ -16,6 +16,9 @@ int main(int argc, char** argv)
         "RECREATE"
     );
 
+    // Set to true to specify branches to DROP instead of keep
+    bool remove_branches = false;
+
     // Output setting (setting which TBranches to save from original Nano)
     Arbusto arbusto = Arbusto(
         output_tfile,
@@ -40,7 +43,8 @@ int main(int argc, char** argv)
             "SubJet*",
             "HLT_*",
             "Pileup*"
-        }
+        },
+        remove_branches
     );
 
     // Initialize TLists for metadata TTrees

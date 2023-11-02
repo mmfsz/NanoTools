@@ -12,8 +12,10 @@
 class Arbusto : public Arbol
 {
 protected:
+    /** Invert how the branches are kept */
+    bool remove_branches;
     /** Names of branches in original ROOT TTree to keep */
-    std::vector<TString> keep_branch_names;
+    std::vector<TString> branch_names;
     /** Pointer to current TTree to skim */
     TTree* orig_ttree;
 public:
@@ -27,9 +29,10 @@ public:
      * @param new_tfile pointer to output TFile
      * @param tchain pointer to TChain of input TFiles
      * @param branch_names std::vector of branch names to keep
+     * @param remove_branches bool selections so branches are dropped not kept
      * @return none
      */
-    Arbusto(TFile* new_tfile, TChain* tchain, std::vector<TString> branch_names);
+    Arbusto(TFile* new_tfile, TChain* tchain, std::vector<TString> branch_names, bool remove_branches);
     /**
      * Arbusto object overload constructor
      * @param cli HEPCLI object
