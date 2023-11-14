@@ -117,6 +117,23 @@ void HEPCLI::parse(int argc, char** argv)
     is_signal = is_signal_flag;
     debug = debug_flag;
 
+    // Make local directories as needed for the output
+    std::vector<std::string> sub_dirs;
+    size_t start = 0;
+    size_t end;
+
+    while ((end = output_dir.find('/',start)) != std::string::npos)
+    {
+        sub_dirs.push_back(output_dir.substr(0,end));
+        start = end + 1;
+    }
+    sub_dirs.push_back(output_dir);
+
+    for (const std::string& sub_dir : sub_dirs)
+    {
+        mkdir(sub_dir.c_str(), 0777);
+    }
+
     // Read all non-optioned arguments as input file paths
     int n_input_files = 0;
     input_tchain = new TChain(input_ttree.c_str());

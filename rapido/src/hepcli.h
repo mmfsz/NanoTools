@@ -7,6 +7,10 @@
 #include <stdlib.h>
 #include <getopt.h>
 
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <vector>
+
 #include "TChain.h"
 
 /**
