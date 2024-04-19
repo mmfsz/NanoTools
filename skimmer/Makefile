@@ -2,7 +2,8 @@
 
 EXE=skim
 
-SOURCES=$(wildcard *.cc) $(wildcard ../rapido/src/*.cc) ../NanoCORE/Nano.cc  ../NanoCORE/ElectronSelections.cc ../NanoCORE/MuonSelections.cc ../NanoCORE/Config.cc ../NanoCORE/IsolationTools.cc ../NanoCORE/MCTools.cc
+SOURCES=$(wildcard ./src/*.cc) $(wildcard ../rapido/src/*.cc) ../NanoCORE/Nano.cc  ../NanoCORE/ElectronSelections.cc ../NanoCORE/MuonSelections.cc ../NanoCORE/Config.cc ../NanoCORE/IsolationTools.cc ../NanoCORE/MCTools.cc
+#SOURCES=$(wildcard ./*.cc) $(wildcard ../rapido/src/*.cc) ../NanoCORE/Nano.cc  ../NanoCORE/ElectronSelections.cc ../NanoCORE/MuonSelections.cc ../NanoCORE/Config.cc ../NanoCORE/IsolationTools.cc ../NanoCORE/MCTools.cc
 OBJECTS=$(SOURCES:.cc=.o)
 HEADERS=$(SOURCES:.cc=.h)
 
@@ -30,7 +31,7 @@ $(EXE): $(OBJECTS)
 	$(CC) $(CFLAGS) $(EXTRACFLAGS) $< -c -o $@
 
 clean:
-	rm -f main.o $(EXE)
+	rm -f main.o $(EXE) $(wildcard ./src/*.o)
 
 cleanall:
 	rm -f $(OBJECTS) $(EXE)
