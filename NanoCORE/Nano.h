@@ -40,7 +40,7 @@ typedef ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > LorentzVector
 #define NJET_MAX 250 // for Jet_* collection
 #define NLHEPART_MAX 24 // for LHEPart_* collection
 #define NLHEPDFWEIGHT_MAX 312 // for LHEPdfWeight_* collection
-#define NLHEREWEIGHTINGWEIGHT_MAX 50 // for LHEReweightingWeight_* collection
+#define NLHEREWEIGHTINGWEIGHT_MAX 200 // for LHEReweightingWeight_* collection
 #define NLHESCALEWEIGHT_MAX 30 // for LHEScaleWeight_* collection
 #define NLOWPTELECTRON_MAX 18 // for LowPtElectron_* collection
 #define NMUON_MAX 90 // for Muon_* collection
