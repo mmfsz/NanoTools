@@ -60,12 +60,12 @@ int main(int argc, char** argv)
         {
             nt.Init(ttree);
 
+            arbusto.tfile->cd();
+
             // Store metadata ttrees
             TTree* runtree = ((TTree*)ttree->GetCurrentFile()->Get("Runs"))->CloneTree();
-            runtree->SetDirectory(0);
             runs->Add(runtree);
             TTree* lumitree = ((TTree*)ttree->GetCurrentFile()->Get("LuminosityBlocks"))->CloneTree();
-            lumitree->SetDirectory(0);
             lumis->Add(lumitree);
 
             arbusto.init(ttree);
@@ -131,13 +131,13 @@ int main(int argc, char** argv)
         }
     );
 
+    arbusto.tfile->cd();
 
     TTree* merged_runs = TTree::MergeTrees(runs);
     merged_runs->SetName("Runs");
     TTree* merged_lumis = TTree::MergeTrees(lumis);
     merged_lumis->SetName("LuminosityBlocks");
 
-    arbusto.tfile->cd();
     merged_runs->Write();
     merged_lumis->Write();
     arbusto.write();
