@@ -256,6 +256,10 @@ void Nano::Init(TTree *tree) {
     if (b_Electron_mvaSpring16HZZ_WPL_) { b_Electron_mvaSpring16HZZ_WPL_->SetAddress(&Electron_mvaSpring16HZZ_WPL_); }
     b_Electron_mvaTTH_ = tree->GetBranch("Electron_mvaTTH");
     if (b_Electron_mvaTTH_) { b_Electron_mvaTTH_->SetAddress(&Electron_mvaTTH_); }
+    // NOTE: this is a custom branch; temporarily added for convenience
+    b_Electron_mvaTTHUL_ = tree->GetBranch("Electron_mvaTTHUL");
+    if (b_Electron_mvaTTHUL_) { b_Electron_mvaTTHUL_->SetAddress(&Electron_mvaTTHUL_); }
+    //
     b_Electron_pdgId_ = tree->GetBranch("Electron_pdgId");
     if (b_Electron_pdgId_) { b_Electron_pdgId_->SetAddress(&Electron_pdgId_); }
     b_Electron_pfRelIso03_all_ = tree->GetBranch("Electron_pfRelIso03_all");
@@ -6318,6 +6322,10 @@ void Nano::Init(TTree *tree) {
     if (b_Muon_mvaMuID_WP_) { b_Muon_mvaMuID_WP_->SetAddress(&Muon_mvaMuID_WP_); }
     b_Muon_mvaTTH_ = tree->GetBranch("Muon_mvaTTH");
     if (b_Muon_mvaTTH_) { b_Muon_mvaTTH_->SetAddress(&Muon_mvaTTH_); }
+    // NOTE: this is a custom branch; temporarily added for convenience
+    b_Muon_mvaTTHUL_ = tree->GetBranch("Muon_mvaTTHUL");
+    if (b_Muon_mvaTTHUL_) { b_Muon_mvaTTHUL_->SetAddress(&Muon_mvaTTHUL_); }
+    //
     b_Muon_nStations_ = tree->GetBranch("Muon_nStations");
     if (b_Muon_nStations_) { b_Muon_nStations_->SetAddress(&Muon_nStations_); }
     b_Muon_nTrackerLayers_ = tree->GetBranch("Muon_nTrackerLayers");
@@ -7185,6 +7193,9 @@ void Nano::PrintUsage() {
     std::cout << "Electron_mvaSpring16HZZ (uncached/cached calls): " << counter_uncached_Electron_mvaSpring16HZZ_ << " / " << counter_cached_Electron_mvaSpring16HZZ_ << std::endl;;
     std::cout << "Electron_mvaSpring16HZZ_WPL (uncached/cached calls): " << counter_uncached_Electron_mvaSpring16HZZ_WPL_ << " / " << counter_cached_Electron_mvaSpring16HZZ_WPL_ << std::endl;;
     std::cout << "Electron_mvaTTH (uncached/cached calls): " << counter_uncached_Electron_mvaTTH_ << " / " << counter_cached_Electron_mvaTTH_ << std::endl;;
+    // NOTE: this is a custom branch; temporarily added for convenience
+    std::cout << "Electron_mvaTTHUL (uncached/cached calls): " << counter_uncached_Electron_mvaTTHUL_ << " / " << counter_cached_Electron_mvaTTHUL_ << std::endl;;
+    //
     std::cout << "Electron_p4 (uncached/cached calls): " << counter_uncached_Electron_p4_ << " / " << counter_cached_Electron_p4_ << std::endl;;
     std::cout << "Electron_pdgId (uncached/cached calls): " << counter_uncached_Electron_pdgId_ << " / " << counter_cached_Electron_pdgId_ << std::endl;;
     std::cout << "Electron_pfRelIso03_all (uncached/cached calls): " << counter_uncached_Electron_pfRelIso03_all_ << " / " << counter_cached_Electron_pfRelIso03_all_ << std::endl;;
@@ -10227,6 +10238,9 @@ void Nano::PrintUsage() {
     std::cout << "Muon_mvaMuID (uncached/cached calls): " << counter_uncached_Muon_mvaMuID_ << " / " << counter_cached_Muon_mvaMuID_ << std::endl;;
     std::cout << "Muon_mvaMuID_WP (uncached/cached calls): " << counter_uncached_Muon_mvaMuID_WP_ << " / " << counter_cached_Muon_mvaMuID_WP_ << std::endl;;
     std::cout << "Muon_mvaTTH (uncached/cached calls): " << counter_uncached_Muon_mvaTTH_ << " / " << counter_cached_Muon_mvaTTH_ << std::endl;;
+    // NOTE: this is a custom branch; temporarily added for convenience
+    std::cout << "Muon_mvaTTHUL (uncached/cached calls): " << counter_uncached_Muon_mvaTTHUL_ << " / " << counter_cached_Muon_mvaTTHUL_ << std::endl;;
+    //
     std::cout << "Muon_nStations (uncached/cached calls): " << counter_uncached_Muon_nStations_ << " / " << counter_cached_Muon_nStations_ << std::endl;;
     std::cout << "Muon_nTrackerLayers (uncached/cached calls): " << counter_uncached_Muon_nTrackerLayers_ << " / " << counter_cached_Muon_nTrackerLayers_ << std::endl;;
     std::cout << "Muon_p4 (uncached/cached calls): " << counter_uncached_Muon_p4_ << " / " << counter_cached_Muon_p4_ << std::endl;;
@@ -10714,6 +10728,9 @@ void Nano::GetEntry(unsigned int idx) {
     loaded_Electron_mvaSpring16HZZ_ = false;
     loaded_Electron_mvaSpring16HZZ_WPL_ = false;
     loaded_Electron_mvaTTH_ = false;
+    // NOTE: this is a custom branch; temporarily added for convenience
+    loaded_Electron_mvaTTHUL_ = false;
+    //
     loaded_Electron_p4_ = false;
     loaded_Electron_pdgId_ = false;
     loaded_Electron_pfRelIso03_all_ = false;
@@ -13756,6 +13773,9 @@ void Nano::GetEntry(unsigned int idx) {
     loaded_Muon_mvaMuID_ = false;
     loaded_Muon_mvaMuID_WP_ = false;
     loaded_Muon_mvaTTH_ = false;
+    // NOTE: this is a custom branch; temporarily added for convenience
+    loaded_Muon_mvaTTHUL_ = false;
+    //
     loaded_Muon_nStations_ = false;
     loaded_Muon_nTrackerLayers_ = false;
     loaded_Muon_p4_ = false;
@@ -15496,6 +15516,19 @@ const vector<float> &Nano::Electron_mvaTTH() {
     }
     return v_Electron_mvaTTH_;
 }
+// NOTE: this is a custom branch; temporarily added for convenience
+const vector<float> &Nano::Electron_mvaTTHUL() {
+    if (!loaded_Electron_mvaTTHUL_) counter_uncached_Electron_mvaTTHUL_++;
+    else counter_cached_Electron_mvaTTHUL_++;
+    if (!loaded_Electron_mvaTTHUL_) {
+        if (!b_Electron_mvaTTHUL_) throw std::runtime_error("Electron_mvaTTHUL branch doesn't exist");
+        int bytes = b_Electron_mvaTTHUL_->GetEntry(index);
+        v_Electron_mvaTTHUL_ = vector<float>(Electron_mvaTTHUL_,Electron_mvaTTHUL_+bytes/sizeof(Electron_mvaTTHUL_[0]));
+        loaded_Electron_mvaTTHUL_ = true;
+    }
+    return v_Electron_mvaTTHUL_;
+}
+//
 const vector<LorentzVector> &Nano::Electron_p4() {
     if (!loaded_Electron_p4_) counter_uncached_Electron_p4_++;
     else counter_cached_Electron_p4_++;
@@ -46361,6 +46394,19 @@ const vector<float> &Nano::Muon_mvaTTH() {
     }
     return v_Muon_mvaTTH_;
 }
+// NOTE: this is a custom branch; temporarily added for convenience
+const vector<float> &Nano::Muon_mvaTTHUL() {
+    if (!loaded_Muon_mvaTTHUL_) counter_uncached_Muon_mvaTTHUL_++;
+    else counter_cached_Muon_mvaTTHUL_++;
+    if (!loaded_Muon_mvaTTHUL_) {
+        if (!b_Muon_mvaTTHUL_) throw std::runtime_error("Muon_mvaTTHUL branch doesn't exist");
+        int bytes = b_Muon_mvaTTHUL_->GetEntry(index);
+        v_Muon_mvaTTHUL_ = vector<float>(Muon_mvaTTHUL_,Muon_mvaTTHUL_+bytes/sizeof(Muon_mvaTTHUL_[0]));
+        loaded_Muon_mvaTTHUL_ = true;
+    }
+    return v_Muon_mvaTTHUL_;
+}
+//
 const vector<int> &Nano::Muon_nStations() {
     if (!loaded_Muon_nStations_) counter_uncached_Muon_nStations_++;
     else counter_cached_Muon_nStations_++;
@@ -50340,6 +50386,9 @@ namespace tas {
     const vector<float> &Electron_mvaSpring16HZZ() { return nt.Electron_mvaSpring16HZZ(); }
     const vector<bool> &Electron_mvaSpring16HZZ_WPL() { return nt.Electron_mvaSpring16HZZ_WPL(); }
     const vector<float> &Electron_mvaTTH() { return nt.Electron_mvaTTH(); }
+    // NOTE: this is a custom branch; temporarily added for convenience
+    const vector<float> &Electron_mvaTTHUL() { return nt.Electron_mvaTTHUL(); }
+    //
     const vector<LorentzVector> &Electron_p4() { return nt.Electron_p4(); }
     const vector<int> &Electron_pdgId() { return nt.Electron_pdgId(); }
     const vector<float> &Electron_pfRelIso03_all() { return nt.Electron_pfRelIso03_all(); }
@@ -53382,6 +53431,9 @@ namespace tas {
     const vector<float> &Muon_mvaMuID() { return nt.Muon_mvaMuID(); }
     const vector<UChar_t> &Muon_mvaMuID_WP() { return nt.Muon_mvaMuID_WP(); }
     const vector<float> &Muon_mvaTTH() { return nt.Muon_mvaTTH(); }
+    // NOTE: this is a custom branch; temporarily added for convenience
+    const vector<float> &Muon_mvaTTHUL() { return nt.Muon_mvaTTHUL(); }
+    //
     const vector<int> &Muon_nStations() { return nt.Muon_nStations(); }
     const vector<int> &Muon_nTrackerLayers() { return nt.Muon_nTrackerLayers(); }
     const vector<LorentzVector> &Muon_p4() { return nt.Muon_p4(); }
@@ -54105,6 +54157,9 @@ namespace tas {
         else if (name == "Electron_mvaSpring16GP") return nt.Electron_mvaSpring16GP();
         else if (name == "Electron_mvaSpring16HZZ") return nt.Electron_mvaSpring16HZZ();
         else if (name == "Electron_mvaTTH") return nt.Electron_mvaTTH();
+        // NOTE: this is a custom branch; temporarily added for convenience
+        else if (name == "Electron_mvaTTHUL") return nt.Electron_mvaTTHUL();
+        //
         else if (name == "Electron_pfRelIso03_all") return nt.Electron_pfRelIso03_all();
         else if (name == "Electron_pfRelIso03_all_Fall17V2") return nt.Electron_pfRelIso03_all_Fall17V2();
         else if (name == "Electron_pfRelIso03_chg") return nt.Electron_pfRelIso03_chg();
@@ -54390,6 +54445,9 @@ namespace tas {
         else if (name == "Muon_mvaLowPt") return nt.Muon_mvaLowPt();
         else if (name == "Muon_mvaMuID") return nt.Muon_mvaMuID();
         else if (name == "Muon_mvaTTH") return nt.Muon_mvaTTH();
+        // NOTE: this is a custom branch; temporarily added for convenience
+        else if (name == "Muon_mvaTTHUL") return nt.Muon_mvaTTHUL();
+        //
         else if (name == "Muon_pfRelIso03_all") return nt.Muon_pfRelIso03_all();
         else if (name == "Muon_pfRelIso03_chg") return nt.Muon_pfRelIso03_chg();
         else if (name == "Muon_pfRelIso04_all") return nt.Muon_pfRelIso04_all();

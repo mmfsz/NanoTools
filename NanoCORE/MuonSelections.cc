@@ -131,6 +131,49 @@ bool ttH::muonID(unsigned int idx, ttH::IDLevel id_level, int year) {
     return true;
 }
 
+
+/* NOTE: The branch Muon_mvaTTHUL from ttH UL analysis does not exists in v9 NanoAOD production.
+ *       Muon_mvaTTHUL is a custom branch that must be manually computed.
+ */
+bool ttH_UL::muonID(unsigned int idx, ttH::IDLevel id_level, int year) {
+    // Common (across ID levels) checks
+    if (Muon_pt().at(idx) <= 5.) { return false; }
+    if (fabs(Muon_eta().at(idx)) >= 2.4) { return false; }
+    if (fabs(Muon_dxy().at(idx)) >= 0.05) { return false; }
+    if (fabs(Muon_dz().at(idx)) >= 0.1) { return false; }
+    if (fabs(Muon_sip3d().at(idx)) >= 8) { return false; }
+    if (Muon_miniPFRelIso_all().at(idx) >= 0.4) { return false; }
+    if (!Muon_looseId().at(idx)) { return false; } // loose POG ID
+    // Common fakable(loose) and tight checks
+    if (id_level > ttH::IDveto) {
+        if (Muon_pt().at(idx) <= 10.) { return false; }
+        int jet_idx = Muon_jetIdx().at(idx); // jet_idx = -1 if no matched jet
+        if (jet_idx >= 0)
+        {
+            if (Jet_btagDeepFlavB().at(jet_idx) >= gconf.WP_DeepFlav_medium) { return false; };
+        }
+        if (Muon_ptErr().at(idx) / Muon_pt().at(idx) >= 0.2) { return false; }
+    }
+    switch (id_level) {
+    case (ttH::IDveto):
+        break;
+    case (ttH::IDfakable):
+        if (Muon_mvaTTHUL().at(idx) <= 0.85) { 
+            if (Muon_jetRelIso().at(idx) >= 0.5) { return false; }
+        }
+        break;
+    case (ttH::IDtight):
+        if (!Muon_mediumId().at(idx)) { return false; } // medium POG ID
+        if (Muon_mvaTTHUL().at(idx) <= 0.85) { return false; }
+        break;
+    default:
+        throw std::runtime_error("MuonSelections.cc: ERROR - invalid ID level");
+        return false;
+        break;
+    }
+    return true;
+}
+
 bool WWZ::muonID(int idx, WWZ::IDLevel id_level, int year) {
     // Year-specific checks
     switch (year) {

@@ -13,6 +13,9 @@ namespace SS {
 namespace ttH {
     bool muonID(unsigned int idx, ttH::IDLevel id_level, int year);
 }
+namespace ttH_UL {
+    bool muonID(unsigned int idx, ttH::IDLevel id_level, int year);
+}
 
 namespace WWZ {
     bool muonID(int idx, WWZ::IDLevel id_level, int year);

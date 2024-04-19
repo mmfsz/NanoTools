@@ -349,6 +349,54 @@ bool ttH::isTriggerSafeNoIso(int idx) {
     return true;
 }
 
+
+/* NOTE: The branch Electron_mvaTTHUL from ttH UL analysis does not exists in v9 NanoAOD production.
+ *       Electron_mvaTTHUL is a custom branch that must be manually computed.
+ */
+bool ttH_UL::electronID(int idx, ttH::IDLevel id_level, int year) {
+    // Common (across ID levels) checks
+    if (Electron_pt().at(idx) <= 7.) { return false; }
+    if (fabs(Electron_eta().at(idx) + Electron_deltaEtaSC().at(idx)) >= 2.5) { return false; }
+    if (fabs(Electron_dxy().at(idx)) >= 0.05) { return false; }
+    if (fabs(Electron_dz().at(idx)) >= 0.1) { return false; }
+    if (fabs(Electron_sip3d().at(idx)) >= 8) { return false; }
+    if (Electron_miniPFRelIso_all().at(idx) >= 0.4) { return false; }
+    if (int(Electron_lostHits().at(idx)) > 1) { return false; }
+    if (!Electron_mvaFall17V2noIso_WPL().at(idx)) { return false; }
+    // Common fakable(loose) and tight checks
+    if (id_level > ttH::IDveto) {
+        if (Electron_pt().at(idx) <= 10.) { return false; }
+        if (!ttH::isTriggerSafeNoIso(idx)) { return false; }
+        if (!Electron_convVeto().at(idx)) { return false; }
+        if (Electron_tightCharge().at(idx) != 2) { return false; }
+        if (int(Electron_lostHits().at(idx)) > 0) { return false; }
+        int jet_idx = Electron_jetIdx().at(idx); // jet_idx = -1 if no matched jet
+        if (jet_idx >= 0 && jet_idx < nJet())
+        {
+            if (Jet_btagDeepFlavB().at(jet_idx) >= gconf.WP_DeepFlav_medium) { return false; };
+        }
+    }
+    switch (id_level) {
+    case (ttH::IDveto):
+        break;
+    case (ttH::IDfakable):
+        if (Electron_mvaTTHUL().at(idx) <= 0.9) {
+            if (!Electron_mvaFall17V2noIso_WP80().at(idx)) { return false; }
+            if (Electron_jetRelIso().at(idx) >= 0.7) { return false; }
+        }
+        break;
+    case (ttH::IDtight):
+        if (Electron_mvaTTHUL().at(idx) <= 0.9) { return false; }
+        break;
+    default:
+        throw std::runtime_error("ElectronSelections.cc: ERROR - invalid ID level");
+        return false;
+        break;
+    }
+
+    return true;
+}
+
 bool WWZ::electronID(int idx, WWZ::IDLevel id_level, int year) {
     // Year-specific checks
     switch (year) {

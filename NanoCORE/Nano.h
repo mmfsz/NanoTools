@@ -811,6 +811,14 @@ protected:
     bool loaded_Electron_mvaTTH_;
     unsigned int counter_cached_Electron_mvaTTH_;
     unsigned int counter_uncached_Electron_mvaTTH_;
+    // NOTE: this is a custom branch; temporarily added for convenience
+    float Electron_mvaTTHUL_[NELECTRON_MAX];
+    vector<float> v_Electron_mvaTTHUL_;
+    TBranch *b_Electron_mvaTTHUL_;
+    bool loaded_Electron_mvaTTHUL_;
+    unsigned int counter_cached_Electron_mvaTTHUL_;
+    unsigned int counter_uncached_Electron_mvaTTHUL_;
+    //
     vector<LorentzVector> v_Electron_p4_;
     TBranch *b_Electron_p4_;
     bool loaded_Electron_p4_;
@@ -16400,6 +16408,14 @@ protected:
     bool loaded_Muon_mvaTTH_;
     unsigned int counter_cached_Muon_mvaTTH_;
     unsigned int counter_uncached_Muon_mvaTTH_;
+    // NOTE: this is a custom branch; temporarily added for convenience
+    float Muon_mvaTTHUL_[NMUON_MAX];
+    vector<float> v_Muon_mvaTTHUL_;
+    TBranch *b_Muon_mvaTTHUL_;
+    bool loaded_Muon_mvaTTHUL_;
+    unsigned int counter_cached_Muon_mvaTTHUL_;
+    unsigned int counter_uncached_Muon_mvaTTHUL_;
+    //
     int Muon_nStations_[NMUON_MAX];
     vector<int> v_Muon_nStations_;
     TBranch *b_Muon_nStations_;
@@ -18562,6 +18578,9 @@ public:
     const vector<float> &Electron_mvaSpring16HZZ();
     const vector<bool> &Electron_mvaSpring16HZZ_WPL();
     const vector<float> &Electron_mvaTTH();
+    // NOTE: this is a custom branch; temporarily added for convenience
+    const vector<float> &Electron_mvaTTHUL();
+    //
     const vector<LorentzVector> &Electron_p4();
     const vector<int> &Electron_pdgId();
     const vector<float> &Electron_pfRelIso03_all();
@@ -21604,6 +21623,9 @@ public:
     const vector<float> &Muon_mvaMuID();
     const vector<UChar_t> &Muon_mvaMuID_WP();
     const vector<float> &Muon_mvaTTH();
+    // NOTE: this is a custom branch; temporarily added for convenience
+    const vector<float> &Muon_mvaTTHUL();
+    //
     const vector<int> &Muon_nStations();
     const vector<int> &Muon_nTrackerLayers();
     const vector<LorentzVector> &Muon_p4();
@@ -22096,6 +22118,9 @@ namespace tas {
     const vector<float> &Electron_mvaSpring16HZZ(); // MVA Spring16 HZZ ID score
     const vector<bool> &Electron_mvaSpring16HZZ_WPL(); // MVA Spring16 HZZ ID loose WP
     const vector<float> &Electron_mvaTTH(); // TTH MVA lepton ID score
+    // NOTE: this is a custom branch; temporarily added for convenience
+    const vector<float> &Electron_mvaTTHUL(); // TTH MVA lepton ID score
+    //
     const vector<LorentzVector> &Electron_p4(); // from Electron_pt,eta,phi,mass
     const vector<int> &Electron_pdgId(); // PDG code assigned by the event reconstruction (not by MC truth)
     const vector<float> &Electron_pfRelIso03_all(); // PF relative isolation dR=0.3, total (with rho*EA PU corrections)
@@ -25138,6 +25163,9 @@ namespace tas {
     const vector<float> &Muon_mvaMuID(); // MVA-based ID score 
     const vector<UChar_t> &Muon_mvaMuID_WP(); // MVA-based ID selector WPs (1=MVAIDwpMedium,2=MVAIDwpTight)
     const vector<float> &Muon_mvaTTH(); // TTH MVA lepton ID score
+    // NOTE: this is a custom branch; temporarily added for convenience
+    const vector<float> &Muon_mvaTTHUL(); // TTH MVA lepton ID score
+    //
     const vector<int> &Muon_nStations(); // number of matched stations with default arbitration (segment & track)
     const vector<int> &Muon_nTrackerLayers(); // number of layers in the tracker
     const vector<LorentzVector> &Muon_p4(); // from Muon_pt,eta,phi,mass
