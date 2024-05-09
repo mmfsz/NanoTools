@@ -2,30 +2,30 @@
 #include "vvhjj_allhad.h"
 #include "ElectronSelections.h"
 #include "MuonSelections.h"
-bool DEBUG = true;
+bool DEBUG = false;
 
-bool runSelection_allHad(Nano &nt) //, Arbusto &arbusto)
-{
-    // Lepton selection 
-    //computeLeptonMVA_ttHUL(nt, arbusto);
+// bool runSelection_allHad(Nano &nt) //, Arbusto &arbusto)
+// {
+//     // Lepton selection 
+//     //computeLeptonMVA_ttHUL(nt, arbusto);
 
-    bool passLeptonSelection = runLeptonSelection();
-    if (!passLeptonSelection) return false;
+//     bool passLeptonSelection = runLeptonSelection();
+//     if (!passLeptonSelection) return false;
 
-    // Jets selection: 3 hadronic decays + two forward jets 
-    //if (!runJetsSelection()) return false;
+//     // Jets selection: 3 hadronic decays + two forward jets 
+//     //if (!runJetsSelection()) return false;
 
-    if (!runJetsSelection_Run2()) return false;
+//     if (!runJetsSelection_Run2()) return false;
 
-    // Trigger selection? 
+//     // Trigger selection? 
 
-    return true;
-}
+//     return true;
+// }
 
 //////////////////////////////////////////////////////////
 //                      Leptons                         //
 //////////////////////////////////////////////////////////
-
+// Cannot include arbust.h again??
 // void computeLeptonMVA_ttHUL(Nano nt, Arbusto arbusto){
 //     MVATTH::MVATTH mvatth("./data/leptonMVA/UL20_2018.xml");
 
@@ -55,7 +55,7 @@ bool passesVetoMuonID(unsigned int muon_i, Nano& nt) {
     return ttH_UL::muonID(muon_i, ttH::IDveto, nt.year());
 }
 
-bool runLeptonSelection()
+bool passLeptonVeto(Nano &nt)
 {
     // Select leptons candidates with losest ttH selection
     LorentzVectors veto_lep_p4s;
@@ -102,14 +102,14 @@ bool runLeptonSelection()
 //                         Jets                         //
 //////////////////////////////////////////////////////////
 
-bool runJetsSelection()
+bool runJetsSelection(Nano &nt)
 {
-    LorentzVectors selectedAK4jets = selectAK4Jets();
+    LorentzVectors selectedAK4jets = selectAK4Jets(nt);
 
     // Require at least two VBS jets
     if (!runVBSSelection(selectedAK4jets)) return false;
 
-    LorentzVectors selectedAK8jets = selectAK8Jets();
+    LorentzVectors selectedAK8jets = selectAK8Jets(nt);
 
     auto n_AK8jets = selectedAK8jets.size();
     auto n_AK4jets = selectedAK4jets.size();
@@ -117,29 +117,20 @@ bool runJetsSelection()
     // Require 3 hadronic decays plus 2 VBS jets
     if ((2*n_AK8jets+n_AK4jets) < 8) return false;
 
-
-
     return true;    
 }
 
-bool runJetsSelection_Run2()
+// Select for only boosted scenario
+bool runJetsSelection_Run2(Nano &nt)
 {
-    if (DEBUG) std::cout << "runJetsSelection_Run2: entered " << std::endl;
-    // defined but not used
-    //LorentzVectors selectedAK4jets = selectAK4Jets();
-    //auto n_AK4jets = selectedAK4jets.size();
-    // // Require at least two VBS jets
-    // if (!runVBSSelection(selectedAK4jets)) return false;
+    if (DEBUG) std::cout << "runJetsSelection_Run2(): Entered. " << std::endl;
 
-    LorentzVectors selectedAK8jets = selectAK8Jets();
-    if (DEBUG) std::cout << "runJetsSelection_Run2: get ak8 jets size " << std::endl;
+    LorentzVectors selectedAK8jets = selectAK8Jets(nt);
+
     auto n_AK8jets = selectedAK8jets.size();
-
-    if (DEBUG) std::cout << "runJetsSelection_Run2: require 2 ak8 jets " << std::endl;
 
     // Require at least 2 fat jets
     if (n_AK8jets < 2) return false;
-    if (DEBUG) std::cout << "runJetsSelection_Run2: calculate ht " << std::endl;
 
     // Require hadronic activity from fat jets
     double ht_ak8 = 0.;
@@ -147,15 +138,14 @@ bool runJetsSelection_Run2()
     {
         ht_ak8 += ak8jet.pt();
     }
-    if (ht_ak8 < 1100) return false;
+    if (ht_ak8 <= 1100) return false;
 
-    if (DEBUG) std::cout << "runJetsSelection_Run2: arrived at the end" << std::endl;
-
+    if (DEBUG) std::cout << "runJetsSelection_Run2(): Exiting." << std::endl;
     return true;    
 }
 
 
-LorentzVectors selectAK4Jets(){
+LorentzVectors selectAK4Jets(Nano &nt){
     LorentzVectors jet_p4s = {};
     for (unsigned int jet_i = 0; jet_i < nt.nJet(); jet_i++)
     {
@@ -169,8 +159,6 @@ LorentzVectors selectAK4Jets(){
             jet_p4s.push_back(jet_p4);
         }
     }
-
-    //return (jet_p4s.size() >= 2);
     return jet_p4s;
 }
 
@@ -194,7 +182,7 @@ bool runVBSSelection(LorentzVectors jet_p4s){
     return (n_vbsjet_pairs > 0);
 }
 
-LorentzVectors selectAK8Jets()
+LorentzVectors selectAK8Jets(Nano &nt)
 {
     LorentzVectors fatjet_p4s = {};
     for (unsigned int fatjet_i = 0; fatjet_i < nt.nFatJet(); fatjet_i++)

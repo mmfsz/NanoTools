@@ -3,9 +3,10 @@
 
 // Nano
 #include "Nano.h"
-//#include "arbusto.h"
+
+//#include "arbol.h"
 // #include "looper.h"
-// #include "cutflow.h"
+ #include "cutflow.h"
 // #include "utilities.h"
 
 // Custom skimmer 
@@ -20,13 +21,13 @@ typedef std::vector<int> Integers;
 typedef std::vector<unsigned int> Indices;
 
 
-bool runSelection_allHad( Nano& nt) ; //,  Arbusto& arbusto); 
+//bool runSelection_allHad( Nano& nt) ; //,  Arbusto& arbusto); 
 //void computeLeptonMVA_ttHUL(Nano& nt, Arbusto& arbusto);
-bool runLeptonSelection();
-bool runJetsSelection();
-bool runJetsSelection_Run2();
-LorentzVectors selectAK4Jets();
+bool passLeptonVeto(Nano &nt);
+bool runJetsSelection(Nano &nt);
+bool runJetsSelection_Run2(Nano &nt);
+LorentzVectors selectAK4Jets(Nano &nt);
 bool runVBSSelection(LorentzVectors);
-LorentzVectors selectAK8Jets();
+LorentzVectors selectAK8Jets(Nano &nt);
 
 #endif

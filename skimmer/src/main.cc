@@ -53,13 +53,26 @@ int main(int argc, char** argv)
 
     arbusto.newVecBranch<float>("Electron_mvaTTHUL", {});
     arbusto.newVecBranch<float>("Muon_mvaTTHUL", {});
+    arbusto.newBranch<float>("Pass_leptonVeto", {});
     MVATTH::MVATTH mvatth("./data/leptonMVA/UL20_2018.xml");
+
+    // Make sure HLT branches for all years are present. 
+    // This avoids missing branches in analysis code.
+    // Note: if the branch exists, the leaf value is reset in the event loop.
+    std::vector<TString> branches = {"HLT_PFHT1050","HLT_PFHT800", "HLT_PFHT900"}; 
+    for (auto &branch : branches){ 
+      std::cout << "Adding branch " << branch << std::endl;
+      arbusto.newBranch<bool>(branch, false);
+    }
+
 
     // Initialize TLists for metadata TTrees
     TList* runs = new TList();
     TList* lumis = new TList();
-
+    
+    std::vector<TString> missingBranches;
     int counter_passAllHad {0};
+
     // Run looper
     tqdm bar;
     if (cli.debug) std::cout << "Start looper" << std::endl;
@@ -76,10 +89,8 @@ int main(int argc, char** argv)
             if (cli.debug) std::cout << "Get file-level trees" << std::endl;
             // Store metadata ttrees
             TTree* runtree = ((TTree*)ttree->GetCurrentFile()->Get("Runs"))->CloneTree();
-            //runtree->SetDirectory(0);
             runs->Add(runtree);
             TTree* lumitree = ((TTree*)ttree->GetCurrentFile()->Get("LuminosityBlocks"))->CloneTree();
-            //lumitree->SetDirectory(0);
             lumis->Add(lumitree);
 
             if (cli.debug) std::cout << "Initialize arbusto" << std::endl;
@@ -111,31 +122,40 @@ int main(int argc, char** argv)
 
               // ==========================================
               // Do your stuff
-              // If "return" is called, the event will not be saved (as it won't reach the line that says arbusto.fill(entry);
+              // If "return" is called, the event will not be saved (as it won't reach the line that says arbusto.fill(entry);            
 
-                for (unsigned int elec_i = 0; elec_i < nt.nElectron(); ++elec_i)
-                {
-                    float tth_mva = mvatth.computeElecMVA(elec_i);
-                    arbusto.appendToVecLeaf<float>("Electron_mvaTTHUL", tth_mva);
+              // Do not store events with incomplete Madgraph information 
+              if( nt.nLHEReweightingWeight()<=0){ return; }
+
+              //
+              for (unsigned int elec_i = 0; elec_i < nt.nElectron(); ++elec_i)
+              {
+                float tth_mva = mvatth.computeElecMVA(elec_i);
+                arbusto.appendToVecLeaf<float>("Electron_mvaTTHUL", tth_mva);
                 }
                 for (unsigned int muon_i = 0; muon_i < nt.nMuon(); ++muon_i)
                 {
                     float tth_mva = nt.Muon_mvaTTH().at(muon_i);
                     arbusto.appendToVecLeaf<float>("Muon_mvaTTHUL", tth_mva);
                 }
-                bool pass_allHad = runSelection_allHad(nt);
-                //std::cout << "runSelection_allHad: " << pass_allHad << std::endl;
-                if (!pass_allHad) return;
-                counter_passAllHad++;     
 
+                bool pass_leptonVeto = passLeptonVeto(nt);
+                arbusto.setLeaf<bool>("Pass_leptonVeto", pass_leptonVeto);
+                if (!pass_leptonVeto){ return; }
+
+                bool pass_jetsSelection = runJetsSelection_Run2(nt);
+                if (!pass_jetsSelection){ return; }
+                 
               // ==========================================
 
               // If it reaches here then save the event
-              arbusto.fill(entry);
+                counter_passAllHad++;
+                arbusto.fill(entry);
             }
         }
     );
 
+    std::cout << "looper.n_events_processed : " << looper.n_events_processed << std::endl;
     std::cout << "Events that passed allHad : " << counter_passAllHad << std::endl;
 
     TTree* merged_runs = TTree::MergeTrees(runs);

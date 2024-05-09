@@ -3,9 +3,8 @@
 EXE=skim
 
 SOURCES=$(wildcard ./src/*.cc) $(wildcard ../rapido/src/*.cc) ../NanoCORE/Nano.cc  ../NanoCORE/ElectronSelections.cc ../NanoCORE/MuonSelections.cc ../NanoCORE/Config.cc ../NanoCORE/IsolationTools.cc ../NanoCORE/MCTools.cc
-#SOURCES=$(wildcard ./*.cc) $(wildcard ../rapido/src/*.cc) ../NanoCORE/Nano.cc  ../NanoCORE/ElectronSelections.cc ../NanoCORE/MuonSelections.cc ../NanoCORE/Config.cc ../NanoCORE/IsolationTools.cc ../NanoCORE/MCTools.cc
-OBJECTS=$(SOURCES:.cc=.o)
-HEADERS=$(SOURCES:.cc=.h)
+HEADERS=$(wildcard src/*.h)
+OBJECTS=$(SOURCES:%.cc=%.o)
 
 CC          = g++
 CXX         = g++
@@ -22,13 +21,15 @@ CFLAGS      = $(ROOTCFLAGS) -Wall -Wno-unused-function -g -O2 -fPIC -fno-var-tra
 EXTRACFLAGS = -I../NanoCORE -I../rapido/src -I../NanoCORE/Tools -I${CMSSW_BASE}/../../../external/boost/1.67.0/include -I${CMSSW_BASE}/src
 EXTRAFLAGS  = -fPIC -ITMultiDrawTreePlayer -Wunused-variable -lTMVA -lEG -lGenVector -lXMLIO -lMLP -lTreePlayer
 
-all: $(EXE)
+all: ${HEADERS} ${SOURCES} $(EXE)
 
 $(EXE): $(OBJECTS)
 	$(LD) $(CXXFLAGS) $(LDFLAGS) $(OBJECTS) $(ROOTLIBS) $(EXTRAFLAGS) -o $@
 
-%.o: %.cc
-	$(CC) $(CFLAGS) $(EXTRACFLAGS) $< -c -o $@
+%.o: %.cc 
+	$(CC) $(CFLAGS) $(EXTRACFLAGS) -c $< -o $@
+
+.DELETE_ON_ERROR:
 
 clean:
 	rm -f main.o $(EXE) $(wildcard ./src/*.o)
