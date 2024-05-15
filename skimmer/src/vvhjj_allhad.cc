@@ -23,6 +23,28 @@ bool DEBUG = false;
 // }
 
 //////////////////////////////////////////////////////////
+//                      Events filters                    //
+//////////////////////////////////////////////////////////
+bool passEventFilters(Nano &nt)
+{
+  bool passFilters = nt.Flag_goodVertices() &&
+                     nt.Flag_HBHENoiseFilter() &&
+                     nt.Flag_HBHENoiseIsoFilter() &&
+                     nt.Flag_EcalDeadCellTriggerPrimitiveFilter() &&
+                     nt.Flag_BadPFMuonFilter() &&
+                     nt.Flag_BadPFMuonDzFilter() &&
+                     nt.Flag_hfNoisyHitsFilter() &&
+                     nt.Flag_eeBadScFilter() &&
+                     ((nt.year() == 2016) || nt.Flag_ecalBadCalibFilter()) &&
+                     ((!nt.isData()) || nt.Flag_globalSuperTightHalo2016Filter());
+  return passFilters;
+}
+
+      // "( (is2016) || Flag_ecalBadCalibFilter) &&" // apply only to 2017, 2018
+      // "( (!isData) || Flag_globalSuperTightHalo2016Filter)", // apply only to data
+      // "EventFilters");
+
+//////////////////////////////////////////////////////////
 //                      Leptons                         //
 //////////////////////////////////////////////////////////
 // Cannot include arbust.h again??
@@ -45,12 +67,12 @@ bool DEBUG = false;
 /* NOTE: The ttH_UL functions are added only in this development branch.
  *       They use ttH UL MVA branches, which so do not exist in v9 NanoAOD production and are manually added as custom branches.
  */
-bool passesVetoElecID(unsigned int elec_i, Nano& nt) {
+bool passVetoElecID(unsigned int elec_i, Nano& nt) {
     //return ttH::electronID(elec_i, ttH::IDveto, nt.year());
     return ttH_UL::electronID(elec_i, ttH::IDveto, nt.year());
 }
 
-bool passesVetoMuonID(unsigned int muon_i, Nano& nt) {
+bool passVetoMuonID(unsigned int muon_i, Nano& nt) {
     //return ttH::muonID(muon_i, ttH::IDveto, nt.year());
     return ttH_UL::muonID(muon_i, ttH::IDveto, nt.year());
 }
@@ -65,7 +87,7 @@ bool passLeptonVeto(Nano &nt)
     // Loop over electrons
     for (unsigned int i = 0; i < nt.nElectron(); ++i)
     {
-        if (!passesVetoElecID(i, nt))
+        if (!passVetoElecID(i, nt))
         {
             continue;
         }
@@ -79,7 +101,7 @@ bool passLeptonVeto(Nano &nt)
     // Loop over muons
     for (unsigned int i = 0; i < nt.nMuon(); ++i)
     {
-        if (!passesVetoMuonID(i, nt))
+        if (!passVetoMuonID(i, nt))
         {
             continue;
         }
@@ -110,12 +132,27 @@ bool runJetsSelection(Nano &nt)
     if (!runVBSSelection(selectedAK4jets)) return false;
 
     LorentzVectors selectedAK8jets = selectAK8Jets(nt);
-
-    auto n_AK8jets = selectedAK8jets.size();
-    auto n_AK4jets = selectedAK4jets.size();
+    double ht_vbs{0.};
+    for (auto &vbsjet : selectedAK8jets) {
+      ht_vbs += vbsjet.pt();
+    }
 
     // Require 3 hadronic decays plus 2 VBS jets
+    auto n_AK8jets = selectedAK8jets.size();
+    auto n_AK4jets = selectedAK4jets.size();    
     if ((2*n_AK8jets+n_AK4jets) < 8) return false;
+
+    // Require hadronic activity (remove vbs jets contribution)
+    double ht_ak8 {0.};
+    double ht_ak4 {0.};
+    for (auto &ak8jet : selectedAK8jets) {
+      ht_ak8 += ak8jet.pt();
+    }
+    for (auto &ak4jet : selectedAK4jets) {
+      ht_ak4 += ak4jet.pt();
+    }
+
+    if ( (ht_ak8+ht_ak4-ht_vbs) < 250) return false;
 
     return true;    
 }
@@ -133,7 +170,7 @@ bool runJetsSelection_Run2(Nano &nt)
     if (n_AK8jets < 2) return false;
 
     // Require hadronic activity from fat jets
-    double ht_ak8 = 0.;
+    double ht_ak8 {0.};
     for (auto& ak8jet: selectedAK8jets)
     {
         ht_ak8 += ak8jet.pt();
@@ -150,11 +187,11 @@ LorentzVectors selectAK4Jets(Nano &nt){
     for (unsigned int jet_i = 0; jet_i < nt.nJet(); jet_i++)
     {
         LorentzVector jet_p4 = nt.Jet_p4().at(jet_i);
-        bool passes_jet_id = (
+        bool pass_jet_id = (
             (nt.year() == 2016 && nt.Jet_jetId().at(jet_i) >= 1)
             || (nt.year() > 2016 && nt.Jet_jetId().at(jet_i) >= 2)
         );
-        if (jet_p4.pt() > 20 && passes_jet_id)
+        if (jet_p4.pt() > 20 && pass_jet_id)
         {
             jet_p4s.push_back(jet_p4);
         }

@@ -24,6 +24,7 @@ typedef std::vector<unsigned int> Indices;
 //bool runSelection_allHad( Nano& nt) ; //,  Arbusto& arbusto); 
 //void computeLeptonMVA_ttHUL(Nano& nt, Arbusto& arbusto);
 bool passLeptonVeto(Nano &nt);
+bool passEventFilters(Nano &nt);
 bool runJetsSelection(Nano &nt);
 bool runJetsSelection_Run2(Nano &nt);
 LorentzVectors selectAK4Jets(Nano &nt);

@@ -47,6 +47,15 @@ fileHandles = []
 goFast = True
 for fn in files:
     print("Adding file " + str(fn))
+    # HACK to check for empty files 
+    # <<
+    # Note: another possibility is to remove the check for TObjStr "tag" (see below)
+    fh = ROOT.TFile.Open(fn)
+    eventsTTreeObj = fh.GetListOfKeys().FindObject("Events").ReadObj()
+    if eventsTTreeObj.GetEntries() == 0: 
+        print("Events TTree is empty. Skipping this file")
+        continue
+    # << 
     fileHandles.append(ROOT.TFile.Open(fn))
     if fileHandles[-1].GetCompressionSettings() != fileHandles[0].GetCompressionSettings():
         goFast = False
@@ -58,7 +67,8 @@ of.cd()
 
 for e in fileHandles[0].GetListOfKeys():
     name = e.GetName()
-    print("Merging" + str(name))
+    print("Merging " + str(name))
+    #if name=="tag": continue
     obj = e.ReadObj()
     cl = ROOT.TClass.GetClass(e.GetClassName())
     inputs = ROOT.TList()
@@ -66,7 +76,10 @@ for e in fileHandles[0].GetListOfKeys():
     if isTree:
         obj = obj.CloneTree(-1, "fast" if goFast else "")
         branchNames = set([x.GetName() for x in obj.GetListOfBranches()])
+    counter = 0
     for fh in fileHandles[1:]:
+        counter += 1
+        #print(f"{counter} Find {name} {fh.GetName()}")
         otherObj = fh.GetListOfKeys().FindObject(name).ReadObj()
         inputs.Add(otherObj)
         if isTree and obj.GetName() == 'Events':
