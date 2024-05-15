@@ -1,29 +1,41 @@
 
 # %
 # !! Current output SKIMDIR required running from UAF-2 !!
+sig_job_dir="v2"
 SAMPLES="
-/ceph/cms/store/user/mmazza/SignalGeneration/fullTest3/VBSWZH_VBSCuts_TuneCP5_RunIISummer20UL16-106X_privateMC_NANOGEN_fullTest3/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/fullTest3/VBSWZH_VBSCuts_TuneCP5_RunIISummer20UL16APV-106X_privateMC_NANOGEN_fullTest3/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/fullTest3/VBSWZH_VBSCuts_TuneCP5_RunIISummer20UL17-106X_privateMC_NANOGEN_fullTest3/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/fullTest3/VBSWZH_VBSCuts_TuneCP5_RunIISummer20UL18-106X_privateMC_NANOGEN_fullTest3/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/fullTest3/VBSZZH_VBSCuts_TuneCP5_RunIISummer20UL16-106X_privateMC_NANOGEN_fullTest3/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/fullTest3/VBSZZH_VBSCuts_TuneCP5_RunIISummer20UL16APV-106X_privateMC_NANOGEN_fullTest3/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/fullTest3/VBSZZH_VBSCuts_TuneCP5_RunIISummer20UL17-106X_privateMC_NANOGEN_fullTest3/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/fullTest3/VBSZZH_VBSCuts_TuneCP5_RunIISummer20UL18-106X_privateMC_NANOGEN_fullTest3/merged.root
+/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}/VBSWZH_VBSCuts_TuneCP5_RunIISummer20UL16-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
+/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}/VBSWZH_VBSCuts_TuneCP5_RunIISummer20UL16APV-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
+/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}/VBSWZH_VBSCuts_TuneCP5_RunIISummer20UL17-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
+/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}/VBSWZH_VBSCuts_TuneCP5_RunIISummer20UL18-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
+/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}/VBSZZH_VBSCuts_TuneCP5_RunIISummer20UL16-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
+/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}/VBSZZH_VBSCuts_TuneCP5_RunIISummer20UL16APV-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
+/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}/VBSZZH_VBSCuts_TuneCP5_RunIISummer20UL17-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
+/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}/VBSZZH_VBSCuts_TuneCP5_RunIISummer20UL18-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
+/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}/VBSWWH_SS_VBSCuts_TuneCP5_RunIISummer20UL16-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
+/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}/VBSWWH_SS_VBSCuts_TuneCP5_RunIISummer20UL16APV-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
+/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}/VBSWWH_SS_VBSCuts_TuneCP5_RunIISummer20UL17-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
+/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}/VBSWWH_SS_VBSCuts_TuneCP5_RunIISummer20UL18-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
+/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}/VBSWWH_OS_VBSCuts_TuneCP5_RunIISummer20UL16-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
+/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}/VBSWWH_OS_VBSCuts_TuneCP5_RunIISummer20UL16APV-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
+/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}/VBSWWH_OS_VBSCuts_TuneCP5_RunIISummer20UL17-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
+/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}/VBSWWH_OS_VBSCuts_TuneCP5_RunIISummer20UL18-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
 "
-SKIMDIR=/data/userdata/mmazza/vvhjj/skims/allhad/
-SKIMTAG=v3
-SKIMMER=skim
+SKIMTAG=${sig_job_dir}_allhad_loose
+SKIMDIR=/data/userdata/mmazza/vvhjj/skims/${SKIMTAG}/ #allhad/
+mkdir -p $SKIMDIR
 
+SKIMMER=skim
+#echo "Begin " > $outLogFile
+outLogFile=${SKIMDIR}/skimmer_out.log
 if [[ "$SAMPLES" != "" && "$SKIMDIR" != "" && "$SKIMTAG" != "" ]]; then
     for sample in $SAMPLES; do
-        echo "Skimming $sample"
-        ./$SKIMMER -t Events -d . -n output -T Events $sample
+        echo "Skimming $sample" >> $outLogFile
+        ./$SKIMMER -t Events -d . -n output -T Events $sample >> $outLogFile
         sampledir=$(dirname $sample)
-        targetdir=$SKIMDIR/$SKIMTAG/${sampledir##*/}
+        targetdir=$SKIMDIR/${sampledir##*/}
         mkdir -p $targetdir
         mv output.root $targetdir/merged.root
-        echo "Wrote skim to $targetdir/merged.root"
+        echo "Wrote skim to $targetdir/merged.root" >> $outLogFile
     done
 fi
 
