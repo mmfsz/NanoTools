@@ -30,7 +30,7 @@ $(EXE): $(OBJECTS)
 	$(CC) $(CFLAGS) $(EXTRACFLAGS) $< -c -o $@
 
 clean:
-	rm -f main.o $(EXE)
+	rm -f main.o myanalysis.o $(EXE)
 
 cleanall:
 	rm -f $(OBJECTS) $(EXE)
