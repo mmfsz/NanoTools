@@ -12,6 +12,7 @@ HEPCLI::HEPCLI(int argc, char** argv)
     is_data = false;
     is_signal = false;
     debug = false;
+    dump_truth = false;
     scale_factor = 1.;
     parse(argc, argv);
 }
@@ -53,6 +54,8 @@ void HEPCLI::printHelp()
     std::cout << std::endl;
     std::cout << std::setw(25) << "  --debug" << std::setw(50) << "debug flag";
     std::cout << std::endl;
+    std::cout << std::setw(25) << "  --dump_truth" << std::setw(50) << "dump truth flag (only if is_signal)";
+    std::cout << std::endl;
     return;
 }
 
@@ -63,6 +66,7 @@ void HEPCLI::parse(int argc, char** argv)
     int is_data_flag = 0;
     int is_signal_flag = 0;
     int debug_flag = 0;
+    int dump_truth_flag = 0;
     static struct option options[] = {
         {"verbose", no_argument, 0, 'v'},
         {"input_ttree", required_argument, 0, 't'},
@@ -75,6 +79,7 @@ void HEPCLI::parse(int argc, char** argv)
         {"is_data", no_argument, &is_data_flag, 1},
         {"is_signal", no_argument, &is_signal_flag, 1},
         {"debug", no_argument, &debug_flag, 1},
+        {"dump_truth", no_argument, &dump_truth_flag, 1},
     };
 
     // Parse CLI input
@@ -116,6 +121,14 @@ void HEPCLI::parse(int argc, char** argv)
     is_data = is_data_flag;
     is_signal = is_signal_flag;
     debug = debug_flag;
+    dump_truth = dump_truth_flag;
+
+    // Check flags consistency
+    if ((dump_truth == 1) && (is_signal==0))
+    {
+        std::string msg = "Error - dump truth only works for signal samples, but is_signal is false.";
+        throw std::runtime_error("HEPCLI::parse: " + msg);
+    }
 
     // Make local directories as needed for the output
     std::vector<std::string> sub_dirs;

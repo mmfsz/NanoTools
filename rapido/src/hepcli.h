@@ -50,6 +50,8 @@ public:
     bool is_signal;
     /** Debug flag */
     bool debug;
+    /** Dump truth information flag */
+    bool dump_truth;
     /** Global event weight */
     double scale_factor;
     /** ROOT TChain with input files */

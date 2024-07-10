@@ -63,7 +63,7 @@ void GlobalConfig::GetSampleType(std::string dsname) {
     else if (dsname.find("VBF") != std::string::npos)
         samptype = "VBF";
     else if ((dsname.find("VBSCuts") != std::string::npos) && (dsname.find("privateMC") != std::string::npos))
-        is_signal == true;
+        is_signal = true;
     else
         std::cout << ">>> Cannot assigned sampletype for " << dsname << std::endl;
 

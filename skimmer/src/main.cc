@@ -1,9 +1,11 @@
 // NanoTools
 #include "main.h"
+#include <chrono>
 
 int main(int argc, char **argv)
 {
   std::cout << "Entered skimmer" << std::endl;
+  auto start = std::chrono::high_resolution_clock::now();
 
   // CLI
   HEPCLI cli = HEPCLI(argc, argv);
@@ -16,9 +18,7 @@ int main(int argc, char **argv)
   // Initialize Arbusto
   if (cli.debug)
     std::cout << "Create output file" << std::endl;
-  TFile *output_tfile = new TFile(
-      TString(cli.output_dir + "/" + cli.output_name + ".root"),
-      "RECREATE");
+  TFile *output_tfile = new TFile(TString(cli.output_dir + "/" + cli.output_name + ".root"), "RECREATE");
 
   // Set to true to specify branches to DROP instead of keep
   bool remove_branches = false;
@@ -50,20 +50,15 @@ int main(int argc, char **argv)
        "Pileup*"},
       remove_branches);
 
-  arbusto.newVecBranch<float>("Electron_mvaTTHUL", {});
-  arbusto.newVecBranch<float>("Muon_mvaTTHUL", {});
-  arbusto.newBranch<float>("Pass_leptonVeto", {});
-  MVATTH::MVATTH mvatth("./data/leptonMVA/UL20_2018.xml");
+  // Initialize Cutflow
+  Cutflow cutflow = Cutflow(cli.output_name + "_Cutflow");
+  
+  // Initialize Analysis class object  (also adds branches)
+  Analysis skimmer = Analysis(arbusto, nt, cli, cutflow);
+  skimmer.initBranches();
+  skimmer.initCutflow();
 
-  // Make sure HLT branches for all years are present.
-  // This avoids missing branches in analysis code.
-  // Note: if the branch exists, the leaf value is reset in the event loop.
-  std::vector<TString> branches = {"HLT_PFHT1050", "HLT_PFHT800", "HLT_PFHT900"};
-  for (auto &branch : branches)
-  {
-    std::cout << "Adding branch " << branch << std::endl;
-    arbusto.newBranch<bool>(branch, false);
-  }
+  // -------------------------------------
 
   // Initialize TLists for metadata TTrees
   TList *runs = new TList();
@@ -107,7 +102,7 @@ int main(int argc, char **argv)
       [&](int entry)
       {
         // if this is a debug run end the loop after 10000
-        if (cli.debug && looper.n_events_processed == 10000)
+        if (cli.debug && looper.n_events_processed == 100)
         {
           looper.stop();
         }
@@ -116,6 +111,8 @@ int main(int argc, char **argv)
         {
           // Reset branches and globals
           arbusto.resetBranches();
+          cutflow.globals.resetVars();
+
           // Load event information
           nt.GetEntry(entry);
           // progess bar printing
@@ -138,33 +135,18 @@ int main(int argc, char **argv)
           // }
           // <<
 
-          bool pass_EventFilters = passEventFilters(nt);
-          if (!pass_EventFilters)
-          {
-            return;
-          }
+          skimmer.runPerEvent();
 
-          for (unsigned int elec_i = 0; elec_i < nt.nElectron(); ++elec_i)
-          {
-            float tth_mva = mvatth.computeElecMVA(elec_i);
-            arbusto.appendToVecLeaf<float>("Electron_mvaTTHUL", tth_mva);
-          }
-          for (unsigned int muon_i = 0; muon_i < nt.nMuon(); ++muon_i)
-          {
-            float tth_mva = nt.Muon_mvaTTH().at(muon_i);
-            arbusto.appendToVecLeaf<float>("Muon_mvaTTHUL", tth_mva);
-          }
-
-          bool pass_leptonVeto = passLeptonVeto(nt);
-          arbusto.setLeaf<bool>("Pass_leptonVeto", pass_leptonVeto);
-          if (!pass_leptonVeto)
-          {
-            return;
-          }
 
           // bool pass_jetsSelection = runJetsSelection_Run2(nt);
-          bool pass_jetsSelection = runJetsSelection(nt);
-          if (!pass_jetsSelection)
+          // bool pass_jetsSelection = runJetsSelection(nt);
+          // if (!pass_jetsSelection)
+          // {
+          //   return;
+          // }
+
+          // bool passed = cutflow.run("PassEventFilters");
+          if (!skimmer.eventPassed())
           {
             return;
           }
@@ -176,6 +158,9 @@ int main(int argc, char **argv)
           arbusto.fill(entry);
         }
       });
+
+  
+  cutflow.print();
 
   std::cout << "looper.n_events_processed : " << looper.n_events_processed << std::endl;
   std::cout << "Events that passed allHad : " << counter_passAllHad << std::endl;
@@ -190,5 +175,8 @@ int main(int argc, char **argv)
   merged_lumis->Write();
   arbusto.write();
   std::cout << "Exit" << std::endl;
+  auto end = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> duration = end - start;
+  std::cout << "Elapsed time: " << duration.count() << " seconds" << std::endl;
   return 0;
 }
