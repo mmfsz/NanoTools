@@ -131,10 +131,7 @@ bool ttH::muonID(unsigned int idx, ttH::IDLevel id_level, int year) {
     return true;
 }
 
-
-/* NOTE: The branch Muon_mvaTTHUL from ttH UL analysis does not exists in v9 NanoAOD production.
- *       Muon_mvaTTHUL is a custom branch that must be manually computed.
- */
+// NOTE: The muon MVA already present in NanoAODv9 is fine for tthUL (looks the same as ttH::muonID?
 bool ttH_UL::muonID(unsigned int idx, ttH::IDLevel id_level, int year) {
     // Common (across ID levels) checks
     if (Muon_pt().at(idx) <= 5.) { return false; }
@@ -158,13 +155,13 @@ bool ttH_UL::muonID(unsigned int idx, ttH::IDLevel id_level, int year) {
     case (ttH::IDveto):
         break;
     case (ttH::IDfakable):
-        if (Muon_mvaTTHUL().at(idx) <= 0.85) { 
+        if (Muon_mvaTTH().at(idx) <= 0.85) { 
             if (Muon_jetRelIso().at(idx) >= 0.5) { return false; }
         }
         break;
     case (ttH::IDtight):
         if (!Muon_mediumId().at(idx)) { return false; } // medium POG ID
-        if (Muon_mvaTTHUL().at(idx) <= 0.85) { return false; }
+        if (Muon_mvaTTH().at(idx) <= 0.85) { return false; }
         break;
     default:
         throw std::runtime_error("MuonSelections.cc: ERROR - invalid ID level");

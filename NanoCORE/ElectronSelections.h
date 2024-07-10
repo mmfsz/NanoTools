@@ -31,7 +31,7 @@ namespace ttH {
 }
 
 namespace ttH_UL {
-    bool electronID(int idx, ttH::IDLevel id_level, int year);
+    bool electronID(int idx, ttH::IDLevel id_level, int year, std::vector<float> Electron_mvaTTHUL);
 }
 
 namespace WWZ {

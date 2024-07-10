@@ -349,11 +349,13 @@ bool ttH::isTriggerSafeNoIso(int idx) {
     return true;
 }
 
-
 /* NOTE: The branch Electron_mvaTTHUL from ttH UL analysis does not exists in v9 NanoAOD production.
- *       Electron_mvaTTHUL is a custom branch that must be manually computed.
+ *       The mva_tthUL for electrons is manually computed at run time and added to the arbusto tree.
+ *       Electron_mvaTTHUL is a vector filled per-event with the tth_mva scores of each electron in the nt electron collection. 
  */
-bool ttH_UL::electronID(int idx, ttH::IDLevel id_level, int year) {
+bool ttH_UL::electronID(int idx, ttH::IDLevel id_level, int year, std::vector<float> Electron_mvaTTHUL)
+{
+
     // Common (across ID levels) checks
     if (Electron_pt().at(idx) <= 7.) { return false; }
     if (fabs(Electron_eta().at(idx) + Electron_deltaEtaSC().at(idx)) >= 2.5) { return false; }
@@ -380,13 +382,15 @@ bool ttH_UL::electronID(int idx, ttH::IDLevel id_level, int year) {
     case (ttH::IDveto):
         break;
     case (ttH::IDfakable):
-        if (Electron_mvaTTHUL().at(idx) <= 0.9) {
+        //if (Electron_mvaTTHUL().at(idx) <= 0.9) {
+        if (Electron_mvaTTHUL.at(idx) <= 0.9) {
             if (!Electron_mvaFall17V2noIso_WP80().at(idx)) { return false; }
             if (Electron_jetRelIso().at(idx) >= 0.7) { return false; }
         }
         break;
     case (ttH::IDtight):
-        if (Electron_mvaTTHUL().at(idx) <= 0.9) { return false; }
+        //if (Electron_mvaTTHUL().at(idx) <= 0.9) { return false; }
+        if (Electron_mvaTTHUL.at(idx) <= 0.9) { return false; }
         break;
     default:
         throw std::runtime_error("ElectronSelections.cc: ERROR - invalid ID level");
