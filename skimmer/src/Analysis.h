@@ -13,7 +13,8 @@
 #include "Tools/goodrun.h"
 
 #include "TruthAnalysis.h"
-#include "AnalysisSelection_Leptons.h"
+#include "ObjectSelection_Leptons.h"
+#include "ObjectSelection_Jets.h"
 #include "SkimmerCutBase.h"
 
 
@@ -32,6 +33,7 @@ class Analysis
   Cutflow &cutflow;
   TruthAnalysis truthAna;
   LeptonSelection leptonSelection;
+  JetSelection jetSelection;
   bool passCutflow_;
 
   Analysis(Arbusto &arbusto_ref, Nano &nt_ref, HEPCLI &cli_ref, Cutflow &cutflow_ref)
@@ -39,7 +41,8 @@ class Analysis
         nt(nt_ref), cli(cli_ref),
         cutflow(cutflow_ref),
         truthAna(arbusto_ref, nt_ref, cli_ref, cutflow_ref),
-       leptonSelection(arbusto_ref, nt_ref, cli_ref, cutflow_ref.globals)
+       leptonSelection(arbusto_ref, nt_ref, cli_ref, cutflow_ref.globals),
+       jetSelection(arbusto_ref, nt_ref, cli_ref, cutflow_ref.globals)
   {
 
   }
@@ -65,8 +68,14 @@ class Analysis
     cutflow.globals.newVar<Integers>("veto_lep_jet_idxs", {});
     cutflow.globals.newVar<LorentzVectors>("tight_lep_p4s", {});
     cutflow.globals.newVar<Integers>("tight_lep_pdgIDs", {});
-    cutflow.globals.newVar<LorentzVectors>("jet_p4s", {});
+    
+    cutflow.globals.newVar<LorentzVectors>("ak4jets_p4s", {});
+    cutflow.globals.newVar<LorentzVectors>("ak8jets_p4s", {});
     cutflow.globals.newVar<double>("ht_ak8", -999);
+    cutflow.globals.newVar<double>("ht_ak4", -999);
+    cutflow.globals.newVar<int>("n_ak4jets", -999);
+    cutflow.globals.newVar<int>("n_ak8jets", -999);
+    cutflow.globals.newVar<int>("n_vbsjet_pairs", -999);
 
     // All events
     Cut *cut_base = new LambdaCut("AllEvents", [&]()
@@ -78,9 +87,6 @@ class Analysis
                                               { return passEventFilters(); });
     cutflow.insert(cut_base, cut_passEventFilters, Right);
 
-    // Cut *find_leps = new FindLeptons("FindLeptonsTTHUL", arbusto, nt, cli, cutflow);
-    // cutflow.insert(cut_passEventFilters, find_leps, Right);
-
     // Lepton selection
     Cut *cut_noVetoLeps = new LambdaCut(
         "NoVetoLeptons",
@@ -90,9 +96,27 @@ class Analysis
         });
     cutflow.insert(cut_passEventFilters, cut_noVetoLeps, Right);
 
+    // Jet selection
+    Cut *cut_AtLeast2AK8Jets = new LambdaCut(
+        "AtLeast2AK8Jets",
+        [&]()
+        {
+          return (cutflow.globals.getVal<int>("n_ak8jets") >= 2);
+        });
+    cutflow.insert(cut_noVetoLeps, cut_AtLeast2AK8Jets, Right);
+
+    Cut *cut_AK8HTgt1100 = new LambdaCut(
+        "AK8HTgt1100",
+        [&]()
+        {
+          return (cutflow.globals.getVal<double>("ht_ak8") > 1100);
+        });
+    cutflow.insert(cut_AtLeast2AK8Jets, cut_AK8HTgt1100, Right);
+
+    // The end 
     Cut *cut_last = new LambdaCut("TheEnd", [&]()
                                   { return true; });
-    cutflow.insert(cut_noVetoLeps, cut_last, Right);
+    cutflow.insert(cut_AK8HTgt1100, cut_last, Right);
   }
 
   virtual void initPerTTree()
@@ -134,6 +158,7 @@ class Analysis
       }
 
       leptonSelection.selectVetoLeptons();
+      jetSelection.selectJets();
 
       // Run cutflow
       std::vector<std::string>
