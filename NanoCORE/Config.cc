@@ -33,9 +33,9 @@ void GlobalConfig::GetConfigsFromDatasetName(std::string dsname) {
     }
     else
     {
-        std::cout << " >>> Dataset name: " << dsname << std::endl;
-        std::cout << " >>> Year: " << year << std::endl;
-        std::cout << " >>> isAPV: " << isAPV << std::endl;
+        std::cout << ">>> Dataset name: " << dsname << std::endl;
+        std::cout << ">>> Year: " << year << std::endl;
+        std::cout << ">>> isAPV: " << isAPV << std::endl;
     }
     // std::cout << ">>> Running sample as " << ((is_data) ? "data" : "MC with samptype as " + samptype) << "."<< std::endl;
     std::cout << ">>> --------------------------------------" << std::endl;
