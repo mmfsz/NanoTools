@@ -6,31 +6,42 @@ GlobalConfig gconf;
 void GlobalConfig::GetConfigsFromDatasetName(std::string dsname) {
     // bool isData = dsname.Contains("Run201") || dsname.Contains("run2_data");
 
-    if (dsname.find("Run2016") != std::string::npos || dsname.find("RunIISummer16") != std::string::npos ||
-        dsname.find("_2016/") != std::string::npos)
+    if (dsname.find("Run2016") != std::string::npos || dsname.find("RunIISummer16") != std::string::npos || dsname.find("UL16") != std::string::npos || dsname.find("UL2016") != std::string::npos || dsname.find("_2016/") != std::string::npos)
+    {
         year = 2016;
-    if (dsname.find("Run2017") != std::string::npos || dsname.find("RunIIFall17") != std::string::npos ||
-        dsname.find("_2017/") != std::string::npos)
+        if (dsname.find("HIPM") != std::string::npos || dsname.find("APV") != std::string::npos)
+        {
+            isAPV = true;
+        }
+    }
+    else if (dsname.find("Run2017") != std::string::npos || dsname.find("RunIIFall17") != std::string::npos || dsname.find("UL17") != std::string::npos || dsname.find("UL2017") != std::string::npos || dsname.find("_2017/") != std::string::npos)
+    {
         year = 2017;
-    if (dsname.find("Run2018") != std::string::npos || dsname.find("RunIIAutumn18") != std::string::npos ||
-        dsname.find("_2018/") != std::string::npos)
+    }
+    else if (dsname.find("Run2018") != std::string::npos || dsname.find("RunIIAutumn18") != std::string::npos || dsname.find("UL18") != std::string::npos || dsname.find("UL2018") != std::string::npos || dsname.find("_2018/") != std::string::npos)
+    {
         year = 2018;
+    }
 
     GetConfigs();
     GetSampleType(dsname);
 
     std::cout << ">>> ------------ GlobalConfig ------------" << std::endl;
-    if (year <= 0) {
-        std::cout << ">>> [!] Couldn't figure out year, so setting it to 2017. Make sure this is what you want!"
-                  << std::endl;
-        year = 2017;
-    } else {
-        std::cout << ">>> Figured out that the year is " << year << "." << std::endl;
+    if (year <= 0)
+    {
+        throw std::runtime_error("Error: Something went wrong when setting the year. Year must be greater than 0.");
     }
-    std::cout << ">>> Running sample as " << ((is_data) ? "data" : "MC with samptype as " + samptype) << "."
-              << std::endl;
+    else
+    {
+        std::cout << " >>> Dataset name: " << dsname << std::endl;
+        std::cout << " >>> Year: " << year << std::endl;
+        std::cout << " >>> isAPV: " << isAPV << std::endl;
+    }
+    // std::cout << ">>> Running sample as " << ((is_data) ? "data" : "MC with samptype as " + samptype) << "."<< std::endl;
     std::cout << ">>> --------------------------------------" << std::endl;
 }
+
+
 
 void GlobalConfig::GetSampleType(std::string dsname) {
 
