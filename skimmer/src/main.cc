@@ -53,17 +53,17 @@ int main(int argc, char **argv)
   // Initialize Cutflow
   Cutflow cutflow = Cutflow(cli.output_name + "_Cutflow");
   
-  // Initialize Analysis class object  (also adds branches)
+  // Initialize Analysis class object (also adds branches)
   Analysis skimmer = Analysis(arbusto, nt, cli, cutflow);
   skimmer.initBranches();
   skimmer.initCutflow();
 
-  // -------------------------------------
-
-  std::vector<TString> missingBranches;
+  std::vector<TString> missingBranches; // FIXME
   int counter_passAllHad{0};
 
+  // -------------------------------------
   // Run looper
+
   tqdm bar;
   if (cli.debug)
     std::cout << "Start looper" << std::endl;
@@ -79,7 +79,7 @@ int main(int argc, char **argv)
 
         // Initialize NanoTools
         nt.Init(ttree);
-        
+
         skimmer.initPerTTree(ttree);
 
       },

@@ -79,7 +79,6 @@ class Analysis
     // Initialize variables needed in cutflow.
     cutflow.globals.newVar<LorentzVectors>("veto_lep_p4s", {});
     cutflow.globals.newVar<LorentzVectors>("tight_lep_p4s", {});
-
     cutflow.globals.newVar<LorentzVectors>("ak4jets_p4s", {});
     cutflow.globals.newVar<LorentzVectors>("ak8jets_p4s", {});
     cutflow.globals.newVar<double>("ht_ak8", -999);
@@ -93,10 +92,15 @@ class Analysis
                                   { return true; });
     cutflow.setRoot(cut_base);
 
+    // Is good run number (data only)
+    Cut *cut_isGoodDataRun = new LambdaCut("isGoodDataRun", [&]()
+                                           { return (nt.isData()) ? goodrun(nt.run(), nt.luminosityBlock()) : true; });
+    cutflow.insert(cut_base, cut_isGoodDataRun, Right);
+
     // Pass Event filters 
     Cut *cut_passEventFilters = new LambdaCut("PassEventFilters", [&]()
                                               { return passEventFilters(); });
-    cutflow.insert(cut_base, cut_passEventFilters, Right);
+    cutflow.insert(cut_isGoodDataRun, cut_passEventFilters, Right);
 
     // Lepton selection
     Cut *cut_noVetoLeps = new LambdaCut(
@@ -130,10 +134,12 @@ class Analysis
     cutflow.insert(cut_AK8HTgt1100, cut_last, Right);
   }
 
+  // Initialize per TTree, before event loop.
   virtual void initPerTTree(TTree *ttree)
   {
     // Initialize arbusto
     arbusto.tfile->cd();
+    arbusto.init(ttree);
 
     // Store metadata ttrees
     TTree *runtree = ((TTree *)ttree->GetCurrentFile()->Get("Runs"))->CloneTree();
@@ -141,7 +147,7 @@ class Analysis
     TTree *lumitree = ((TTree *)ttree->GetCurrentFile()->Get("LuminosityBlocks"))->CloneTree();
     lumis->Add(lumitree);
 
-    arbusto.init(ttree);
+
     // Load golden JSON files
     if (nt.isData())
     {
