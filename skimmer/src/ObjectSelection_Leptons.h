@@ -33,10 +33,6 @@ class LeptonSelection : public ObjectSelection
 {
   public:
     std::vector<float> electronMVA_;
-  //   Arbusto &arbusto;
-  //   Nano &nt;
-  //   HEPCLI &cli;
-  //   Utilities::Variables &globals;
 
     LeptonSelection(Arbusto &arbusto_ref, Nano &nt_ref, HEPCLI &cli_ref, Utilities::Variables &cutflow_globals_ref)
         : ObjectSelection(arbusto_ref, nt_ref, cli_ref, cutflow_globals_ref)
@@ -91,12 +87,15 @@ class LeptonSelection : public ObjectSelection
     void selectVetoLeptons()
     {
       // Commeting out since not needed for all-had and increases executiong time by x20
-      //computeLeptonMVA_ttHUL();
+      // >>
+      // Clear vector for next event
+      // electronMVA_.clear();
+      // computeLeptonMVA_ttHUL();
+      // <<
 
       LorentzVectors veto_lep_p4s;
       Integers veto_lep_pdgIDs;
-      Integers veto_lep_idxs;
-      Integers veto_lep_jet_idxs;
+
       //LorentzVectors tight_lep_p4s;
       //Integers tight_lep_pdgIDs;
       
@@ -106,7 +105,11 @@ class LeptonSelection : public ObjectSelection
         if (passVetoElecID(elec_i))
         {
           veto_lep_p4s.push_back(lep_p4);
-          veto_lep_pdgIDs.push_back(-nt.Electron_charge().at(elec_i) * 11);
+
+          arbusto.appendToVecLeaf<LorentzVector>("veto_lep_p4s", lep_p4);
+          arbusto.appendToVecLeaf<int>("veto_lep_idxs", elec_i);
+          arbusto.appendToVecLeaf<int>("veto_lep_pdgIDs", -nt.Electron_charge().at(elec_i) * 11);
+          arbusto.appendToVecLeaf<int>("veto_lep_jet_idxs", nt.Electron_jetIdx().at(elec_i));
         }
         // if (passTightElecID(elec_i))
         // {
@@ -130,15 +133,8 @@ class LeptonSelection : public ObjectSelection
       }
 
       globals.setVal<LorentzVectors>("veto_lep_p4s", veto_lep_p4s);
-      globals.setVal<Integers>("veto_lep_pdgIDs", veto_lep_pdgIDs);
-      globals.setVal<Integers>("veto_lep_idxs", veto_lep_idxs);
-      globals.setVal<Integers>("veto_lep_jet_idxs", veto_lep_jet_idxs);
-
       //globals.setVal<LorentzVectors>("tight_lep_p4s", tight_lep_p4s);
-      //globals.setVal<Integers>("tight_lep_pdgIDs", tight_lep_pdgIDs);
-
-      electronMVA_.clear();
-
+      
     }
 };
 #endif

@@ -27,26 +27,35 @@ class Analysis
 {
   public:
 
-  Arbusto &arbusto;
-  Nano &nt;
-  HEPCLI &cli;
-  Cutflow &cutflow;
-  TruthAnalysis truthAna;
-  LeptonSelection leptonSelection;
-  JetSelection jetSelection;
-  bool passCutflow_;
+  // Memeber variables
+    TList *runs;
+    TList *lumis;
+    Arbusto &arbusto;
+    Nano &nt;
+    HEPCLI &cli;
+    Cutflow &cutflow;
+    TruthAnalysis truthAna;
+    LeptonSelection leptonSelection;
+    JetSelection jetSelection;
+    bool passCutflow_;
 
-  Analysis(Arbusto &arbusto_ref, Nano &nt_ref, HEPCLI &cli_ref, Cutflow &cutflow_ref)
-      : arbusto(arbusto_ref),
-        nt(nt_ref), cli(cli_ref),
-        cutflow(cutflow_ref),
-        truthAna(arbusto_ref, nt_ref, cli_ref, cutflow_ref),
-       leptonSelection(arbusto_ref, nt_ref, cli_ref, cutflow_ref.globals),
-       jetSelection(arbusto_ref, nt_ref, cli_ref, cutflow_ref.globals)
-  {
+    // Constructor
+    Analysis(Arbusto &arbusto_ref, Nano &nt_ref, HEPCLI &cli_ref, Cutflow &cutflow_ref)
+        : arbusto(arbusto_ref),
+          nt(nt_ref), cli(cli_ref),
+          cutflow(cutflow_ref),
+          truthAna(arbusto_ref, nt_ref, cli_ref, cutflow_ref),
+          leptonSelection(arbusto_ref, nt_ref, cli_ref, cutflow_ref.globals),
+          jetSelection(arbusto_ref, nt_ref, cli_ref, cutflow_ref.globals)
+    {
+
+      // Initialize TLists for metadata TTrees
+      runs = new TList();
+      lumis = new TList();
 
   }
 
+  // Initialize branches to be added to output "Events" TTree
   virtual void initBranches()
   {
     if (cli.is_signal && cli.dump_truth) {
@@ -55,20 +64,22 @@ class Analysis
 
     arbusto.newVecBranch<float>("Electron_mvaTTHUL", {});
     arbusto.newVecBranch<float>("Muon_mvaTTHUL", {});
-    
+    arbusto.newVecBranch<int>("veto_lep_p4s", {});
+    arbusto.newVecBranch<int>("veto_lep_idxs", {});
+    arbusto.newVecBranch<int>("veto_lep_jet_idxs", {});
+    arbusto.newVecBranch<int>("veto_lep_pdgIDs", {});
   }
+
+  // Define global variables and cutflow to be run in event loop
+  // Note: the variables are set in the event loop when performing the object selecton. 
+  //       The cutflow has to be run after the appropriate object selection has been performed.
 
   virtual void initCutflow()
   {
     // Initialize variables needed in cutflow.
-    // Note: They will be set in the event loop by the functions called by the cuts
     cutflow.globals.newVar<LorentzVectors>("veto_lep_p4s", {});
-    cutflow.globals.newVar<Integers>("veto_lep_pdgIDs", {});
-    cutflow.globals.newVar<Integers>("veto_lep_idxs", {});
-    cutflow.globals.newVar<Integers>("veto_lep_jet_idxs", {});
     cutflow.globals.newVar<LorentzVectors>("tight_lep_p4s", {});
-    cutflow.globals.newVar<Integers>("tight_lep_pdgIDs", {});
-    
+
     cutflow.globals.newVar<LorentzVectors>("ak4jets_p4s", {});
     cutflow.globals.newVar<LorentzVectors>("ak8jets_p4s", {});
     cutflow.globals.newVar<double>("ht_ak8", -999);
@@ -82,7 +93,7 @@ class Analysis
                                   { return true; });
     cutflow.setRoot(cut_base);
 
-    // Pass Event filters --> move if they change per channel
+    // Pass Event filters 
     Cut *cut_passEventFilters = new LambdaCut("PassEventFilters", [&]()
                                               { return passEventFilters(); });
     cutflow.insert(cut_base, cut_passEventFilters, Right);
@@ -119,9 +130,19 @@ class Analysis
     cutflow.insert(cut_AK8HTgt1100, cut_last, Right);
   }
 
-  virtual void initPerTTree()
+  virtual void initPerTTree(TTree *ttree)
   {
-    // Golden JSON
+    // Initialize arbusto
+    arbusto.tfile->cd();
+
+    // Store metadata ttrees
+    TTree *runtree = ((TTree *)ttree->GetCurrentFile()->Get("Runs"))->CloneTree();
+    runs->Add(runtree);
+    TTree *lumitree = ((TTree *)ttree->GetCurrentFile()->Get("LuminosityBlocks"))->CloneTree();
+    lumis->Add(lumitree);
+
+    arbusto.init(ttree);
+    // Load golden JSON files
     if (nt.isData())
     {
       switch (nt.year())
@@ -144,26 +165,27 @@ class Analysis
       }
     }
 
-    // Set config 
+    // Set config (e.g. year, isAPV)
     TString file_name = cli.input_tchain->GetCurrentFile()->GetName();
-    gconf.GetConfigsFromDatasetName(file_name.Data()); // Set year, APV
-
+    gconf.GetConfigsFromDatasetName(file_name.Data()); 
   }
 
   virtual void runPerEvent(){
 
+      // Dump truth information
       if (cli.is_signal && cli.dump_truth)
       {
         truthAna.setTruthCandidates(); 
       }
 
+      // Run lepton selection
       leptonSelection.selectVetoLeptons();
+
+      // Run jets selection
       jetSelection.selectJets();
 
       // Run cutflow
-      std::vector<std::string>
-              cuts_to_check = {
-          "TheEnd"};
+      std::vector<std::string> cuts_to_check = {"TheEnd"};
       std::vector<bool> checkpoints = cutflow.run(cuts_to_check);
       passCutflow_ = checkpoints.at(0);
   }
@@ -184,6 +206,19 @@ class Analysis
                        ((nt.year() == 2016) || nt.Flag_ecalBadCalibFilter()) &&
                        ((!nt.isData()) || nt.Flag_globalSuperTightHalo2016Filter());
     return passFilters;
+  }
+
+  virtual void writeOutput()
+  {
+    TTree *merged_runs = TTree::MergeTrees(runs);
+    merged_runs->SetName("Runs");
+    TTree *merged_lumis = TTree::MergeTrees(lumis);
+    merged_lumis->SetName("LuminosityBlocks");
+
+    arbusto.tfile->cd();
+    merged_runs->Write();
+    merged_lumis->Write();
+    arbusto.write();
   }
 
 };

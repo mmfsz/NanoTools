@@ -60,10 +60,6 @@ int main(int argc, char **argv)
 
   // -------------------------------------
 
-  // Initialize TLists for metadata TTrees
-  TList *runs = new TList();
-  TList *lumis = new TList();
-
   std::vector<TString> missingBranches;
   int counter_passAllHad{0};
 
@@ -71,31 +67,28 @@ int main(int argc, char **argv)
   tqdm bar;
   if (cli.debug)
     std::cout << "Start looper" << std::endl;
+
   looper.run(
 
       // Lambda function called once per TTree
       [&](TTree *ttree)
       {
+
         if (cli.debug)
-          std::cout << "Initialize once per TTRee" << std::endl;
+          std::cout << "Initialize once per TTree" << std::endl;
 
+        // Initialize NanoTools
         nt.Init(ttree);
-        arbusto.tfile->cd();
-        // Store metadata ttrees
-        TTree *runtree = ((TTree *)ttree->GetCurrentFile()->Get("Runs"))->CloneTree();
-        runs->Add(runtree);
-        TTree *lumitree = ((TTree *)ttree->GetCurrentFile()->Get("LuminosityBlocks"))->CloneTree();
-        lumis->Add(lumitree);
+        
+        skimmer.initPerTTree(ttree);
 
-        arbusto.init(ttree);
-        skimmer.initPerTTree();
       },
 
       // Lambda function called once per Entry in a TTree
       [&](int entry)
       {
-        // if this is a debug run end the loop after 10000
-        if (cli.debug && looper.n_events_processed == 100)
+        // if this is a debug run end the loop after 1000
+        if (cli.debug && looper.n_events_processed == 1000)
         {
           looper.stop();
         }
@@ -108,6 +101,7 @@ int main(int argc, char **argv)
 
           // Load event information
           nt.GetEntry(entry);
+
           // progess bar printing
           bar.progress(looper.n_events_processed, looper.n_events_total);
 
@@ -130,14 +124,6 @@ int main(int argc, char **argv)
 
           skimmer.runPerEvent();
 
-
-          // bool pass_jetsSelection = runJetsSelection_Run2(nt);
-          // bool pass_jetsSelection = runJetsSelection(nt);
-          // if (!pass_jetsSelection)
-          // {
-          //   return;
-          // }
-
           // bool passed = cutflow.run("PassEventFilters");
           if (!skimmer.eventPassed())
           {
@@ -158,18 +144,12 @@ int main(int argc, char **argv)
   std::cout << "looper.n_events_processed : " << looper.n_events_processed << std::endl;
   std::cout << "Events that passed allHad : " << counter_passAllHad << std::endl;
 
-  TTree *merged_runs = TTree::MergeTrees(runs);
-  merged_runs->SetName("Runs");
-  TTree *merged_lumis = TTree::MergeTrees(lumis);
-  merged_lumis->SetName("LuminosityBlocks");
+  skimmer.writeOutput();
+  std::cout << "The end." << std::endl;
 
-  arbusto.tfile->cd();
-  merged_runs->Write();
-  merged_lumis->Write();
-  arbusto.write();
-  std::cout << "Exit" << std::endl;
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> duration = end - start;
   std::cout << "Elapsed time: " << duration.count() << " seconds" << std::endl;
+
   return 0;
 }
