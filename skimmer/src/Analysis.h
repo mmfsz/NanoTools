@@ -120,6 +120,10 @@ class Analysis
       }
     }
 
+    // Set config 
+    TString file_name = cli.input_tchain->GetCurrentFile()->GetName();
+    gconf.GetConfigsFromDatasetName(file_name.Data()); // Set year, APV
+
   }
 
   virtual void runPerEvent(){

@@ -77,25 +77,18 @@ int main(int argc, char **argv)
       [&](TTree *ttree)
       {
         if (cli.debug)
-          std::cout << "Initialize NanoTools" << std::endl;
+          std::cout << "Initialize once per TTRee" << std::endl;
+
         nt.Init(ttree);
-
         arbusto.tfile->cd();
-
-        if (cli.debug)
-          std::cout << "Get file-level trees" << std::endl;
         // Store metadata ttrees
         TTree *runtree = ((TTree *)ttree->GetCurrentFile()->Get("Runs"))->CloneTree();
         runs->Add(runtree);
         TTree *lumitree = ((TTree *)ttree->GetCurrentFile()->Get("LuminosityBlocks"))->CloneTree();
         lumis->Add(lumitree);
 
-        if (cli.debug)
-          std::cout << "Initialize arbusto" << std::endl;
         arbusto.init(ttree);
-        TString file_name = cli.input_tchain->GetCurrentFile()->GetName();
-        gconf.GetConfigs(nt.year());
-        gconf.isAPV = (file_name.Contains("HIPM_UL2016") || file_name.Contains("NanoAODAPV") || file_name.Contains("UL16APV"));
+        skimmer.initPerTTree();
       },
 
       // Lambda function called once per Entry in a TTree
