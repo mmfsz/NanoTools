@@ -7,6 +7,7 @@
 #include "ElectronSelections.h"
 #include "MuonSelections.h"
 #include "Nano.h"
+#include "Config.h"             // gconf
 
 #include "arbol.h"
 #include "arbusto.h"
@@ -45,15 +46,21 @@ class LeptonSelection : public ObjectSelection
 
     void computeLeptonMVA_ttHUL()
     {
-      MVATTH::MVATTH mvatth("./data/leptonMVA/UL20_2018.xml"); // FIXME
-
+      MVATTH::MVATTH mvatth2016("./data/leptonMVA/UL20_2016.xml");
+      MVATTH::MVATTH mvatth2016APV("./data/leptonMVA/UL20_2016APV.xml");
+      MVATTH::MVATTH mvatth2017("./data/leptonMVA/UL20_2017.xml");
+      MVATTH::MVATTH mvatth2018("./data/leptonMVA/UL20_2018.xml");
       for (unsigned int elec_i = 0; elec_i < nt.nElectron(); ++elec_i)
       {
-        float tth_mva = mvatth.computeElecMVA(elec_i);
+        float tth_mva = -99; 
+        if (gconf.year == 2016 && gconf.isAPV) { tth_mva = mvatth2016APV.computeElecMVA(elec_i); }
+        else if (gconf.year == 2016) { tth_mva = mvatth2016.computeElecMVA(elec_i); }
+        else if (gconf.year == 2017) { tth_mva = mvatth2017.computeElecMVA(elec_i); }
+        else if (gconf.year == 2018) { tth_mva = mvatth2018.computeElecMVA(elec_i); }
+        else { std::cout << "LeptonSelection::computeLeptonMVA_ttHUL(): Something is wrong with the year." << std::endl; abort();}
         arbusto.appendToVecLeaf<float>("Electron_mvaTTHUL", tth_mva);
         electronMVA_.push_back(tth_mva);
       }
-
       for (unsigned int muon_i = 0; muon_i < nt.nMuon(); ++muon_i)
       {
         float tth_mva = nt.Muon_mvaTTH().at(muon_i);
