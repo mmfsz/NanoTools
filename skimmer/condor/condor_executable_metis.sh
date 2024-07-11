@@ -201,13 +201,16 @@ if [[ $(hostname) == *"uaf-10"* ]]; then
     fi
 else
     echo -e "\n--- begin copying output ---\n" #                    <----- section division
+    # copy output.root file
     echo "Sending output file output/${OUTPUTNAME}.root"
     OUTPUTDIRPATHNEW=$(echo ${OUTPUTDIR} | sed 's/^.*\(\/store.*\).*$/\1/')
     COPY_SRC="file://`pwd`/${OUTPUTNAME}.root"
     COPY_DEST="davs://redirector.t2.ucsd.edu:1095//${OUTPUTDIRPATHNEW}/${OUTPUTNAME}_${IFILE}.root"
+    
     echo "Running: env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-copy -p -f -t 4200 --verbose --checksum ADLER32 ${COPY_SRC} ${COPY_DEST}"
     env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-copy -p -f -t 4200 --verbose --checksum ADLER32 ${COPY_SRC} ${COPY_DEST}
     COPY_STATUS=$?
+
     if [[ $COPY_STATUS != 0 ]]; then
         echo "Removing output file because gfal-copy crashed with code $COPY_STATUS"
         env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-rm --verbose ${COPY_DEST}
@@ -216,5 +219,16 @@ else
             echo "Uhh, gfal-copy crashed and then the gfal-rm also crashed with code $REMOVE_STATUS"
         fi
         exit 1
+    fi
+
+    # copy cuflow.txt file if it exists
+    echo "Sending output file output/cutflow.txt if it exists"
+    COPY_SRC_CUTFLOW="file://`pwd`/cutflow.txt"
+    COPY_DEST_CUTFLOW="davs://redirector.t2.ucsd.edu:1095//${OUTPUTDIRPATHNEW}/cutflow_${IFILE}.txt"
+    if [ -f "$(pwd)/cutflow.txt" ]; then
+        echo "Running: env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-copy -p -f -t 4200 --verbose --checksum ADLER32 ${COPY_SRC_CUTFLOW} ${COPY_DEST_CUTFLOW}"
+        env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-copy -p -f -t 4200 --verbose --checksum ADLER32 ${COPY_SRC_CUTFLOW} ${COPY_DEST_CUTFLOW}
+    else
+        echo "Warning: gfal-ls command failed or file  '$COPY_SRC_CUTFLOW' does not exist:"
     fi
 fi
