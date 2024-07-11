@@ -115,6 +115,7 @@ else
         fi
     done
     INPUTFILENAMES=${LOCALINPUTFILENAMES}
+    INPUTFILENAMES=${INPUTFILENAMES//,/ }
     echo "After XRootD copy"
     echo INPUTFILENAMES=${INPUTFILENAMES}
     ##########################################################
@@ -128,6 +129,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
 
 echo "before running: ls -lrth"
 ls -lrth 
+ls -lrth mc/
 
 echo -e "\n--- begin running ---\n" #                           <----- section division
 
@@ -141,12 +143,16 @@ echo Executing ./skim $INPUTFILENAMES -n ${OUTPUTNAME} ${EXTRAARGS}
 ./skim $INPUTFILENAMES -n ${OUTPUTNAME} ${EXTRAARGS}
 RET=$?
 
+echo "after running: ls -lrth"
+ls -lrth
+
 if [ ${RET} != 0 ]; then
     if [[ "${EXTRAARGS}" = *"ignorebadfiles"* ]]; then
         echo "Ignoring exit code of ${RET}"
     else
         echo "Removing output file because ./skim returned exit code ${RET}"
         rm ${OUTPUTNAME}.root
+        exit 1 # Added because otherwise condor does not know job failed?
     fi
 fi
 
@@ -209,5 +215,6 @@ else
         if [[ $REMOVE_STATUS != 0 ]]; then
             echo "Uhh, gfal-copy crashed and then the gfal-rm also crashed with code $REMOVE_STATUS"
         fi
+        exit 1
     fi
 fi

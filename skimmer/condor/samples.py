@@ -1,6 +1,6 @@
 from metis.Sample import DirectorySample, DBSSample
 from vbsvvh_data import nanoaodv9_data
-from vbsvvh_mc import nanoaodv9_bkg
+from vbsvvh_mc import nanoaodv9_bkg, nanoaodv9_test
 
 
 # Master list of all samples
@@ -23,6 +23,6 @@ from vbsvvh_mc import nanoaodv9_bkg
 
 
 samples_to_submit = []
-# data 
-samples_to_submit += nanoaodv9_data
+
+samples_to_submit += nanoaodv9_test #nanoaodv9_data
 print(samples_to_submit)

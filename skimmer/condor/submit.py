@@ -15,7 +15,8 @@ condorpath = os.path.dirname(os.path.realpath(__file__))
 # Avoid spamming too many short jobs to condor
 # Less dileptn pairs = faster = more input files per job
 def split_func(dsname):
-    return 1
+    return 10
+    #return 1
     # if "Run201" in dsname:
     #     return 7
     # else:
@@ -27,6 +28,7 @@ def split_func(dsname):
     #     return 5
     # elif "Run201" in dsname:
     #     return 7
+# elif "Run201" in dsname:
     # else:
     #     return 2
 
@@ -45,7 +47,8 @@ if __name__ == "__main__":
     samples = samples.samples_to_submit
 
     # submission tag
-    tag = "skim_v1"
+    analysis_tag = "AllHadRun2"
+    tag = "nanoaodv9_bkgtest_" + analysis_tag
 
     # Task summary for printing out msummary
     task_summary = {}
@@ -68,16 +71,17 @@ if __name__ == "__main__":
                     output_name = "output.root",
                     tag = tag,
                     condor_submit_params = {
-                        "sites": "T2_US_UCSD,UAF",
+                        "sites": "T2_US_UCSD", #UAF
                         "use_xrootd":True,
+                        #"metis_retries": 3, does not work? 
                         "classads": [
-                            ["metis_extraargs", "-d ./"]
+                            ["metis_extraargs", "-d ./ -a "+analysis_tag]
                             ]
                         },
-                    max_jobs = njobs_to_process(ds.get_datasetname()),
+                    max_jobs = njobs_to_process(ds.get_datasetname()), #FIXME 
                     cmssw_version = "CMSSW_10_2_13",
                     scram_arch = "slc7_amd64_gcc700",
-                    input_executable = "{}/condor_executable_metis.sh".format(condorpath), # your condor executable here
+                    input_executable = "{}/condor_executable_metis.sh".format(condorpath), # your condor executable here #FIXME 
                     tarfile = "{}/package.tar.xz".format(condorpath), # your tarfile with assorted goodies here
                     special_dir = "skim/{}".format(tag), # output files into /hadoop/cms/store/<user>/<special_dir>
                     min_completion_fraction = 0.50 if skip_tail else 1.0,
