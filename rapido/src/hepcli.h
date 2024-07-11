@@ -40,6 +40,8 @@ public:
     std::string output_dir;
     /** Short name for output file */
     std::string output_name;
+    /** Skimmer Analysis class to run */
+    std::string analysis_tag;
     /** Name of TTree in output ROOT file */
     std::string output_ttree;
     /** Variation type (e.g. "up", "down", "nominal", ...) */

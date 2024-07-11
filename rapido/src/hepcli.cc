@@ -6,6 +6,7 @@ HEPCLI::HEPCLI(int argc, char** argv)
 {
     input_ttree = "Events";
     output_dir = "output";
+    analysis_tag = "";
     output_name = "output";
     output_ttree = "tree";
     variation = "nominal";
@@ -35,6 +36,9 @@ void HEPCLI::printHelp()
     std::cout << std::endl;
     std::cout << std::setw(25) << "  -d, --output_dir";
     std::cout << std::setw(50) << "target directory for output file(s)";
+    std::cout << std::endl;
+    std::cout << std::setw(25) << "  -a, --analysis_tag";
+    std::cout << std::setw(50) << "skimmer Analysis class to run";
     std::cout << std::endl;
     std::cout << std::setw(25) << "  -n, --output_name";
     std::cout << std::setw(50) << "short name for output file(s)";
@@ -71,6 +75,7 @@ void HEPCLI::parse(int argc, char** argv)
         {"verbose", no_argument, 0, 'v'},
         {"input_ttree", required_argument, 0, 't'},
         {"output_dir", required_argument, 0, 'd'},
+        {"analysis_tag", required_argument, 0, 'a'}, 
         {"output_name", required_argument, 0, 'n'},
         {"output_ttree", required_argument, 0, 'T'},
         {"variation", required_argument, 0, 'V'},
@@ -86,7 +91,7 @@ void HEPCLI::parse(int argc, char** argv)
     while (true) 
     {
         int option_index = 0;
-        value = getopt_long(argc, argv, "vt:d:n:T:V:s:h", options, &option_index);
+        value = getopt_long(argc, argv, "vt:d:a:n:T:V:s:h", options, &option_index);
         if (value == -1) { break; }
         switch(value)
         {
@@ -97,6 +102,9 @@ void HEPCLI::parse(int argc, char** argv)
                 break;
             case 'd':
                 output_dir = optarg;
+                break;
+            case 'a':
+                analysis_tag = optarg;
                 break;
             case 'n':
                 output_name = optarg;

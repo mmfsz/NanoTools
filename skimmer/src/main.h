@@ -1,8 +1,11 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+// Custom skimmer
 #include "Analysis.h"
-#include "SkimmerCutBase.h"
+#include "Analysis_AllHadRun2.h"
+#include "Analysis_AllHad.h"
+
 // NanoTools
 #include "Base.h"
 #include "Config.h"
@@ -20,13 +23,8 @@
 #include "cutflow.h"
 #include "Tools/goodrun.h"
 
-// Custom skimmer
-//#include "vvhjj_allhad.h"
-#include "mvaTTH.h"
-
 // ROOT
 #include "TString.h"
-
 
 
 #endif
