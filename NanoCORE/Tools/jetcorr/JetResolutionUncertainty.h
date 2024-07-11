@@ -63,7 +63,7 @@ class JetResolutionUncertainty
       if ( drmin < 0.4 ) {
         float dPt = jet_p4.Pt() - GenJet_p4[genJet_idx].Pt();
 
-        float smearFactor = ( 1.0 + ( jerSF - 1.0 ) * dPt / jet_p4.Pt() );
+        smearFactor = ( 1.0 + ( jerSF - 1.0 ) * dPt / jet_p4.Pt() );
       }
       else {
         float jerRes = getResolution();

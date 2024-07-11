@@ -26,13 +26,13 @@ typedef ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > LorentzVector
 
 #define NCORRT1METJET_MAX 102 // for CorrT1METJet_* collection
 #define NEFTFITCOEFFICIENTS_MAX 276 // for EFTfitCoefficients_* collection
-#define NELECTRON_MAX 90 // for Electron_* collection
+#define NELECTRON_MAX 250 // for Electron_* collection
 #define NFATJET_MAX 18 // for FatJet_* collection
 #define NFSRPHOTON_MAX 9 // for FsrPhoton_* collection
 #define NGENDRESSEDLEPTON_MAX 15 // for GenDressedLepton_* collection
 #define NGENISOLATEDPHOTON_MAX 15 // for GenIsolatedPhoton_* collection
 #define NGENJETAK8_MAX 24 // for GenJetAK8_* collection
-#define NGENJET_MAX 60 // for GenJet_* collection
+#define NGENJET_MAX 250 // for GenJet_* collection
 #define NGENPART_MAX 402 // for GenPart_* collection
 #define NGENPROTON_MAX 39 // for GenProton_* collection
 #define NGENVISTAU_MAX 12 // for GenVisTau_* collection
@@ -43,7 +43,7 @@ typedef ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > LorentzVector
 #define NLHEREWEIGHTINGWEIGHT_MAX 200 // for LHEReweightingWeight_* collection
 #define NLHESCALEWEIGHT_MAX 30 // for LHEScaleWeight_* collection
 #define NLOWPTELECTRON_MAX 18 // for LowPtElectron_* collection
-#define NMUON_MAX 90 // for Muon_* collection
+#define NMUON_MAX 250 // for Muon_* collection
 #define NOTHERPV_MAX 12 // for OtherPV_* collection
 #define NPPSLOCALTRACK_MAX 87 // for PPSLocalTrack_* collection
 #define NPSWEIGHT_MAX 15 // for PSWeight_* collection

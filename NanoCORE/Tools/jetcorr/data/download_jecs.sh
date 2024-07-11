@@ -24,6 +24,7 @@ Summer19UL18_V5_MC
 
 jettypes="
 AK4PFchs
+AK8PFchs
 "
 
 corrstrs="
@@ -36,15 +37,21 @@ L3Absolute
 Uncertainty
 "
 
-for era in $eras; do
-    mkdir -p $era
+# for era in $eras; do
+#     mkdir -p $era
+#     cd $era
+#     for jettype in $jettypes; do
+#         for corrstr in $corrstrs; do
+#             echo Executing: curl -s -O -L "$baseurl/$era/${era}_${corrstr}_${jettype}.txt"
+#             curl -s -O -L "$baseurl/$era/${era}_${corrstr}_${jettype}.txt"
+#         done
+#     done
+#     cd -
+# done
 
+for era in $eras; do
     cd $era
-    for jettype in $jettypes; do
-        for corrstr in $corrstrs; do
-            echo Executing: curl -s -L "$baseurl/$era/${era}_${corrstr}_${jettype}.txt"
-            curl -s -O -L "$baseurl/$era/${era}_${corrstr}_${jettype}.txt"
-        done
-    done
+    echo Executing: curl -s -O -L "$baseurl/$era/RegroupedV2_${era}_UncertaintySources_AK4PFchs.txt"
+    curl -s -O -L "$baseurl/$era/RegroupedV2_${era}_UncertaintySources_AK4PFchs.txt"
     cd -
 done
