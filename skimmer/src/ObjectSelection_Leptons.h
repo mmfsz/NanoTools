@@ -86,36 +86,20 @@ class LeptonSelection : public ObjectSelection
 
     void selectVetoLeptons()
     {
-      // Commeting out since not needed for all-had and increases executiong time by x20
-      // >>
-      // Clear vector for next event
-      // electronMVA_.clear();
-      // computeLeptonMVA_ttHUL();
-      // <<
-
       LorentzVectors veto_lep_p4s;
       Integers veto_lep_pdgIDs;
 
-      //LorentzVectors tight_lep_p4s;
-      //Integers tight_lep_pdgIDs;
-      
       for (unsigned int elec_i = 0; elec_i < nt.nElectron(); elec_i++)
       {
         LorentzVector lep_p4 = nt.Electron_p4().at(elec_i);
         if (passVetoElecID(elec_i))
         {
           veto_lep_p4s.push_back(lep_p4);
-
           arbusto.appendToVecLeaf<LorentzVector>("veto_lep_p4s", lep_p4);
-          arbusto.appendToVecLeaf<int>("veto_lep_idxs", elec_i);
+          arbusto.appendToVecLeaf<unsigned int>("veto_lep_idxs", elec_i);
           arbusto.appendToVecLeaf<int>("veto_lep_pdgIDs", -nt.Electron_charge().at(elec_i) * 11);
           arbusto.appendToVecLeaf<int>("veto_lep_jet_idxs", nt.Electron_jetIdx().at(elec_i));
         }
-        // if (passTightElecID(elec_i))
-        // {
-        //   tight_lep_p4s.push_back(lep_p4);
-        //   tight_lep_pdgIDs.push_back(-nt.Electron_charge().at(elec_i) * 11);
-        // }
       }
       for (unsigned int muon_i = 0; muon_i < nt.nMuon(); muon_i++)
       {
@@ -125,16 +109,43 @@ class LeptonSelection : public ObjectSelection
           veto_lep_p4s.push_back(lep_p4);
           veto_lep_pdgIDs.push_back(-nt.Muon_charge().at(muon_i) * 13);
         }
-        // if (passTightMuonID(muon_i))
-        // {
-        //   tight_lep_p4s.push_back(lep_p4);
-        //   tight_lep_pdgIDs.push_back(-nt.Muon_charge().at(muon_i) * 13);
-        // }
       }
 
       globals.setVal<LorentzVectors>("veto_lep_p4s", veto_lep_p4s);
-      //globals.setVal<LorentzVectors>("tight_lep_p4s", tight_lep_p4s);
-      
+      //globals.setVal<LorentzVectors>("veto_lep_pdgIDs", veto_lep_pdgIDs);
+    }
+
+    // Note: running the tight selection requires setting the tth mva score, which increases executiong time by x20
+    void selectTightLeptons()
+    {
+
+      //Clear vector for next event
+      electronMVA_.clear();
+      computeLeptonMVA_ttHUL();
+
+      LorentzVectors tight_lep_p4s;
+      Integers tight_lep_pdgIDs;
+
+      for (unsigned int elec_i = 0; elec_i < nt.nElectron(); elec_i++)
+      {
+        LorentzVector lep_p4 = nt.Electron_p4().at(elec_i);
+        if (passTightElecID(elec_i))
+        {
+          tight_lep_p4s.push_back(lep_p4);
+          tight_lep_pdgIDs.push_back(-nt.Electron_charge().at(elec_i) * 11);
+        }
+      }
+      for (unsigned int muon_i = 0; muon_i < nt.nMuon(); muon_i++)
+      {
+        LorentzVector lep_p4 = nt.Muon_p4().at(muon_i);
+        if (passTightMuonID(muon_i))
+        {
+          tight_lep_p4s.push_back(lep_p4);
+          tight_lep_pdgIDs.push_back(-nt.Muon_charge().at(muon_i) * 13);
+        }
+      }
+
+      globals.setVal<LorentzVectors>("tight_lep_p4s", tight_lep_p4s);
     }
 };
 #endif

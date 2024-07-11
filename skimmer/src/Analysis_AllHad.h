@@ -31,10 +31,21 @@ public:
   {
   }
 
+  // Initialize branches to be added to output "Events" TTree
+  void initBranches() override
+  {
+    Analysis::initBranches();
+
+    // These actually create empty branches if the final skimmer cut is after NoVetoLeptons
+    arbusto.newVecBranch<int>("veto_lep_p4s", {});
+    arbusto.newVecBranch<unsigned int>("veto_lep_idxs", {});
+    arbusto.newVecBranch<int>("veto_lep_jet_idxs", {});
+    arbusto.newVecBranch<int>("veto_lep_pdgIDs", {});
+  }
+
   // Define global variables and cutflow to be run in event loop
   // Note: the variables are set in the event loop when performing the object selecton. 
   //       The cutflow has to be run after the appropriate object selection has been performed.
-
   void initCutflow() override
   {
     // Initialize variables needed in cutflow.

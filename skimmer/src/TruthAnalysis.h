@@ -252,12 +252,9 @@ struct TruthAnalysis
       // Find daughters of last V boson
       for (size_t igen = 0; igen < nt.GenPart_pdgId().size(); ++igen)
       {
-        int status = nt.GenPart_status().at(igen);
-        int pdgId = nt.GenPart_pdgId().at(igen);
         int mother_idx = nt.GenPart_genPartIdxMother().at(igen);
         if (mother_idx == lastV_idx)
         {
-          int mother_pdgId = nt.GenPart_pdgId().at(mother_idx);
           if (cli.debug)
           {
             std::cout << "Found a V daughter" << std::endl;

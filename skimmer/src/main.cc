@@ -1,6 +1,9 @@
 // NanoTools
 #include "main.h"
 #include <chrono>
+#include <TChain.h>
+#include <TObjArray.h>
+#include <TObjString.h>
 
 int main(int argc, char **argv)
 {
@@ -14,7 +17,7 @@ int main(int argc, char **argv)
   Looper looper = Looper(cli.input_tchain);
 
   // Initialize Arbusto
-  TFile *output_tfile = new TFile(TString(cli.output_dir + "/" + cli.output_name + "_" + cli.analysis_tag + ".root"), "RECREATE");
+  TFile *output_tfile = new TFile(TString(cli.output_dir + "/" + cli.output_name + ".root"), "RECREATE");
 
   // Set to true to specify branches to DROP instead of keep
   bool remove_branches = false;
@@ -105,9 +108,7 @@ int main(int argc, char **argv)
         // Otherwise process the event
         else
         {
-          // Reset branches and globals
-          arbusto.resetBranches();
-          cutflow.globals.resetVars();
+   
 
           // Load event information
           nt.GetEntry(entry);
@@ -149,18 +150,39 @@ int main(int argc, char **argv)
         }
       });
 
-  
+  std::cout << "--> Write output files" << std::endl;
+  skimmer->writeOutput();
+
+  // Save the original buffer
+  std::streambuf *originalCoutBuffer = std::cout.rdbuf();
+  std::ofstream outCutflowFile(cli.output_dir + "/cutflow.txt");
+  // Redirect std::cout to the file
+  std::cout.rdbuf(outCutflowFile.rdbuf());
+  // Print sample information
+  TObjArray *fileElements = cli.input_tchain->GetListOfFiles();
+  int counter{1};
+  for (auto *element : *fileElements)
+  {
+    const char *current_file_name = element->GetTitle();
+    std::cout << "File " << counter << " : " << current_file_name << std::endl;
+    counter++;
+  }
+  // Print analyzer that produced the cutflow
+  std::cout << std::endl << "Analyzer: " << cli.analysis_tag << std::endl;
+  // Print the cutflow
   cutflow.print();
 
   std::cout << "--> Events processed : " << looper.n_events_processed << std::endl;
-  std::cout << "--> Events that passed allHad " << skimmer->finalSkimmerCut() << " : " << counter_passAllHad << std::endl;
-
-  std::cout << "--> Write output files" << std::endl;
-  skimmer->writeOutput();
+  std::cout << "--> Events that passed " << skimmer->finalSkimmerCut() << " : " << counter_passAllHad << std::endl;
 
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> duration = end - start;
   std::cout << "Elapsed time: " << duration.count() << " seconds" << std::endl;
 
+  // Restore the original buffer
+  std::cout.rdbuf(originalCoutBuffer);
+  // Close the file
+  outCutflowFile.close();
+  
   return 0;
 }

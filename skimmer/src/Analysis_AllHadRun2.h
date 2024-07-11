@@ -28,8 +28,20 @@ public:
   // Constructor
   Analysis_AllHadRun2(Arbusto &arbusto_ref, Nano &nt_ref, HEPCLI &cli_ref, Cutflow &cutflow_ref)
       : Analysis(arbusto_ref, nt_ref, cli_ref, cutflow_ref)
-
   {
+  }
+
+  // Initialize branches to be added to output "Events" TTree
+  void initBranches() override
+  {
+    Analysis::initBranches();
+
+    // These actually create empty branches if the final skimmer cut is after NoVetoLeptons
+    arbusto.newVecBranch<int>("veto_lep_p4s", {});
+    arbusto.newVecBranch<unsigned int>("veto_lep_idxs", {});
+    arbusto.newVecBranch<int>("veto_lep_jet_idxs", {});
+    arbusto.newVecBranch<int>("veto_lep_pdgIDs", {});
+
   }
 
   // Define global variables and cutflow to be run in event loop

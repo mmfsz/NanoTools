@@ -37,7 +37,9 @@ class Analysis
     TruthAnalysis truthAna;
     LeptonSelection leptonSelection;
     JetSelection jetSelection;
+    std::vector<Cut *> vCutflowCuts_;
     bool passCutflow_;
+    std::string finalSkimmerCut_ = "TheEnd";
 
     // Constructor
     Analysis(Arbusto &arbusto_ref, Nano &nt_ref, HEPCLI &cli_ref, Cutflow &cutflow_ref)
@@ -48,12 +50,10 @@ class Analysis
           leptonSelection(arbusto_ref, nt_ref, cli_ref, cutflow_ref.globals),
           jetSelection(arbusto_ref, nt_ref, cli_ref, cutflow_ref.globals)
     {
-
       // Initialize TLists for metadata TTrees
       runs = new TList();
       lumis = new TList();
-
-  }
+    }
 
   // Initialize branches to be added to output "Events" TTree
   virtual void initBranches()
@@ -62,12 +62,9 @@ class Analysis
       truthAna.initTruthBranches();
     }
 
-    arbusto.newVecBranch<float>("Electron_mvaTTHUL", {});
-    arbusto.newVecBranch<float>("Muon_mvaTTHUL", {});
-    arbusto.newVecBranch<int>("veto_lep_p4s", {});
-    arbusto.newVecBranch<int>("veto_lep_idxs", {});
-    arbusto.newVecBranch<int>("veto_lep_jet_idxs", {});
-    arbusto.newVecBranch<int>("veto_lep_pdgIDs", {});
+    //arbusto.newVecBranch<float>("Electron_mvaTTHUL", {});
+    //arbusto.newVecBranch<float>("Muon_mvaTTHUL", {});
+
   }
 
   // Define global variables and cutflow to be run in event loop
@@ -76,62 +73,24 @@ class Analysis
 
   virtual void initCutflow()
   {
-    // Initialize variables needed in cutflow.
-    cutflow.globals.newVar<LorentzVectors>("veto_lep_p4s", {});
-    cutflow.globals.newVar<LorentzVectors>("tight_lep_p4s", {});
-    cutflow.globals.newVar<LorentzVectors>("ak4jets_p4s", {});
-    cutflow.globals.newVar<LorentzVectors>("ak8jets_p4s", {});
-    cutflow.globals.newVar<double>("ht_ak8", -999);
-    cutflow.globals.newVar<double>("ht_ak4", -999);
-    cutflow.globals.newVar<int>("n_ak4jets", -999);
-    cutflow.globals.newVar<int>("n_ak8jets", -999);
-    cutflow.globals.newVar<int>("n_vbsjet_pairs", -999);
 
     // All events
     Cut *cut_base = new LambdaCut("AllEvents", [&]()
                                   { return true; });
     cutflow.setRoot(cut_base);
 
-    // Is good run number (data only)
-    Cut *cut_isGoodDataRun = new LambdaCut("isGoodDataRun", [&]()
-                                           { return (nt.isData()) ? goodrun(nt.run(), nt.luminosityBlock()) : true; });
-    cutflow.insert(cut_base, cut_isGoodDataRun, Right);
 
-    // Pass Event filters 
-    Cut *cut_passEventFilters = new LambdaCut("PassEventFilters", [&]()
-                                              { return passEventFilters(); });
-    cutflow.insert(cut_isGoodDataRun, cut_passEventFilters, Right);
+    // Analysis-dependent cutflow
+    cutflow.insert(cut_base, vCutflowCuts_.at(0), Right);
+    for (size_t i = 1; i < vCutflowCuts_.size(); ++i)
+    {
+      cutflow.insert(vCutflowCuts_.at(i - 1), vCutflowCuts_.at(i), Right);
+    }
 
-    // Lepton selection
-    Cut *cut_noVetoLeps = new LambdaCut(
-        "NoVetoLeptons",
-        [&]()
-        {
-          return (cutflow.globals.getVal<LorentzVectors>("veto_lep_p4s").size() == 0);
-        });
-    cutflow.insert(cut_passEventFilters, cut_noVetoLeps, Right);
-
-    // Jet selection
-    Cut *cut_AtLeast2AK8Jets = new LambdaCut(
-        "AtLeast2AK8Jets",
-        [&]()
-        {
-          return (cutflow.globals.getVal<int>("n_ak8jets") >= 2);
-        });
-    cutflow.insert(cut_noVetoLeps, cut_AtLeast2AK8Jets, Right);
-
-    Cut *cut_AK8HTgt1100 = new LambdaCut(
-        "AK8HTgt1100",
-        [&]()
-        {
-          return (cutflow.globals.getVal<double>("ht_ak8") > 1100);
-        });
-    cutflow.insert(cut_AtLeast2AK8Jets, cut_AK8HTgt1100, Right);
-
-    // The end 
+    // The end
     Cut *cut_last = new LambdaCut("TheEnd", [&]()
                                   { return true; });
-    cutflow.insert(cut_AK8HTgt1100, cut_last, Right);
+    cutflow.insert(vCutflowCuts_.back(), cut_last, Right);
   }
 
   // Initialize per TTree, before event loop.
@@ -176,26 +135,35 @@ class Analysis
     gconf.GetConfigsFromDatasetName(file_name.Data()); 
   }
 
-  virtual void runPerEvent(){
+  // Run per event in the event loop
+  virtual void runPerEvent()
+  {
 
-      // Dump truth information
-      if (cli.is_signal && cli.dump_truth)
-      {
-        truthAna.setTruthCandidates(); 
-      }
+    // Reset branches and globals
+    arbusto.resetBranches();
+    cutflow.globals.resetVars();
 
-      // Run lepton selection
-      leptonSelection.selectVetoLeptons();
+    // Dump truth information
+    if (cli.is_signal && cli.dump_truth)
+    {
+      truthAna.setTruthCandidates();
+    }
 
-      // Run jets selection
-      jetSelection.selectJets();
 
-      // Run cutflow
-      std::vector<std::string> cuts_to_check = {"TheEnd"};
-      std::vector<bool> checkpoints = cutflow.run(cuts_to_check);
-      passCutflow_ = checkpoints.at(0);
+
+    // Run lepton selection
+    leptonSelection.selectVetoLeptons();
+
+    // Run jets selection
+    jetSelection.selectJets();
+
+    // Run cutflow
+    std::vector<std::string> cuts_to_check = {finalSkimmerCut_};
+    std::vector<bool> checkpoints = cutflow.run(cuts_to_check);
+    passCutflow_ = checkpoints.at(0);
   }
 
+  // Return skimming decision for a given event after running the cutflow
   virtual bool eventPassed(){
     return passCutflow_;
   }
@@ -214,6 +182,7 @@ class Analysis
     return passFilters;
   }
 
+  // Write output TTrees at the end of the job
   virtual void writeOutput()
   {
     TTree *merged_runs = TTree::MergeTrees(runs);
@@ -225,6 +194,11 @@ class Analysis
     merged_runs->Write();
     merged_lumis->Write();
     arbusto.write();
+  }
+
+  virtual std::string finalSkimmerCut()
+  {
+    return finalSkimmerCut_;
   }
 
 };
