@@ -13,7 +13,6 @@ LD          = g++
 LDFLAGS     = -g -O2
 SOFLAGS     = -g -shared
 CXXFLAGS    = -g -O2 -Wall -fPIC -Wshadow -Woverloaded-virtual
-LDFLAGS     = -g -O2
 ROOTLIBS    = $(shell root-config --libs)
 ROOTCFLAGS  = $(shell root-config --cflags)
 CXXFLAGS   += $(ROOTCFLAGS)

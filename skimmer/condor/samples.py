@@ -24,5 +24,5 @@ from vbsvvh_mc import nanoaodv9_bkg, nanoaodv9_test
 
 samples_to_submit = []
 
-samples_to_submit += nanoaodv9_test #nanoaodv9_data
+samples_to_submit += nanoaodv9_bkg #nanoaodv9_data
 print(samples_to_submit)

@@ -1,26 +1,28 @@
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 
 # Determine the RHEL (Red Hat Enterprise Linux) version
-RHELREL=$(cat /etc/redhat-release)
-if [[ "$(hostname)" == "uaf-10.t2.ucsd.edu" ]]; then
-    RHELVER=7
-elif [[ "$(hostname)" == "uaf-8.t2.ucsd.edu" ]]; then
-    RHELVER=7
-elif [[ "$(hostname)" == "uaf-1.t2.ucsd.edu" ]]; then
-    RHELVER=7
-elif [[ $RHELREL == 'CentOS Linux release 7.9.2009 (Core)' ]]; then
-    RHELVER=7
-elif [[ "$(hostname)" == "uaf-2.t2.ucsd.edu" ]]; then
-    RHELVER=8
-elif [[ "$(hostname)" == "uaf-3.t2.ucsd.edu" ]]; then
-    RHELVER=8
-elif [[ $RHELREL == 'AlmaLinux release 8.8 (Sapphire Caracal)' ]]; then
-    RHELVER=8
-else
-    echo "WARNING: guessing that the OS is RHEL7; please check and adjust accordingly!"
-    RHELVER=7
-fi
+# RHELREL=$(cat /etc/redhat-release)
+# if [[ "$(hostname)" == "uaf-10.t2.ucsd.edu" ]]; then
+#     RHELVER=7
+# elif [[ "$(hostname)" == "uaf-8.t2.ucsd.edu" ]]; then
+#     RHELVER=7
+# elif [[ "$(hostname)" == "uaf-1.t2.ucsd.edu" ]]; then
+#     RHELVER=7
+# elif [[ $RHELREL == 'CentOS Linux release 7.9.2009 (Core)' ]]; then
+#     RHELVER=7
+# elif [[ "$(hostname)" == "uaf-2.t2.ucsd.edu" ]]; then
+#     RHELVER=8
+# elif [[ "$(hostname)" == "uaf-3.t2.ucsd.edu" ]]; then
+#     RHELVER=8
+# elif [[ $RHELREL == 'AlmaLinux release 8.8 (Sapphire Caracal)' ]]; then
+#     RHELVER=8
+# else
+#     echo "WARNING: guessing that the OS is RHEL7; please check and adjust accordingly!"
+#     RHELVER=7
+# fi
 
+# For now it only works with 7 even if the architecture is wrong 
+RHELVER=7
 
 # Set up CMSSW 'environment'
 if [[ $RHELVER == 7 ]]; then

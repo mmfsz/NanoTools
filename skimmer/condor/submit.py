@@ -48,7 +48,7 @@ if __name__ == "__main__":
 
     # submission tag
     analysis_tag = "AllHadRun2"
-    tag = "nanoaodv9_bkgtest_" + analysis_tag
+    tag = "nanoaodv9_bkg_" + analysis_tag
 
     # Task summary for printing out msummary
     task_summary = {}
