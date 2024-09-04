@@ -81,22 +81,23 @@ public:
 
     // Jet selection
     Cut *cut_AtLeast2AK8Jets = new LambdaCut(
-        "AtLeast2AK8Jets",
+        "AtLeast2AK4Jets",
         [&]()
         {
-          int n_ak8 = cutflow.globals.getVal<int>("n_ak8jets");
           int n_ak4 = cutflow.globals.getVal<int>("n_ak4jets");
-          return ( (n_ak8+n_ak4) >= 2);
+          return ( n_ak4 >= 2);
         });
     vCutflowCuts_.push_back(cut_AtLeast2AK8Jets);
 
-    Cut *cut_AK8HTgt1100 = new LambdaCut(
-        "AK8HTgt1100",
+    Cut *cut_AtLeast2HadDecays = new LambdaCut(
+        "AtLeast2HadDecays",
         [&]()
         {
-          return (cutflow.globals.getVal<double>("ht_ak8") > 1100);
+          int n_ak8 = cutflow.globals.getVal<int>("n_ak8jets");
+          int n_ak4 = cutflow.globals.getVal<int>("n_ak4jets") - 2; // remove 2 for vbs jets
+          return ( (2*n_ak8+n_ak4) >= 4);
         });
-    vCutflowCuts_.push_back(cut_AK8HTgt1100);
+    vCutflowCuts_.push_back(cut_AtLeast2HadDecays);
 
     std::cout << "Analysis_AllHad::initCutflow: vCutflowCuts_.size = " << vCutflowCuts_.size() << std::endl;
     Analysis::initCutflow();

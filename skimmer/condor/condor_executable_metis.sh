@@ -231,4 +231,24 @@ else
     else
         echo "Warning: gfal-ls command failed or file  '$COPY_SRC_CUTFLOW' does not exist:"
     fi
+    
+    echo "Sending output file output/output_Cutflow.cflow if it exists"
+    COPY_SRC_CUTFLOW="file://`pwd`/output_Cutflow.cflow"
+    COPY_DEST_CUTFLOW="davs://redirector.t2.ucsd.edu:1095//${OUTPUTDIRPATHNEW}/cutflow_${IFILE}.cflow"
+    if [ -f "$(pwd)/output_Cutflow.cflow" ]; then
+        echo "Running: env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-copy -p -f -t 4200 --verbose --checksum ADLER32 ${COPY_SRC_CUTFLOW} ${COPY_DEST_CUTFLOW}"
+        env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-copy -p -f -t 4200 --verbose --checksum ADLER32 ${COPY_SRC_CUTFLOW} ${COPY_DEST_CUTFLOW}
+    else
+        echo "Warning: gfal-ls command failed or file  '$COPY_SRC_CUTFLOW' does not exist:"
+    fi
+
+    echo "Sending output file output/output_Cutflow*.csv if it exists"
+    COPY_SRC_CUTFLOW="file://`pwd`/output_Cutflow_TheEnd.csv"
+    COPY_DEST_CUTFLOW="davs://redirector.t2.ucsd.edu:1095//${OUTPUTDIRPATHNEW}/cutflow_${IFILE}.csv"
+    if [ -f "$(pwd)/output_Cutflow_TheEnd.csv" ]; then
+        echo "Running: env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-copy -p -f -t 4200 --verbose --checksum ADLER32 ${COPY_SRC_CUTFLOW} ${COPY_DEST_CUTFLOW}"
+        env -i X509_USER_PROXY=${X509_USER_PROXY} gfal-copy -p -f -t 4200 --verbose --checksum ADLER32 ${COPY_SRC_CUTFLOW} ${COPY_DEST_CUTFLOW}
+    else
+        echo "Warning: gfal-ls command failed or file  '$COPY_SRC_CUTFLOW' does not exist:"
+    fi
 fi

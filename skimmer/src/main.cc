@@ -153,6 +153,9 @@ int main(int argc, char **argv)
   std::cout << "--> Write output files" << std::endl;
   skimmer->writeOutput();
 
+  cutflow.write(cli.output_dir);
+  cutflow.writeCSV(cli.output_dir);
+
   // Save the original buffer
   std::streambuf *originalCoutBuffer = std::cout.rdbuf();
   std::ofstream outCutflowFile(cli.output_dir + "/cutflow.txt");
