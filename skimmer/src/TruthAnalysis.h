@@ -297,10 +297,30 @@ struct TruthAnalysis
       }
     }
 
+    // Sort vbs quarks by pt
+    if (vbsquarks_idx.size()==2) {
+      if (cli.debug)
+      {
+        std::cout << "VBS jets before sorting " << std::endl;
+        printTruthInfo(nt, vbsquarks_idx.at(0));
+        printTruthInfo(nt, vbsquarks_idx.at(1));
+      }
+
+      if (nt.GenPart_pt().at(vbsquarks_idx.at(0)) < nt.GenPart_pt().at(vbsquarks_idx.at(1)))
+      {
+        std::swap(vbsquarks_idx.at(0), vbsquarks_idx.at(1));
+      }
+    }
+
     // Set vbs quarks variables
     for (size_t ivbsj = 0; ivbsj < vbsquarks_idx.size(); ++ivbsj)
     {
       int ivbsj_idx = vbsquarks_idx.at(ivbsj);
+      if (cli.debug)
+      {
+        std::cout << "Found VBS jet " << ivbsj+1 << std::endl;
+        printTruthInfo(nt, ivbsj_idx);
+      }
       arbusto.setLeaf<float>("truthVBSq" + std::to_string(ivbsj + 1) + "_pt", nt.GenPart_pt().at(ivbsj_idx));
       arbusto.setLeaf<float>("truthVBSq" + std::to_string(ivbsj + 1) + "_eta", nt.GenPart_eta().at(ivbsj_idx));
       arbusto.setLeaf<float>("truthVBSq" + std::to_string(ivbsj + 1) + "_phi", nt.GenPart_phi().at(ivbsj_idx));
