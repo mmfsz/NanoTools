@@ -95,10 +95,10 @@ class LeptonSelection : public ObjectSelection
         if (passVetoElecID(elec_i))
         {
           veto_lep_p4s.push_back(lep_p4);
-          arbusto.appendToVecLeaf<LorentzVector>("veto_lep_p4s", lep_p4);
-          arbusto.appendToVecLeaf<unsigned int>("veto_lep_idxs", elec_i);
-          arbusto.appendToVecLeaf<int>("veto_lep_pdgIDs", -nt.Electron_charge().at(elec_i) * 11);
-          arbusto.appendToVecLeaf<int>("veto_lep_jet_idxs", nt.Electron_jetIdx().at(elec_i));
+          //arbusto.appendToVecLeaf<LorentzVector>("veto_lep_p4s", lep_p4);
+          //arbusto.appendToVecLeaf<unsigned int>("veto_lep_idxs", elec_i);
+          //arbusto.appendToVecLeaf<int>("veto_lep_pdgIDs", -nt.Electron_charge().at(elec_i) * 11);
+          //arbusto.appendToVecLeaf<int>("veto_lep_jet_idxs", nt.Electron_jetIdx().at(elec_i));
         }
       }
       for (unsigned int muon_i = 0; muon_i < nt.nMuon(); muon_i++)
@@ -107,7 +107,7 @@ class LeptonSelection : public ObjectSelection
         if (passVetoMuonID(muon_i))
         {
           veto_lep_p4s.push_back(lep_p4);
-          veto_lep_pdgIDs.push_back(-nt.Muon_charge().at(muon_i) * 13);
+          //veto_lep_pdgIDs.push_back(-nt.Muon_charge().at(muon_i) * 13);
         }
       }
 

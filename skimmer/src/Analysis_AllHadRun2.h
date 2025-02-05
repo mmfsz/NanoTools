@@ -37,10 +37,10 @@ public:
     Analysis::initBranches();
 
     // These actually create empty branches if the final skimmer cut is after NoVetoLeptons
-    arbusto.newVecBranch<int>("veto_lep_p4s", {});
-    arbusto.newVecBranch<unsigned int>("veto_lep_idxs", {});
-    arbusto.newVecBranch<int>("veto_lep_jet_idxs", {});
-    arbusto.newVecBranch<int>("veto_lep_pdgIDs", {});
+    //arbusto.newVecBranch<int>("veto_lep_p4s", {});
+    //arbusto.newVecBranch<unsigned int>("veto_lep_idxs", {});
+    //arbusto.newVecBranch<int>("veto_lep_jet_idxs", {});
+    //arbusto.newVecBranch<int>("veto_lep_pdgIDs", {});
 
   }
 
@@ -50,16 +50,16 @@ public:
 
   void initCutflow() override
   {
-    // Initialize variables needed in cutflow.
-    cutflow.globals.newVar<LorentzVectors>("veto_lep_p4s", {});
-    cutflow.globals.newVar<LorentzVectors>("tight_lep_p4s", {});
-    cutflow.globals.newVar<LorentzVectors>("ak4jets_p4s", {});
-    cutflow.globals.newVar<LorentzVectors>("ak8jets_p4s", {});
-    cutflow.globals.newVar<double>("ht_ak8", -999);
-    cutflow.globals.newVar<double>("ht_ak4", -999);
-    cutflow.globals.newVar<int>("n_ak4jets", -999);
-    cutflow.globals.newVar<int>("n_ak8jets", -999);
-    cutflow.globals.newVar<int>("n_vbsjet_pairs", -999);
+    // // Initialize variables needed in cutflow.
+    // cutflow.globals.newVar<LorentzVectors>("veto_lep_p4s", {});
+    // cutflow.globals.newVar<LorentzVectors>("tight_lep_p4s", {});
+    // cutflow.globals.newVar<LorentzVectors>("ak4jets_p4s", {});
+    // cutflow.globals.newVar<LorentzVectors>("ak8jets_p4s", {});
+    // cutflow.globals.newVar<double>("ht_ak8", -999);
+    // cutflow.globals.newVar<double>("ht_ak4", -999);
+    // cutflow.globals.newVar<int>("n_ak4jets", -999);
+    // cutflow.globals.newVar<int>("n_ak8jets", -999);
+    // cutflow.globals.newVar<int>("n_vbsjet_pairs", -999);
 
 
     // Lepton selection

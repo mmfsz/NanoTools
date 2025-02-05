@@ -33,6 +33,7 @@ int main(int argc, char **argv)
        "Jet*",
        "Tau*",
        "GenPart*",
+       "GenJet*",
        "Generator*",
        "FatJet*",
        "MET*",
@@ -61,6 +62,21 @@ int main(int argc, char **argv)
   }
   else if(cli.analysis_tag == "AllHad") {
     skimmer = std::make_unique<Analysis_AllHad>(arbusto, nt, cli, cutflow);
+  }
+  else if(cli.analysis_tag == "SemiMergHad") {
+    skimmer = std::make_unique<Analysis_SemiMergHad>(arbusto, nt, cli, cutflow);
+  }
+  else if (cli.analysis_tag == "None")
+  {
+    skimmer = std::make_unique<Analysis>(arbusto, nt, cli, cutflow);
+  }
+  else if (cli.analysis_tag == "LepVeto")
+  {
+    skimmer = std::make_unique<Analysis_LepVeto>(arbusto, nt, cli, cutflow);
+  }
+  else if (cli.analysis_tag == "LepVeto_2AK8")
+  {
+    skimmer = std::make_unique<Analysis_LepVeto_2AK8>(arbusto, nt, cli, cutflow);
   }
   else{
     throw std::runtime_error("Error: Did not recognize analysis_tag.");

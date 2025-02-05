@@ -38,6 +38,7 @@ class JetSelection : public ObjectSelection
     void selectJets()
     {
       selectAK8Jets();
+      selectAK8JetsRun2();
       selectAK4Jets();
       findNvbsJetPairs();
     }
@@ -82,10 +83,12 @@ class JetSelection : public ObjectSelection
       globals.setVal<int>("n_vbsjet_pairs", n_vbsjet_pairs);
     }
 
-    void selectAK8Jets()
+    // Run 2 selection 
+    void selectAK8JetsRun2()
     {
       LorentzVectors fatjet_p4s = {};
       double ht_ak8 = 0.;
+      
       for (unsigned int fatjet_i = 0; fatjet_i < nt.nFatJet(); fatjet_i++)
       {
         LorentzVector fatjet_p4 = nt.FatJet_p4().at(fatjet_i);
@@ -95,6 +98,31 @@ class JetSelection : public ObjectSelection
           ht_ak8 += fatjet_p4.pt();
         }
       }
+
+      globals.setVal<LorentzVectors>("ak8jets_run2sel_p4s", fatjet_p4s);
+      globals.setVal<double>("ht_ak8_run2sel", ht_ak8);
+      globals.setVal<int>("n_ak8jets_run2sel", fatjet_p4s.size());
+    }
+
+    // Looser selection 
+    void selectAK8Jets()
+    {
+      LorentzVectors fatjet_p4s = {};
+      double ht_ak8 = 0.;
+
+      for (unsigned int fatjet_i = 0; fatjet_i < nt.nFatJet(); fatjet_i++)
+      {
+        LorentzVector fatjet_p4 = nt.FatJet_p4().at(fatjet_i);
+        if (fatjet_p4.pt() > 250 && 
+            fabs(fatjet_p4.eta()) < 2.5 && 
+            nt.FatJet_msoftdrop().at(fatjet_i) > 40 && 
+            nt.FatJet_jetId().at(fatjet_i) > 0)
+        {
+          fatjet_p4s.push_back(fatjet_p4);
+          ht_ak8 += fatjet_p4.pt();
+        }
+      }
+
       globals.setVal<LorentzVectors>("ak8jets_p4s", fatjet_p4s);
       globals.setVal<double>("ht_ak8", ht_ak8);
       globals.setVal<int>("n_ak8jets", fatjet_p4s.size());

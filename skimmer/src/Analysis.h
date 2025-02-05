@@ -64,7 +64,6 @@ class Analysis
 
     //arbusto.newVecBranch<float>("Electron_mvaTTHUL", {});
     //arbusto.newVecBranch<float>("Muon_mvaTTHUL", {});
-
   }
 
   // Define global variables and cutflow to be run in event loop
@@ -73,28 +72,47 @@ class Analysis
 
   virtual void initCutflow()
   {
+    // Initialize variables needed in cutflow.
+    cutflow.globals.newVar<LorentzVectors>("veto_lep_p4s", {});
+    cutflow.globals.newVar<LorentzVectors>("tight_lep_p4s", {});
+    cutflow.globals.newVar<LorentzVectors>("ak4jets_p4s", {});
+    cutflow.globals.newVar<LorentzVectors>("ak8jets_p4s", {});
+    cutflow.globals.newVar<LorentzVectors>("ak8jets_run2sel_p4s", {});
+    cutflow.globals.newVar<double>("ht_ak8", -999);
+    cutflow.globals.newVar<double>("ht_ak8_run2sel", -999);
+    cutflow.globals.newVar<double>("ht_ak4", -999);
+    cutflow.globals.newVar<int>("n_ak4jets", -999);
+    cutflow.globals.newVar<int>("n_ak8jets", -999);
+    cutflow.globals.newVar<int>("n_ak8jets", -999);
+    cutflow.globals.newVar<int>("n_ak8jets_run2sel", -999);
+    cutflow.globals.newVar<int>("n_vbsjet_pairs", -999);
 
-    // All events
+    // First cut
     Cut *cut_base = new LambdaCut("AllEvents", [&]()
                                   { return true; });
     cutflow.setRoot(cut_base);
 
-
-    // Analysis-dependent cutflow
-    cutflow.insert(cut_base, vCutflowCuts_.at(0), Right);
-    for (size_t i = 1; i < vCutflowCuts_.size(); ++i)
-    {
-      cutflow.insert(vCutflowCuts_.at(i - 1), vCutflowCuts_.at(i), Right);
-    }
-
-    // The end
+    // Last cut
     Cut *cut_last = new LambdaCut("TheEnd", [&]()
                                   { return true; });
-    cutflow.insert(vCutflowCuts_.back(), cut_last, Right);
+    cutflow.insert(cut_base, cut_last, Right);
+
+    // Analysis-dependent cutflow, added between first and last cut
+    if (vCutflowCuts_.size() > 0)
+    {
+      cutflow.insert(cut_base, vCutflowCuts_.at(0), Right);
+      for (size_t i = 1; i < vCutflowCuts_.size(); ++i)
+      {
+        cutflow.insert(vCutflowCuts_.at(i - 1), vCutflowCuts_.at(i), Right);
+      }
+    }
+
   }
 
-  // Initialize per TTree, before event loop.
-  virtual void initPerTTree(TTree *ttree)
+
+// Initialize per TTree, before event loop.
+virtual void
+initPerTTree(TTree *ttree)
   {
     // Initialize arbusto
     arbusto.tfile->cd();
@@ -148,8 +166,6 @@ class Analysis
     {
       truthAna.setTruthCandidates();
     }
-
-
 
     // Run lepton selection
     leptonSelection.selectVetoLeptons();
