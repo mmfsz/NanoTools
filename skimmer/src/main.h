@@ -5,6 +5,9 @@
 #include "Analysis.h"
 #include "Analysis_AllHadRun2.h"
 #include "Analysis_AllHad.h"
+#include "Analysis_SemiMergHad.h"
+#include "Analysis_LepVeto.h"
+#include "Analysis_LepVeto_2AK8.h"
 
 // NanoTools
 #include "Base.h"
