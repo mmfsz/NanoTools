@@ -1,27 +1,29 @@
 
 # %
-# !! Current output SKIMDIR required running from UAF-2 !!
-sig_job_dir="v2"
+sig_tag="-run2-c2v-jguiang"     #"v2"                 #"run2-c2v-jguiang"
+sig_job_dir="run2_c2v_jguiang"  #${sig_tag}"_merged"  #"run2_c2v_jguiang"
+sig_production_tag="v2"
+signal_samples_dir="/ceph/cms/store/user/mmazza/SignalGeneration/" #"/ceph/cms/store/user/jguiang/VBSVVHSignalGeneration/v2/" #
 SAMPLES="
-/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}_merged/VBSWZH_VBSCuts_TuneCP5_RunIISummer20UL16-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}_merged/VBSWZH_VBSCuts_TuneCP5_RunIISummer20UL16APV-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}_merged/VBSWZH_VBSCuts_TuneCP5_RunIISummer20UL17-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}_merged/VBSWZH_VBSCuts_TuneCP5_RunIISummer20UL18-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}_merged/VBSZZH_VBSCuts_TuneCP5_RunIISummer20UL16-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}_merged/VBSZZH_VBSCuts_TuneCP5_RunIISummer20UL16APV-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}_merged/VBSZZH_VBSCuts_TuneCP5_RunIISummer20UL17-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}_merged/VBSZZH_VBSCuts_TuneCP5_RunIISummer20UL18-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}_merged/VBSWWH_SS_VBSCuts_TuneCP5_RunIISummer20UL16-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}_merged/VBSWWH_SS_VBSCuts_TuneCP5_RunIISummer20UL16APV-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}_merged/VBSWWH_SS_VBSCuts_TuneCP5_RunIISummer20UL17-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}_merged/VBSWWH_SS_VBSCuts_TuneCP5_RunIISummer20UL18-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}_merged/VBSWWH_OS_VBSCuts_TuneCP5_RunIISummer20UL16-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}_merged/VBSWWH_OS_VBSCuts_TuneCP5_RunIISummer20UL16APV-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}_merged/VBSWWH_OS_VBSCuts_TuneCP5_RunIISummer20UL17-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
-/ceph/cms/store/user/mmazza/SignalGeneration/${sig_job_dir}_merged/VBSWWH_OS_VBSCuts_TuneCP5_RunIISummer20UL18-106X_privateMC_NANOGEN_${sig_job_dir}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSWZH_VBSCuts_TuneCP5_RunIISummer20UL16-106X_privateMC_NANOGEN_${sig_production_tag}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSWZH_VBSCuts_TuneCP5_RunIISummer20UL16APV-106X_privateMC_NANOGEN_${sig_production_tag}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSWZH_VBSCuts_TuneCP5_RunIISummer20UL17-106X_privateMC_NANOGEN_${sig_production_tag}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSWZH_VBSCuts_TuneCP5_RunIISummer20UL18-106X_privateMC_NANOGEN_${sig_production_tag}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSZZH_VBSCuts_TuneCP5_RunIISummer20UL16-106X_privateMC_NANOGEN_${sig_production_tag}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSZZH_VBSCuts_TuneCP5_RunIISummer20UL16APV-106X_privateMC_NANOGEN_${sig_production_tag}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSZZH_VBSCuts_TuneCP5_RunIISummer20UL17-106X_privateMC_NANOGEN_${sig_production_tag}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSZZH_VBSCuts_TuneCP5_RunIISummer20UL18-106X_privateMC_NANOGEN_${sig_production_tag}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSWWH_SS_VBSCuts_TuneCP5_RunIISummer20UL16-106X_privateMC_NANOGEN_${sig_production_tag}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSWWH_SS_VBSCuts_TuneCP5_RunIISummer20UL16APV-106X_privateMC_NANOGEN_${sig_production_tag}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSWWH_SS_VBSCuts_TuneCP5_RunIISummer20UL17-106X_privateMC_NANOGEN_${sig_production_tag}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSWWH_SS_VBSCuts_TuneCP5_RunIISummer20UL18-106X_privateMC_NANOGEN_${sig_production_tag}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSWWH_OS_VBSCuts_TuneCP5_RunIISummer20UL16-106X_privateMC_NANOGEN_${sig_production_tag}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSWWH_OS_VBSCuts_TuneCP5_RunIISummer20UL16APV-106X_privateMC_NANOGEN_${sig_production_tag}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSWWH_OS_VBSCuts_TuneCP5_RunIISummer20UL17-106X_privateMC_NANOGEN_${sig_production_tag}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSWWH_OS_VBSCuts_TuneCP5_RunIISummer20UL18-106X_privateMC_NANOGEN_${sig_production_tag}/merged.root
 "
-ANALYSIS_TAG=AllHadRun2
-SKIMTAG=nanoaodv9_sig${sig_job_dir}_${ANALYSIS_TAG}_3Sep2024
+ANALYSIS_TAG=LepVeto
+SKIMTAG=nanoaodv9_sig${sig_tag}_${ANALYSIS_TAG}_5Feb2025
 SKIMDIR=/ceph/cms/store/user/mmazza/skim/${SKIMTAG}/ 
 mkdir -p $SKIMDIR
 
@@ -31,7 +33,7 @@ outLogFile=${SKIMDIR}/skimmer_out.log
 if [[ "$SAMPLES" != "" && "$SKIMDIR" != "" && "$SKIMTAG" != "" ]]; then
     for sample in $SAMPLES; do
         echo "Skimming $sample" >> $outLogFile
-        ./$SKIMMER -t Events -d . -a $ANALYSIS_TAG -n output -T Events $sample >> $outLogFile
+        ./$SKIMMER -t Events -d . -a $ANALYSIS_TAG -n output -T Events $sample --dump_truth --is_signal>> $outLogFile
         sampledir=$(dirname $sample)
         targetdir=$SKIMDIR/${sampledir##*/}
         mkdir -p $targetdir
