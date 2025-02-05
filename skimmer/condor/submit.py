@@ -47,8 +47,9 @@ if __name__ == "__main__":
     samples = samples.samples_to_submit
 
     # submission tag
-    analysis_tag = "AllHadRun2"
-    tag = "nanoaodv9_bkg_" + analysis_tag
+    analysis_tag = "LepVeto_2AK8"
+    tag = "nanoaodv9_bkg_" + analysis_tag + "_2Dec2024"
+    signal_flags = "" #"--dump_truth --is_signal" #leave "" for no flags
 
     # Task summary for printing out msummary
     task_summary = {}
@@ -75,7 +76,7 @@ if __name__ == "__main__":
                         "use_xrootd":True,
                         #"metis_retries": 3, does not work? 
                         "classads": [
-                            ["metis_extraargs", "-d ./ -a "+analysis_tag]
+                            ["metis_extraargs", signal_flags+" -d ./ -a "+analysis_tag+" -t Events -T Events"]
                             ]
                         },
                     max_jobs = njobs_to_process(ds.get_datasetname()), #FIXME 
