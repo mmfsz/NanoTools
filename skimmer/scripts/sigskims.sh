@@ -4,8 +4,9 @@ sig_job_dir=${sig_tag} #${sig_tag}"_merged"  #"run2_c2v_jguiang"
 sig_production_tag="" #"_v2"
 nanoaod_affix="NANOGEN" #"-106X_privateMC_NANOGEN"
 nanoaod_suffix="VBSCuts_13TeV" #"VBSCuts"
-new_suffix="C2V_1p0_C3_10p0_13TeV_4f_LO" # starting of subdir name to match what is expected by xsec.json in RDF 
+new_suffix="C2V_1p0_C3_1p0_13TeV_4f_LO" # starting of subdir name to match what is expected by xsec.json in RDF 
 signal_samples_dir="/ceph/cms/store/user/mmazza/SignalGeneration/" #"/ceph/cms/store/user/jguiang/VBSVVHSignalGeneration/v2/" #
+
 SAMPLES="
 ${signal_samples_dir}/${sig_job_dir}/VBSWZH_${nanoaod_suffix}_TuneCP5_RunIISummer20UL16_${nanoaod_affix}${sig_production_tag}/merged.root
 ${signal_samples_dir}/${sig_job_dir}/VBSWZH_${nanoaod_suffix}_TuneCP5_RunIISummer20UL16APV_${nanoaod_affix}${sig_production_tag}/merged.root
@@ -16,7 +17,7 @@ ${signal_samples_dir}/${sig_job_dir}/VBSZZH_${nanoaod_suffix}_TuneCP5_RunIISumme
 ${signal_samples_dir}/${sig_job_dir}/VBSZZH_${nanoaod_suffix}_TuneCP5_RunIISummer20UL17_${nanoaod_affix}${sig_production_tag}/merged.root
 ${signal_samples_dir}/${sig_job_dir}/VBSZZH_${nanoaod_suffix}_TuneCP5_RunIISummer20UL18_${nanoaod_affix}${sig_production_tag}/merged.root
 ${signal_samples_dir}/${sig_job_dir}/VBSWWH_SS_${nanoaod_suffix}_TuneCP5_RunIISummer20UL16_${nanoaod_affix}${sig_production_tag}/merged.root
-${signal_samples_dir}/${sig_job_dir}/VBSWWH_SS_${nanoaod_suffix}_TuneCP5_RunIISummer20UL16APV${nanoaod_affix}${sig_production_tag}/merged.root
+${signal_samples_dir}/${sig_job_dir}/VBSWWH_SS_${nanoaod_suffix}_TuneCP5_RunIISummer20UL16APV_${nanoaod_affix}${sig_production_tag}/merged.root
 ${signal_samples_dir}/${sig_job_dir}/VBSWWH_SS_${nanoaod_suffix}_TuneCP5_RunIISummer20UL17_${nanoaod_affix}${sig_production_tag}/merged.root
 ${signal_samples_dir}/${sig_job_dir}/VBSWWH_SS_${nanoaod_suffix}_TuneCP5_RunIISummer20UL18_${nanoaod_affix}${sig_production_tag}/merged.root
 ${signal_samples_dir}/${sig_job_dir}/VBSWWH_OS_${nanoaod_suffix}_TuneCP5_RunIISummer20UL16_${nanoaod_affix}${sig_production_tag}/merged.root
