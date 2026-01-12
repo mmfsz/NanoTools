@@ -12,19 +12,18 @@ int main(int argc, char **argv)
 
   // CLI
   HEPCLI cli = HEPCLI(argc, argv);
+  if (cli.debug) { std::cout << "--> Initialized HEPCLI " << std::endl; }
 
   // Initialize Looper
   Looper looper = Looper(cli.input_tchain);
+  if (cli.debug) { std::cout << "--> Initialized looper " << std::endl; }
 
   // Initialize Arbusto
   TFile *output_tfile = new TFile(TString(cli.output_dir + "/" + cli.output_name + ".root"), "RECREATE");
-
   // Set to true to specify branches to DROP instead of keep
   bool remove_branches = false;
 
   // Output setting (setting which TBranches to save from original Nano)
-  if (cli.debug)
-    std::cout << "--> Initialize arbusto" << std::endl;
   Arbusto arbusto = Arbusto(
       output_tfile,
       cli.input_tchain,
@@ -36,7 +35,7 @@ int main(int argc, char **argv)
        "GenJet*",
        "Generator*",
        "FatJet*",
-       "MET*",
+       "*MET*",
        "event*",
        "run*",
        "luminosityBlock*",
@@ -49,6 +48,7 @@ int main(int argc, char **argv)
        "HLT_*",
        "Pileup*"},
       remove_branches);
+  if (cli.debug) { std::cout << "--> Initialize arbusto" << std::endl; }
 
   // Initialize Cutflow
   Cutflow cutflow = Cutflow(cli.output_name + "_Cutflow");
@@ -96,8 +96,7 @@ int main(int argc, char **argv)
   // Run looper
 
   tqdm bar;
-  if (cli.debug)
-    std::cout << "--> Start looper" << std::endl;
+  if (cli.debug) { std::cout << "--> Start looper" << std::endl; }
 
   looper.run(
 
