@@ -1,40 +1,27 @@
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 
-# Determine the RHEL (Red Hat Enterprise Linux) version
-# RHELREL=$(cat /etc/redhat-release)
-# if [[ "$(hostname)" == "uaf-10.t2.ucsd.edu" ]]; then
-#     RHELVER=7
-# elif [[ "$(hostname)" == "uaf-8.t2.ucsd.edu" ]]; then
-#     RHELVER=7
-# elif [[ "$(hostname)" == "uaf-1.t2.ucsd.edu" ]]; then
-#     RHELVER=7
-# elif [[ $RHELREL == 'CentOS Linux release 7.9.2009 (Core)' ]]; then
-#     RHELVER=7
-# elif [[ "$(hostname)" == "uaf-2.t2.ucsd.edu" ]]; then
-#     RHELVER=8
-# elif [[ "$(hostname)" == "uaf-3.t2.ucsd.edu" ]]; then
-#     RHELVER=8
-# elif [[ $RHELREL == 'AlmaLinux release 8.8 (Sapphire Caracal)' ]]; then
-#     RHELVER=8
-# else
-#     echo "WARNING: guessing that the OS is RHEL7; please check and adjust accordingly!"
-#     RHELVER=7
-# fi
+export ANALYSISPATH=$PWD
+
+echo "NOTE: If running in a screen session, it should be the first time you run the setup since you logged in via ssh."
+
+REL_VERSION=$(cat /etc/os-release | grep -E '^VERSION_ID=' | cut -d'"' -f2 | grep -oE '[0-9]+' | head -n1)
+echo "REL_VERSION = $REL_VERSION"
 
 # For now it only works with 7 even if the architecture is wrong 
-RHELVER=7
+# RHELVER=7
 
-# Set up CMSSW 'environment'
-if [[ $RHELVER == 7 ]]; then
-    cd /cvmfs/cms.cern.ch/slc7_amd64_gcc900/cms/cmssw/CMSSW_12_2_0/src
-    cmsenv
-    echo "Now using CMSSW v12.2.0 (RHEL7)"
-elif [[ $RHELVER == 8 ]]; then
-    cd /cvmfs/cms.cern.ch/el8_amd64_gcc11/cms/cmssw/CMSSW_12_5_0/src
-    cmsenv
-    echo "Now using CMSSW v12.5.0 (RHEL8)"
+if [[ $REL_VERSION == 7 ]]; then
+    cd /cvmfs/cms.cern.ch/slc7_amd64_gcc12/cms/cmssw/CMSSW_14_0_5; cmsenv; cd -
+elif [[ $REL_VERSION == 8 ]]; then
+    cd /cvmfs/cms.cern.ch/el8_amd64_gcc12/cms/cmssw/CMSSW_14_0_5; cmsenv; cd - 
 fi
-cd - &> /dev/null
+
+# Export some useful CMSSW paths
+CMSSW_EXT=$CMSSW_BASE/../../../external
+export CORRECTIONLIBDIR=$(ls -d ${CMSSW_EXT}/py3-correctionlib/* | sort -V | tail -n 1)/lib/python3.9/site-packages/correctionlib
+export BOOSTDIR=$(ls -d ${CMSSW_EXT}/boost/* | sort -V | tail -n 1)
+echo $BOOSTDIR
+echo $CORRECTIONLIBDIR
 
 # Modify PATH
 LIBPATHS="
@@ -50,16 +37,6 @@ for LIBPATH in $LIBPATHS; do
         export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:$LIBPATH
     fi
 done
-
-# Export some useful CMSSW paths
-CMSSW_EXT=$CMSSW_BASE/../../../external
-if [[ $RHELVER == 7 ]]; then
-    export CORRECTIONLIBDIR=$CMSSW_EXT/py3-correctionlib/2.0.0-0c4f44c8dd5561d8c0660135feeb81f4/lib/python3.9/site-packages/correctionlib
-    export BOOSTDIR=$CMSSW_EXT/boost/1.67.0
-elif [[ $RHELVER == 8 ]]; then
-    export CORRECTIONLIBDIR=$CMSSW_EXT/py3-correctionlib/2.1.0-6711d4d6283f175d9b6fd011bbaad506/lib/python3.9/site-packages/correctionlib
-    export BOOSTDIR=$CMSSW_EXT/boost/1.80.0-7f4aeae1bffcf24aa4723f09435633c2
-fi
 
 # Add current working directory to Python PATH
 export PYTHONPATH=$PYTHONPATH:$PWD

@@ -9,11 +9,13 @@ $(LIB): $(OBJECTS)
 	$(LD) $(LDFLAGS) $(SOFLAGS) $(OBJECTS) $(ROOTLIBS) -lTMVA -lEG -lGenVector -lXMLIO -lMLP -lTreePlayer $(CMSSWLIBS) -o $@
 	ln -sf $(LIB) lib$(LIB)
 
+
+CMSSW_EXT=${CMSSW_BASE}/../../../external
+BOOSTDIR=$(ls -d ${CMSSW_EXT}/boost/* | sort -V | tail -n 1)
+BOOSTFLAGS = -I ${BOOSTDIR}/include
+
 %.o:	%.cc
-	# RHEL 7
-	$(CXX) $(CXXFLAGS) -I${CMSSW_BASE}/../../../external/boost/1.67.0/include -I${CMSSW_BASE}/src -c $< -o $@ -fno-var-tracking
-	# RHEL 8
-	# $(CXX) $(CXXFLAGS) -I${CMSSW_BASE}/../../../external/boost/1.80.0-7f4aeae1bffcf24aa4723f09435633c2/include -I${CMSSW_BASE}/src -c $< -o $@ -fno-var-tracking
+	$(CXX) $(CXXFLAGS) ${BOOSTFLAGS} -I${CMSSW_BASE}/src -c $< -o $@ -fno-var-tracking
 
 test: all
 	python Tools/unit_tests/tests.py
