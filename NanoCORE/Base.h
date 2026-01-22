@@ -28,4 +28,12 @@ namespace WWZ {
     };
 }
 
+namespace VVH {
+    enum IDLevel {
+        IDveto = 0,
+        IDfakable = 1,
+        IDtight = 2
+    };
+}
+
 #endif

@@ -42,4 +42,12 @@ namespace WWZ {
     bool electron2022ID(int idx, WWZ::IDLevel id_level);
 }
 
+namespace VVH {
+    bool electronID(int idx, VVH::IDLevel id_level, int year);
+    bool electron2016ID(int idx, VVH::IDLevel id_level);
+    bool electron2017ID(int idx, VVH::IDLevel id_level);
+    bool electron2018ID(int idx, VVH::IDLevel id_level);
+    bool electron2022ID(int idx, VVH::IDLevel id_level);
+}
+
 #endif

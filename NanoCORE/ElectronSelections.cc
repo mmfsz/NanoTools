@@ -472,3 +472,45 @@ bool WWZ::electron2022ID(int idx, WWZ::IDLevel id_level) {
     return true;
 }
 
+
+bool VVH::electronID(int idx, VVH::IDLevel id_level, int year) {
+    // Year-specific checks
+    switch (year) {
+    case (2016):
+        return VVH::electron2016ID(idx, id_level);
+        break;
+    case (2017):
+        return VVH::electron2017ID(idx, id_level);
+        break;
+    case (2018):
+        return VVH::electron2018ID(idx, id_level);
+        break;
+    case (2022):
+        return VVH::electron2022ID(idx, id_level);
+        break;
+    default:
+        throw std::runtime_error("ElectronSelections.cc: ERROR - invalid year");
+        return false;
+        break;
+    }
+}
+
+bool VVH::electron2016ID(int idx, VVH::IDLevel id_level) {
+    if (not (Electron_pt().at(idx) >= 7.)) return false;
+    return true;
+}
+
+bool VVH::electron2017ID(int idx, VVH::IDLevel id_level) {
+    if (not (Electron_pt().at(idx) >= 7.)) return false;
+    return true;
+}
+
+bool VVH::electron2018ID(int idx, VVH::IDLevel id_level) {
+    if (not (Electron_pt().at(idx) >= 7.)) return false;
+    return true;
+}
+
+bool VVH::electron2022ID(int idx, VVH::IDLevel id_level) {
+    if (not (Electron_pt().at(idx) >= 7.)) return false;
+    return true;
+}

@@ -242,3 +242,45 @@ bool WWZ::muon2022ID(unsigned int idx, WWZ::IDLevel id_level) {
     }
     return true;
 }
+
+bool VVH::muonID(int idx, VVH::IDLevel id_level, int year) {
+    // Year-specific checks
+    switch (year) {
+    case (2016):
+        return VVH::muon2016ID(idx, id_level);
+        break;
+    case (2017):
+        return VVH::muon2017ID(idx, id_level);
+        break;
+    case (2018):
+        return VVH::muon2018ID(idx, id_level);
+        break;
+    case (2022):
+        return VVH::muon2022ID(idx, id_level);
+        break;
+    default:
+        throw std::runtime_error("MuonSelections.cc: ERROR - invalid year");
+        return false;
+        break;
+    }
+}
+
+bool VVH::muon2016ID(unsigned int idx, VVH::IDLevel id_level) {
+    if (not (Muon_pt().at(idx) >=  7.  )) return false;
+    return true;
+}
+
+bool VVH::muon2017ID(unsigned int idx, VVH::IDLevel id_level) {
+    if (not (Muon_pt().at(idx) >=  7.  )) return false;
+    return true;
+}
+
+bool VVH::muon2018ID(unsigned int idx, VVH::IDLevel id_level) {
+    if (not (Muon_pt().at(idx) >=  7.  )) return false;
+    return true;
+}
+
+bool VVH::muon2022ID(unsigned int idx, VVH::IDLevel id_level) {
+    if (not (Muon_pt().at(idx) >=  7.  )) return false;
+    return true;
+}

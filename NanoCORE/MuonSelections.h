@@ -25,4 +25,12 @@ namespace WWZ {
     bool muon2022ID(unsigned int idx, WWZ::IDLevel id_level);
 }
 
+namespace VVH {
+    bool muonID(int idx, VVH::IDLevel id_level, int year);
+    bool muon2016ID(unsigned int idx, VVH::IDLevel id_level);
+    bool muon2017ID(unsigned int idx, VVH::IDLevel id_level);
+    bool muon2018ID(unsigned int idx, VVH::IDLevel id_level);
+    bool muon2022ID(unsigned int idx, VVH::IDLevel id_level);
+}
+
 #endif
