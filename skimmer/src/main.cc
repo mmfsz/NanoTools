@@ -46,7 +46,9 @@ int main(int argc, char **argv)
        "Flag*",
        "SubJet*",
        "HLT_*",
-       "Pileup*"},
+       "Pileup*",
+       "*Rho*",
+       "*Puppi*"},
       remove_branches);
   if (cli.debug) { std::cout << "--> Initialize arbusto" << std::endl; }
 
@@ -59,6 +61,9 @@ int main(int argc, char **argv)
   std::cout << "--> Running analyzer: " << cli.analysis_tag << std::endl;
   if(cli.analysis_tag == "AllHadRun2") {
     skimmer = std::make_unique<Analysis_AllHadRun2>(arbusto, nt, cli, cutflow);
+  }
+  else if(cli.analysis_tag == "3LepRun2") {
+    skimmer = std::make_unique<Analysis_3LepRun2>(arbusto, nt, cli, cutflow);
   }
   else if(cli.analysis_tag == "AllHad") {
     skimmer = std::make_unique<Analysis_AllHad>(arbusto, nt, cli, cutflow);

@@ -7,7 +7,7 @@
 #include "ElectronSelections.h"
 #include "MuonSelections.h"
 #include "Nano.h"
-#include "Config.h"             // gconf
+#include "Config.h"
 
 #include "arbol.h"
 #include "arbusto.h"
@@ -16,10 +16,8 @@
 
 // Custom skimmer
 #include "mvaTTH.h"
-
 #include "ObjectSelection_Base.h"
-#include "utilities.h" // Utilities::Variables
-
+#include "utilities.h"
 
 // ROOT
 #include "TString.h"
@@ -69,9 +67,19 @@ class LeptonSelection : public ObjectSelection
       return ttH_UL::electronID(elec_i, ttH::IDveto, nt.year(), electronMVA_);
     }
 
+    bool passVVHVetoElecID(unsigned int elec_i)
+    {
+      return VVH::electronID(elec_i, VVH::IDveto, nt.year());
+    }
+
     bool passVetoMuonID(unsigned int muon_i)
     {
       return ttH_UL::muonID(muon_i, ttH::IDveto, nt.year());
+    }
+
+    bool passVVHVetoMuonID(unsigned int muon_i)
+    {
+      return VVH::muonID(muon_i, VVH::IDveto, nt.year());
     }
 
     virtual bool passTightElecID(int elec_i)
@@ -147,5 +155,51 @@ class LeptonSelection : public ObjectSelection
 
       globals.setVal<LorentzVectors>("tight_lep_p4s", tight_lep_p4s);
     }
+
+    void selectVVHVetoLeptons()
+    {
+      LorentzVectors vvh_veto_lep_p4s;
+      double vvh_lep_pt_lead = 0.;
+      double vvh_lep_pt_sub = 0.;
+
+      for (unsigned int elec_i = 0; elec_i < nt.nElectron(); elec_i++)
+      {
+        LorentzVector lep_p4 = nt.Electron_p4().at(elec_i);
+        if (passVVHVetoElecID(elec_i))
+        {
+          vvh_veto_lep_p4s.push_back(lep_p4);
+        }
+      }
+
+      for (unsigned int muon_i = 0; muon_i < nt.nMuon(); muon_i++)
+      {
+        LorentzVector lep_p4 = nt.Muon_p4().at(muon_i);
+        if (passVVHVetoMuonID(muon_i))
+        {
+          vvh_veto_lep_p4s.push_back(lep_p4);
+        }
+      }
+
+      // Sort by pT
+      std::sort(
+        vvh_veto_lep_p4s.begin(),
+        vvh_veto_lep_p4s.end(),
+        [](const LorentzVector& a, const LorentzVector& b)
+        {
+          return a.pt() > b.pt();
+        }
+      );
+
+      // Set leading and subleading pT
+      if (!vvh_veto_lep_p4s.empty())
+        vvh_lep_pt_lead = vvh_veto_lep_p4s.at(0).pt();
+      if (vvh_veto_lep_p4s.size() > 1)
+        vvh_lep_pt_sub = vvh_veto_lep_p4s.at(1).pt();
+
+      globals.setVal<LorentzVectors>("vvh_veto_lep_p4s", vvh_veto_lep_p4s);
+      globals.setVal<double>("vvh_lep_pt_lead", vvh_lep_pt_lead);
+      globals.setVal<double>("vvh_lep_pt_sub", vvh_lep_pt_sub);
+    }
+
 };
 #endif

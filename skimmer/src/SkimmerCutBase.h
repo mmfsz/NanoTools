@@ -85,9 +85,19 @@ public:
         return ttH_UL::electronID(elec_i, ttH::IDveto, nt.year(), electronMVA_);
     }
 
+    bool passVVHVetoElecID(unsigned int elec_i)
+    {
+        return VVH::electronID(elec_i, VVH::IDveto, nt.year());
+    }
+
     bool passVetoMuonID(unsigned int muon_i)
     {
         return ttH_UL::muonID(muon_i, ttH::IDveto, nt.year());
+    }
+
+    bool passVVHVetoMuonID(unsigned int muon_i)
+    {
+        return VVH::muonID(muon_i, VVH::IDveto, nt.year());
     }
 
     virtual bool passTightElecID(int elec_i)
@@ -105,6 +115,7 @@ public:
         computeLeptonMVA_ttHUL();
 
         LorentzVectors veto_lep_p4s;
+        LorentzVectors vvh_veto_lep_p4s;
         LorentzVectors tight_lep_p4s;
         Integers veto_lep_pdgIDs;
         Integers tight_lep_pdgIDs;
@@ -115,6 +126,10 @@ public:
             {
                 veto_lep_p4s.push_back(lep_p4);
                 veto_lep_pdgIDs.push_back(-nt.Electron_charge().at(elec_i) * 11);
+            }
+            if (passVVHVetoElecID(elec_i))
+            {
+                vvh_veto_lep_p4s.push_back(lep_p4);
             }
             if (passTightElecID(elec_i))
             {
@@ -130,6 +145,10 @@ public:
                 veto_lep_p4s.push_back(lep_p4);
                 veto_lep_pdgIDs.push_back(-nt.Muon_charge().at(muon_i) * 13);
             }
+            if (passVVHVetoMuonID(muon_i))
+            {
+                vvh_veto_lep_p4s.push_back(lep_p4);
+            }
             if (passTightMuonID(muon_i))
             {
                 tight_lep_p4s.push_back(lep_p4);
@@ -138,6 +157,7 @@ public:
         }
 
         globals.setVal<LorentzVectors>("veto_lep_p4s", veto_lep_p4s);
+        globals.setVal<LorentzVectors>("vvh_veto_lep_p4s", vvh_veto_lep_p4s);
         globals.setVal<LorentzVectors>("tight_lep_p4s", tight_lep_p4s);
         globals.setVal<Integers>("veto_lep_pdgIDs", veto_lep_pdgIDs);
         globals.setVal<Integers>("tight_lep_pdgIDs", tight_lep_pdgIDs);

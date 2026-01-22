@@ -61,9 +61,6 @@ class Analysis
     if (cli.is_signal && cli.dump_truth) {
       truthAna.initTruthBranches();
     }
-
-    //arbusto.newVecBranch<float>("Electron_mvaTTHUL", {});
-    //arbusto.newVecBranch<float>("Muon_mvaTTHUL", {});
   }
 
   // Define global variables and cutflow to be run in event loop
@@ -74,10 +71,13 @@ class Analysis
   {
     // Initialize variables needed in cutflow.
     cutflow.globals.newVar<LorentzVectors>("veto_lep_p4s", {});
+    cutflow.globals.newVar<LorentzVectors>("vvh_veto_lep_p4s", {});
     cutflow.globals.newVar<LorentzVectors>("tight_lep_p4s", {});
     cutflow.globals.newVar<LorentzVectors>("ak4jets_p4s", {});
     cutflow.globals.newVar<LorentzVectors>("ak8jets_p4s", {});
     cutflow.globals.newVar<LorentzVectors>("ak8jets_run2sel_p4s", {});
+    cutflow.globals.newVar<double>("vvh_lep_pt_lead", -999);
+    cutflow.globals.newVar<double>("vvh_lep_pt_sub", -999);
     cutflow.globals.newVar<double>("ht_ak8", -999);
     cutflow.globals.newVar<double>("ht_ak8_run2sel", -999);
     cutflow.globals.newVar<double>("ht_ak4", -999);
@@ -170,6 +170,9 @@ initPerTTree(TTree *ttree)
     // Run lepton selection
     leptonSelection.selectVetoLeptons();
 
+    // Run vvh lepton selection
+    leptonSelection.selectVVHVetoLeptons();
+
     // Run jets selection
     jetSelection.selectJets();
 
@@ -216,7 +219,5 @@ initPerTTree(TTree *ttree)
   {
     return finalSkimmerCut_;
   }
-
 };
-
 #endif

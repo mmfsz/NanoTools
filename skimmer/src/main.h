@@ -8,6 +8,7 @@
 #include "Analysis_SemiMergHad.h"
 #include "Analysis_LepVeto.h"
 #include "Analysis_LepVeto_2AK8.h"
+#include "Analysis_3LepRun2.h"
 
 // NanoTools
 #include "Base.h"
