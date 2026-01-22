@@ -1,7 +1,7 @@
 import os
 import traceback
 import logging
-import cPickle as pickle
+import pickle as pickle
 
 from metis.Utils import setup_logger, do_cmd, metis_base
 
