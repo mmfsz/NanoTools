@@ -3,13 +3,15 @@
 
 // Custom skimmer
 #include "Analysis.h"
-#include "Analysis_AllHadRun2.h"
-#include "Analysis_AllHad.h"
-#include "Analysis_SemiMergHad.h"
-#include "Analysis_LepVeto.h"
-#include "Analysis_LepVeto_2AK8.h"
-#include "Analysis_3LepRun2.h"
-
+#include "Analysis_0Leptons_0FJ.h"
+#include "Analysis_0Leptons_1FJ.h"
+#include "Analysis_0Leptons_2FJ.h"
+#include "Analysis_0Leptons_3FJ.h"
+#include "Analysis_1Lepton_1FJ.h"
+#include "Analysis_2Leptons_1FJ.h"
+#include "Analysis_2Leptons_2FJ.h"
+#include "Analysis_3Leptons.h"
+#include "Analysis_4Leptons.h"
 // NanoTools
 #include "Base.h"
 #include "Config.h"

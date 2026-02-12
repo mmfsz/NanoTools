@@ -48,6 +48,7 @@ int main(int argc, char **argv)
        "HLT_*",
        "Pileup*",
        "*Rho*",
+       "*PV*",
        "*Puppi*"},
       remove_branches);
   if (cli.debug) { std::cout << "--> Initialize arbusto" << std::endl; }
@@ -59,29 +60,33 @@ int main(int argc, char **argv)
   std::unique_ptr<Analysis> skimmer;
 
   std::cout << "--> Running analyzer: " << cli.analysis_tag << std::endl;
-  if(cli.analysis_tag == "AllHadRun2") {
-    skimmer = std::make_unique<Analysis_AllHadRun2>(arbusto, nt, cli, cutflow);
+
+  if(cli.analysis_tag == "4Lep") {
+    skimmer = std::make_unique<Analysis_4Leptons>(arbusto, nt, cli, cutflow);
   }
-  else if(cli.analysis_tag == "3LepRun2") {
-    skimmer = std::make_unique<Analysis_3LepRun2>(arbusto, nt, cli, cutflow);
+  else if(cli.analysis_tag == "3Lep") {
+    skimmer = std::make_unique<Analysis_3Leptons>(arbusto, nt, cli, cutflow);
   }
-  else if(cli.analysis_tag == "AllHad") {
-    skimmer = std::make_unique<Analysis_AllHad>(arbusto, nt, cli, cutflow);
+  else if(cli.analysis_tag == "2Lep2FJ") {
+    skimmer = std::make_unique<Analysis_2Leptons_2FJ>(arbusto, nt, cli, cutflow);
   }
-  else if(cli.analysis_tag == "SemiMergHad") {
-    skimmer = std::make_unique<Analysis_SemiMergHad>(arbusto, nt, cli, cutflow);
+  else if(cli.analysis_tag == "2Lep1FJ") {
+    skimmer = std::make_unique<Analysis_2Leptons_1FJ>(arbusto, nt, cli, cutflow);
   }
-  else if (cli.analysis_tag == "None")
-  {
-    skimmer = std::make_unique<Analysis>(arbusto, nt, cli, cutflow);
+  else if(cli.analysis_tag == "1Lep1FJ") {
+    skimmer = std::make_unique<Analysis_1Lepton_1FJ>(arbusto, nt, cli, cutflow);
   }
-  else if (cli.analysis_tag == "LepVeto")
-  {
-    skimmer = std::make_unique<Analysis_LepVeto>(arbusto, nt, cli, cutflow);
+  else if(cli.analysis_tag == "0Lep3FJ") {
+    skimmer = std::make_unique<Analysis_0Leptons_3FJ>(arbusto, nt, cli, cutflow);
   }
-  else if (cli.analysis_tag == "LepVeto_2AK8")
-  {
-    skimmer = std::make_unique<Analysis_LepVeto_2AK8>(arbusto, nt, cli, cutflow);
+  else if(cli.analysis_tag == "0Lep2FJ") {
+    skimmer = std::make_unique<Analysis_0Leptons_2FJ>(arbusto, nt, cli, cutflow);
+  }
+  else if(cli.analysis_tag == "0Lep1FJ") {
+    skimmer = std::make_unique<Analysis_0Leptons_1FJ>(arbusto, nt, cli, cutflow);
+  }
+  else if(cli.analysis_tag == "0Lep0FJ") {
+    skimmer = std::make_unique<Analysis_0Leptons_0FJ>(arbusto, nt, cli, cutflow);
   }
   else{
     throw std::runtime_error("Error: Did not recognize analysis_tag.");
@@ -136,24 +141,6 @@ int main(int argc, char **argv)
           // progess bar printing
           bar.progress(looper.n_events_processed, looper.n_events_total);
 
-          // ==========================================
-          // Do your stuff
-          // If "return" is called, the event will not be saved (as it won't reach the line that says arbusto.fill(entry);
-
-          // Step not required after haddnano.py was edited to remove empty files 
-          // >>
-          // Do not store events with incomplete Madgraph information 
-          // Currently assumes private MC production name: it checks if dsname containts "VBSCuts" and "privateMC"
-          // Edit in NanoCore/config.cc to work on central production
-          // if (gconf.is_signal){
-          //   if (nt.nLHEReweightingWeight() <= 0)
-          //   {
-          //     return;
-          //   }
-          // }
-          // <<
-
-          // Run object reconstruction and event selection
           skimmer->runPerEvent();
 
           // Only store events that passed the selection

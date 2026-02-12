@@ -70,22 +70,13 @@ class Analysis
   virtual void initCutflow()
   {
     // Initialize variables needed in cutflow.
-    cutflow.globals.newVar<LorentzVectors>("veto_lep_p4s", {});
-    cutflow.globals.newVar<LorentzVectors>("vvh_veto_lep_p4s", {});
-    cutflow.globals.newVar<LorentzVectors>("tight_lep_p4s", {});
-    cutflow.globals.newVar<LorentzVectors>("ak4jets_p4s", {});
-    cutflow.globals.newVar<LorentzVectors>("ak8jets_p4s", {});
-    cutflow.globals.newVar<LorentzVectors>("ak8jets_run2sel_p4s", {});
     cutflow.globals.newVar<double>("vvh_lep_pt_lead", -999);
     cutflow.globals.newVar<double>("vvh_lep_pt_sub", -999);
-    cutflow.globals.newVar<double>("ht_ak8", -999);
-    cutflow.globals.newVar<double>("ht_ak8_run2sel", -999);
-    cutflow.globals.newVar<double>("ht_ak4", -999);
-    cutflow.globals.newVar<int>("n_ak4jets", -999);
-    cutflow.globals.newVar<int>("n_ak8jets", -999);
-    cutflow.globals.newVar<int>("n_ak8jets", -999);
-    cutflow.globals.newVar<int>("n_ak8jets_run2sel", -999);
-    cutflow.globals.newVar<int>("n_vbsjet_pairs", -999);
+    cutflow.globals.newVar<LorentzVectors>("vvh_veto_lep_p4s", {});
+    cutflow.globals.newVar<LorentzVectors>("vvh_veto_jet_p4s", {});
+    cutflow.globals.newVar<LorentzVectors>("vvh_veto_fatjet_p4s", {});
+    cutflow.globals.newVar<int>("n_vvh_veto_jets", -999);
+    cutflow.globals.newVar<int>("n_vvh_veto_fatjets", -999);
 
     // First cut
     Cut *cut_base = new LambdaCut("AllEvents", [&]()
@@ -167,14 +158,11 @@ initPerTTree(TTree *ttree)
       truthAna.setTruthCandidates();
     }
 
-    // Run lepton selection
-    leptonSelection.selectVetoLeptons();
-
     // Run vvh lepton selection
     leptonSelection.selectVVHVetoLeptons();
 
-    // Run jets selection
-    jetSelection.selectJets();
+    // Run vvh jets selection
+    jetSelection.selectVVHJets();
 
     // Run cutflow
     std::vector<std::string> cuts_to_check = {finalSkimmerCut_};

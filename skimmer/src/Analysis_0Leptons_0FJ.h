@@ -1,5 +1,5 @@
-#ifndef ANALYSIS_3LEPRUN2_H
-#define ANALYSIS_3LEPRUN2_H
+#ifndef ANALYSIS_0LEPTONS_0FJ_H
+#define ANALYSIS_0LEPTONS_0FJ_H
 
 // RAPIDO
 #include "arbusto.h"
@@ -21,12 +21,12 @@ typedef std::vector<double> Doubles;
 typedef std::vector<int> Integers;
 typedef std::vector<unsigned int> Indices;
 
-class Analysis_3LepRun2 : public Analysis
+class Analysis_0Leptons_0FJ : public Analysis
 {
 public:
 
   // Constructor
-  Analysis_3LepRun2(Arbusto &arbusto_ref, Nano &nt_ref, HEPCLI &cli_ref, Cutflow &cutflow_ref)
+  Analysis_0Leptons_0FJ(Arbusto &arbusto_ref, Nano &nt_ref, HEPCLI &cli_ref, Cutflow &cutflow_ref)
       : Analysis(arbusto_ref, nt_ref, cli_ref, cutflow_ref)
   {
   }
@@ -63,31 +63,16 @@ public:
 
 
     // Lepton selection
-    Cut *cut_threeleptons = new LambdaCut(
-        "ThreeLeptons",
+    Cut *cut_atleast8jets = new LambdaCut(
+        "AtLeast8Jets",
         [&]()
         {
-          return (cutflow.globals.getVal<LorentzVectors>("vvh_veto_lep_p4s").size() >= 3);
+          return (cutflow.globals.getVal<int>("n_vvh_veto_jets") >= 8);
         });
-    vCutflowCuts_.push_back(cut_threeleptons);
+    vCutflowCuts_.push_back(cut_atleast8jets);
 
-    Cut *cut_leadinglepton_pt = new LambdaCut(
-        "LeadingLeptonPT",
-        [&]()
-        {
-          return (cutflow.globals.getVal<double>("vvh_lep_pt_lead") >= 20);
-        });
-    vCutflowCuts_.push_back(cut_leadinglepton_pt);
 
-    Cut *cut_subleadinglepton_pt = new LambdaCut(
-        "SubLeadingLeptonPT",
-        [&]()
-        {
-          return (cutflow.globals.getVal<double>("vvh_lep_pt_sub") >= 10);
-        });
-    vCutflowCuts_.push_back(cut_subleadinglepton_pt);
-
-    finalSkimmerCut_ = "SubLeadingLeptonPT";
+    finalSkimmerCut_ = "AtLeast8Jets";
     Analysis::initCutflow();
   }
 

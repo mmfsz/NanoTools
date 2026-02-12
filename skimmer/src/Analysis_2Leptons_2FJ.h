@@ -1,5 +1,5 @@
-#ifndef ANALYSIS_ALLHADRUN2_H
-#define ANALYSIS_ALLHADRUN2_H
+#ifndef ANALYSIS_2LEPTONS_2FJ_H
+#define ANALYSIS_2LEPTONS_2FJ_H
 
 // RAPIDO
 #include "arbusto.h"
@@ -21,12 +21,12 @@ typedef std::vector<double> Doubles;
 typedef std::vector<int> Integers;
 typedef std::vector<unsigned int> Indices;
 
-class Analysis_AllHadRun2 : public Analysis
+class Analysis_2Leptons_2FJ : public Analysis
 {
 public:
 
   // Constructor
-  Analysis_AllHadRun2(Arbusto &arbusto_ref, Nano &nt_ref, HEPCLI &cli_ref, Cutflow &cutflow_ref)
+  Analysis_2Leptons_2FJ(Arbusto &arbusto_ref, Nano &nt_ref, HEPCLI &cli_ref, Cutflow &cutflow_ref)
       : Analysis(arbusto_ref, nt_ref, cli_ref, cutflow_ref)
   {
   }
@@ -63,48 +63,39 @@ public:
 
 
     // Lepton selection
-    Cut *cut_noVetoLeps = new LambdaCut(
-        "NoVetoLeptons",
+    Cut *cut_twoleptons = new LambdaCut(
+        "TwoLeptons",
         [&]()
         {
-          return (cutflow.globals.getVal<LorentzVectors>("veto_lep_p4s").size() == 0);
+          return (cutflow.globals.getVal<LorentzVectors>("vvh_veto_lep_p4s").size() >= 2);
         });
-    vCutflowCuts_.push_back(cut_noVetoLeps);
+    vCutflowCuts_.push_back(cut_twoleptons);
 
-    // Jet selection
-    Cut *cut_AtLeast2AK8Jets = new LambdaCut(
-        "AtLeast2AK8Jets",
+    Cut *cut_leadinglepton_pt = new LambdaCut(
+        "LeadingLeptonPT",
         [&]()
         {
-          return (cutflow.globals.getVal<int>("n_ak8jets") >= 2);
+          return (cutflow.globals.getVal<double>("vvh_lep_pt_lead") >= 20);
         });
-    vCutflowCuts_.push_back(cut_AtLeast2AK8Jets);
+    vCutflowCuts_.push_back(cut_leadinglepton_pt);
 
-    Cut *cut_AK8HTgt1100 = new LambdaCut(
-        "AK8HTgt1100",
+    Cut *cut_atleast2fatjets = new LambdaCut(
+        "AtLeast2FatJets",
         [&]()
         {
-          return (cutflow.globals.getVal<double>("ht_ak8") > 1100);
+          return (cutflow.globals.getVal<int>("n_vvh_veto_fatjets") >= 2);
         });
-    vCutflowCuts_.push_back(cut_AK8HTgt1100);
+    vCutflowCuts_.push_back(cut_atleast2fatjets);
 
-    Cut *cut_AtLeast2AK4Jets = new LambdaCut(
-        "AtLeast2AK4Jets",
-        [&]()
-        {
-          return (cutflow.globals.getVal<int>("n_ak4jets") >= 2);
-        });
-    vCutflowCuts_.push_back(cut_AtLeast2AK4Jets);
+//    Cut *cut_atleast4jets = new LambdaCut(
+//        "AtLeast4Jets",
+//        [&]()
+//        {
+//          return (cutflow.globals.getVal<int>("n_vvh_veto_jets") >= 4);
+//        });
+//    vCutflowCuts_.push_back(cut_atleast4jets);
 
-    Cut *cut_AtLeast1VBSJetPair = new LambdaCut(
-        "AtLeast1VBSJetPair",
-        [&]()
-        {
-          return (cutflow.globals.getVal<int>("n_vbsjet_pairs") > 0);
-        });
-    vCutflowCuts_.push_back(cut_AtLeast1VBSJetPair);
-
-    finalSkimmerCut_ = "AK8HTgt1100";
+    finalSkimmerCut_ = "AtLeast2FatJets";
     Analysis::initCutflow();
   }
 

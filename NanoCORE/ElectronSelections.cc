@@ -472,7 +472,6 @@ bool WWZ::electron2022ID(int idx, WWZ::IDLevel id_level) {
     return true;
 }
 
-
 bool VVH::electronID(int idx, VVH::IDLevel id_level, int year) {
     // Year-specific checks
     switch (year) {
@@ -494,23 +493,39 @@ bool VVH::electronID(int idx, VVH::IDLevel id_level, int year) {
         break;
     }
 }
-
 bool VVH::electron2016ID(int idx, VVH::IDLevel id_level) {
-    if (not (Electron_pt().at(idx) >= 7.)) return false;
+    if (not (Electron_pt().at(idx)               >      10.  )) return false;
+    if (not (fabs(Electron_eta().at(idx))        <      2.5 )) return false;
+    if (not (fabs(Electron_dxy().at(idx))        <      0.05 )) return false;
+    if (not (fabs(Electron_dz().at(idx))         <      0.1  )) return false;
+    if (not (fabs(Electron_sip3d().at(idx))      <      8    )) return false;
+    if (not (Electron_pfRelIso03_all().at(idx)   <      0.40 )) return false;
     return true;
 }
-
 bool VVH::electron2017ID(int idx, VVH::IDLevel id_level) {
-    if (not (Electron_pt().at(idx) >= 7.)) return false;
+    if (not (Electron_pt().at(idx)               >      10.  )) return false;
+    if (not (fabs(Electron_eta().at(idx))        <      2.5 )) return false;
+    if (not (fabs(Electron_dxy().at(idx))        <      0.05 )) return false;
+    if (not (fabs(Electron_dz().at(idx))         <      0.1  )) return false;
+    if (not (fabs(Electron_sip3d().at(idx))      <      8    )) return false;
+    if (not (Electron_pfRelIso03_all().at(idx)   <      0.40 )) return false;
     return true;
 }
-
 bool VVH::electron2018ID(int idx, VVH::IDLevel id_level) {
-    if (not (Electron_pt().at(idx) >= 7.)) return false;
+    if (not (Electron_pt().at(idx)               >      10.  )) return false;
+    if (not (fabs(Electron_eta().at(idx))        <      2.5 )) return false;
+    if (not (fabs(Electron_dxy().at(idx))        <      0.05 )) return false;
+    if (not (fabs(Electron_dz().at(idx))         <      0.1  )) return false;
+    if (not (fabs(Electron_sip3d().at(idx))      <      8    )) return false;
+    if (not (Electron_pfRelIso03_all().at(idx)   <      0.40 )) return false;
     return true;
 }
-
 bool VVH::electron2022ID(int idx, VVH::IDLevel id_level) {
-    if (not (Electron_pt().at(idx) >= 7.)) return false;
+    if (not (Electron_pt().at(idx)               >      10.  )) return false;
+    if (not (fabs(Electron_eta().at(idx))        <      2.5 )) return false;
+    if (not (fabs(Electron_dxy().at(idx))        <      0.05 )) return false;
+    if (not (fabs(Electron_dz().at(idx))         <      0.1  )) return false;
+    if (not (fabs(Electron_sip3d().at(idx))      <      8    )) return false;
+    if (not (Electron_pfRelIso03_all().at(idx)   <      0.40 )) return false;
     return true;
 }
