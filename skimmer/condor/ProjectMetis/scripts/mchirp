@@ -1,0 +1,60 @@
+#!/usr/bin/env python
+import os
+import pandas as pd
+import json
+import datetime
+
+from metis.Utils import do_cmd, metis_base
+
+import numpy as np
+
+colnames = ("ClusterId,ProcId,taskname,tag,jobnum,metis_retries,MATCH_EXP_JOB_Site,ChirpMetisStatus,"
+            "ChirpMetisExpectedNevents,ChirpCMSSWWriteBytes,ChirpCMSSWTotalCPU,ChirpCMSSWRuns,ChirpCMSSWReadBytes,"
+            "ChirpCMSSWMaxLumis,ChirpCMSSWMaxFiles,ChirpCMSSWMaxEvents,ChirpCMSSWLumis,ChirpCMSSWLastUpdate,"
+            "ChirpCMSSWFiles,ChirpCMSSWEvents,ChirpCMSSWEventRate,ChirpCMSSWElapsed,ChirpCMSSWReadTimeMsecs").split(",")
+
+old_condor = False
+if old_condor:
+    safe_colnames = (" ".join(colnames)).replace("ChirpMetisStatus","'unparse(ChirpMetisStatus)'")
+    out = do_cmd("condor_q $USER -const 'JobStatus==2' -af:h {}".format(safe_colnames))
+    newout = []
+    for line in out.splitlines()[1:]:
+        d = dict(zip(colnames,line.split()))
+        newout.append(d)
+    out = newout
+else:
+    out = do_cmd("condor_q $USER -const 'JobStatus==2' -json -af:h {}".format(" ".join(colnames)))
+    out = json.loads(out)
+
+df = pd.DataFrame(out)
+
+df["ChirpCMSSWElapsed"] = (pd.to_timedelta(df["ChirpCMSSWElapsed"],errors="coerce",unit="s") + datetime.datetime.now()).dt.strftime("%Y-%m-%d %H:%M:%S")
+df["ChirpCMSSWLastUpdate"] = (pd.to_datetime(df["ChirpCMSSWLastUpdate"],errors="coerce",unit="s")).dt.strftime("%Y-%m-%d %H:%M:%S")
+df["taskname"] = df["taskname"].apply(lambda x: str(x).split("Task_",1)[-1].split("_CMS4",1)[0])
+df["jobnum"] = pd.to_numeric(df["jobnum"],errors="coerce").fillna(-1).astype(int)
+df["condorid"] = df["ClusterId"].astype(str).str.cat(df["ProcId"].values.astype(str),sep=".")
+df["site"] = df["MATCH_EXP_JOB_Site"]
+df["metis_retries"] = pd.to_numeric(df["metis_retries"],errors="coerce").fillna(0).astype(int)
+df["ChirpCMSSWWriteGB"] = (pd.to_numeric(df["ChirpCMSSWWriteBytes"],errors="coerce").fillna(0.)/1.0e9).round(1)
+df["ChirpCMSSWEvents"] = pd.to_numeric(df["ChirpCMSSWEvents"],errors="coerce").fillna(0).astype(int)
+df["ChirpCMSSWReadGB"] = (pd.to_numeric(df["ChirpCMSSWReadBytes"],errors="coerce").fillna(0.)/1.0e9).round(1)
+df["ChirpCMSSWReadSeconds"] = (pd.to_numeric(df["ChirpCMSSWReadTimeMsecs"],errors="coerce").fillna(0.)/1.0e3).round(1)
+df["ChirpCMSSWReadMBps"] = (df["ChirpCMSSWReadGB"]*1.0e3/df["ChirpCMSSWReadSeconds"]).round(1)
+df["ChirpCMSSWEventRate"] = pd.to_numeric(df["ChirpCMSSWEventRate"],errors="coerce").fillna(0.).astype(float).round(1)
+df["ChirpMetisStatus"] = df["ChirpMetisStatus"].apply(lambda x: str(x).split("(",1)[-1].rsplit(")",1)[0])
+df["ChirpMetisExpectedNevents"] = pd.to_numeric(df["ChirpMetisExpectedNevents"],errors="coerce").fillna(-1).astype(int)
+df["ChirpCMSSWProgress"] = (100.*df["ChirpCMSSWEvents"]/df["ChirpMetisExpectedNevents"]).round(1)
+s = (df["ChirpMetisExpectedNevents"]-df["ChirpCMSSWEvents"])/df["ChirpCMSSWEventRate"]
+s = pd.to_timedelta(s.replace([np.inf,-np.inf],np.nan).fillna(0.),unit="s") + datetime.datetime.now()
+s = s.dt.strftime("%Y-%m-%d %H:%M:%S")
+df["ChirpCMSSWETA"] = s
+
+with open("chirpdata.js","w") as fh:
+    fh.write("var tableData = ")
+    fh.write(df.to_json(orient="records"))
+    fh.write(";")
+
+do_cmd("mkdir -p ~/public_html/dump/", dryRun=False)
+do_cmd("cp -rp {}/dashboard/chirptable.html ~/public_html/dump/".format(metis_base()), dryRun=False)
+do_cmd("cp -rp chirpdata.js ~/public_html/dump/", dryRun=False)
+print "http://uaf-1.t2.ucsd.edu/~{}/dump/chirptable.html".format(os.getenv("USER"))

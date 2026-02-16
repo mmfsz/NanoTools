@@ -1,0 +1,40 @@
+# Simple makefile
+
+EXE=skim
+
+SOURCES=$(wildcard ./src/*.cc) $(wildcard ../rapido/src/*.cc) ../NanoCORE/Nano.cc ../NanoCORE/Tools/goodrun.cc  ../NanoCORE/ElectronSelections.cc ../NanoCORE/MuonSelections.cc ../NanoCORE/Config.cc ../NanoCORE/IsolationTools.cc ../NanoCORE/MCTools.cc
+HEADERS=$(wildcard src/*.h)
+OBJECTS=$(SOURCES:%.cc=%.o)
+
+CC          = g++
+CXX         = g++
+CXXFLAGS    = -g -O2 -Wall -fPIC -Wshadow -Woverloaded-virtual
+LD          = g++
+LDFLAGS     = -g -O2
+SOFLAGS     = -g -shared
+CXXFLAGS    = -g -O2 -Wall -fPIC -Wshadow -Woverloaded-virtual
+ROOTLIBS    = $(shell root-config --libs)
+ROOTCFLAGS  = $(shell root-config --cflags)
+CXXFLAGS   += $(ROOTCFLAGS)
+CFLAGS      = $(ROOTCFLAGS) -Wall -Wno-unused-function -g -O2 -fPIC -fno-var-tracking -DLorentzVectorPtEtaPhiM4D
+#EXTRACFLAGS = -I../NanoCORE -I../rapido/src -I../NanoCORE/Tools -I${CMSSW_BASE}/../../../external/boost/1.67.0/include -I${CMSSW_BASE}/src -I../NanoTools/NanoCORE/Tools/
+BOOSTFLAGS = -I ${BOOSTDIR}/include
+EXTRACFLAGS = -I../NanoCORE -I../rapido/src -I../NanoCORE/Tools -I${CMSSW_BASE}/src -I../NanoTools/NanoCORE/Tools/
+
+EXTRAFLAGS  = -fPIC -ITMultiDrawTreePlayer -Wunused-variable -lTMVA -lEG -lGenVector -lXMLIO -lMLP -lTreePlayer
+
+all: ${HEADERS} ${SOURCES} $(EXE)
+
+$(EXE): $(OBJECTS)
+	$(LD) $(CXXFLAGS) $(LDFLAGS) $(OBJECTS) $(ROOTLIBS) $(BOOSTFLAGS) $(EXTRAFLAGS) -o $@
+
+%.o: %.cc 
+	$(CC) $(CFLAGS) $(EXTRACFLAGS) -c $< -o $@
+
+.DELETE_ON_ERROR:
+
+clean:
+	rm -f main.o $(EXE) $(wildcard ./src/*.o)
+
+cleanall:
+	rm -f $(OBJECTS) $(EXE)

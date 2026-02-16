@@ -1,0 +1,70 @@
+#!/usr/bin/env python
+
+import glob
+import pickle
+import os
+import sys
+import re
+import argparse
+import metis.LogParser as LogParser
+from metis.File import EventsFile
+
+
+BLUE = '\033[94m'
+GREEN = '\033[92m'
+RED = '\033[91m'
+ENDC = '\033[0m'
+
+def print_analysis(args):
+    logname = args.logfile
+    parsed = LogParser.log_parser(logname,do_header=True,do_error=True,do_rate=False)
+    last_error = parsed.get("inferred_error","")
+    arg_info = parsed["args"]
+    for todelete in ["args", "uname -a"]:
+        if todelete in arg_info: del arg_info[todelete]
+
+    print BLUE+"Arguments"+ENDC
+    print "\n".join(map(lambda x: "\t{0}: {1}".format(*x), arg_info.items()))
+
+
+    out_log_str = open(logname.replace(".out",".out"),"r").read()
+    err_log_str = open(logname.replace(".out",".err"),"r").read()
+
+
+    if "Begin Fatal Exception" in err_log_str:
+        print 
+        print BLUE+"CMSSW Exception"+ENDC
+        between = err_log_str.split("Begin Fatal")[-1].split("End Fatal")[0]
+        print "\t"+"\n\t".join(between.splitlines()[1:-1])
+
+    store_matches = re.findall("/store/[A-Za-z0-9\-\_\/]+\.root",err_log_str)
+    if store_matches:
+        print
+        print BLUE+"Last file"+ENDC
+        print "\t"+RED+store_matches[-1]+ENDC
+
+def try_to_get_history(args):
+    fname = os.path.normpath(args.logfile)
+    if ".root" not in fname: return
+    taskpatt = "*Task_{}".format([x for x in fname.split("/") if ("AOD" in x or "Task" in x)][0])
+    taskdir = glob.glob("tasks/{}".format(taskpatt))[0]
+    ef = EventsFile(fname)
+    with open("{}/backup.pkl".format(taskdir),"r") as fh:
+        data = pickle.load(fh)
+        jobids = data["job_submission_history"][ef.get_index()]
+    logfnames = []
+    for jid in jobids:
+        logfnames.append(os.path.abspath(taskdir) + "/logs/std_logs/1e.{}.out".format(jid))
+    print logfnames
+    print "Found {} old logs:\n{}".format(len(logfnames),"\t"+"\n\t".join(logfnames))
+    print "Analyzing last one"
+    args.logfile = logfnames[-1]
+if __name__ == "__main__":
+    # logname = "1e.1218912.0.out"
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("logfile", help="Path to logfile either .out or .err, or output file")
+    args = parser.parse_args()
+    try_to_get_history(args)
+
+    print_analysis(args)

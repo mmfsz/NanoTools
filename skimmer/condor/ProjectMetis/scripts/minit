@@ -1,0 +1,10 @@
+#!/usr/bin/env python
+
+from metis.Utils import print_logo
+import argparse
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-n", "--noanimation", help="disable animation", action="store_true")
+    args = parser.parse_args()
+    print_logo(animation=not args.noanimation)

@@ -1,0 +1,164 @@
+#!/bin/env python
+from metis.Sample import DBSSample
+
+nanoaodv9_data_JetHT = [
+    DBSSample(dataset="/JetHT/Run2016B-ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2016B-ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2016C-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2016D-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2016E-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2016F-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2016F-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2016G-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2017B-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2017C-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2017D-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2017E-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2017F-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2018A-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2018B-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2018C-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/JetHT/Run2018D-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+#    DBSSample(dataset="/JetHT/Run2018A-UL2018_MiniAODv2_NanoAODv9_GT36-v1/NANOAOD"),
+#    DBSSample(dataset="/JetHT/Run2018B-UL2018_MiniAODv2_NanoAODv9_GT36-v1/NANOAOD"), 
+#    DBSSample(dataset="/JetHT/Run2018C-UL2018_MiniAODv2_NanoAODv9_GT36-v1/NANOAOD"), 
+]
+
+nanoaodv9_data_MET = [
+    DBSSample(dataset="/MET/Run2016B-ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/MET/Run2016B-ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/MET/Run2016C-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/MET/Run2016D-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/MET/Run2016E-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/MET/Run2016F-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/MET/Run2016F-UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/MET/Run2016G-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MET/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MET/Run2017B-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MET/Run2017C-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MET/Run2017D-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MET/Run2017E-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MET/Run2017F-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MET/Run2018A-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+#    DBSSample(dataset="/MET/Run2018A-UL2018_MiniAODv2_NanoAODv9_GT36-v1/NANOAOD"),
+    DBSSample(dataset="/MET/Run2018B-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+#    DBSSample(dataset="/MET/Run2018B-UL2018_MiniAODv2_NanoAODv9_GT36-v1/NANOAOD"),
+    DBSSample(dataset="/MET/Run2018C-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+#    DBSSample(dataset="/MET/Run2018C-UL2018_MiniAODv2_NanoAODv9_GT36-v1/NANOAOD"),
+    DBSSample(dataset="/MET/Run2018D-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+#    DBSSample(dataset="/MET/Run2018D-UL2018_MiniAODv2_NanoAODv9_GT36-v1/NANOAOD")
+]
+
+nanoaodv9_data_DoubleEG = [
+    DBSSample(dataset="/DoubleEG/Run2016B-ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/DoubleEG/Run2016B-ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v3/NANOAOD"),
+    DBSSample(dataset="/DoubleEG/Run2016C-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/DoubleEG/Run2016D-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/DoubleEG/Run2016E-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/DoubleEG/Run2016F-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/DoubleEG/Run2016F-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleEG/Run2016G-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleEG/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleEG/Run2017B-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleEG/Run2017C-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleEG/Run2017D-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleEG/Run2017E-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleEG/Run2017F-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+]
+
+nanoaodv9_data_DoubleMuon = [
+    DBSSample(dataset="/DoubleMuon/Run2016B-ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2016B-ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2016C-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2016D-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2016E-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2016F-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2016F-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2016G-UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2017B-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2017C-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2017D-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2017E-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2017F-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2018A-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2018B-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2018C-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/DoubleMuon/Run2018D-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+]
+
+nanoaodv9_data_MuonEG = [
+    DBSSample(dataset="/MuonEG/Run2016B-ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2016B-ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2016C-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2016D-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2016E-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2016F-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2016F-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2016G-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2017B-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2017C-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2017D-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2017E-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2017F-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2018A-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2018B-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2018C-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/MuonEG/Run2018D-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+]
+
+nanoaodv9_data_EGamma = [
+    DBSSample(dataset="/EGamma/Run2018A-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/EGamma/Run2018B-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/EGamma/Run2018C-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/EGamma/Run2018D-UL2018_MiniAODv2_NanoAODv9-v3/NANOAOD"),
+]
+
+nanoaodv9_data_SingleMuon = [
+    DBSSample(dataset="/SingleMuon/Run2016B-ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2016B-ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2016C-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2016D-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2016E-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2016F-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2016F-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2016G-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2017B-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2017C-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2017D-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2017E-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2017F-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2018A-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2018B-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2018C-UL2018_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/SingleMuon/Run2018D-UL2018_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+]
+
+nanoaodv9_data_SingleElectron = [
+    DBSSample(dataset="/SingleElectron/Run2016B-ver1_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/SingleElectron/Run2016B-ver2_HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/SingleElectron/Run2016C-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/SingleElectron/Run2016D-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/SingleElectron/Run2016E-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/SingleElectron/Run2016F-HIPM_UL2016_MiniAODv2_NanoAODv9-v2/NANOAOD"),
+    DBSSample(dataset="/SingleElectron/Run2016F-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/SingleElectron/Run2016G-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/SingleElectron/Run2016H-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/SingleElectron/Run2017B-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/SingleElectron/Run2017C-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/SingleElectron/Run2017D-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/SingleElectron/Run2017E-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+    DBSSample(dataset="/SingleElectron/Run2017F-UL2017_MiniAODv2_NanoAODv9-v1/NANOAOD"),
+]
+
+nanoaodv9_data = (
+    nanoaodv9_data_SingleElectron 
+    + nanoaodv9_data_SingleMuon 
+    + nanoaodv9_data_EGamma 
+    + nanoaodv9_data_MuonEG 
+    + nanoaodv9_data_DoubleMuon 
+    + nanoaodv9_data_DoubleEG
+)

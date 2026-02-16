@@ -11,7 +11,9 @@ for include in ["Nano.cc", "SSSelections.cc", "MetSelections.cc"]:
     r.gInterpreter.ProcessLine('#include "../NanoCORE/%s"' % include)
 
 # CORE functions will be ROOT object members after we gSystem.Load CORE
-from ROOT import nt, passesMETfilters, isGoodMuon
+from ROOT import nt, passesMETfilters, gconf
+
+gconf.year = 2018
 
 nt.Init(ch)
 N = ch.GetEntries()
@@ -21,9 +23,10 @@ h1 = r.TH1F("h1","",100,0,200)
 def process_event(ievent):
     nt.GetEntry(ievent)
 
+    if not passesMETfilters(False): return
+
     for imu,pt in enumerate(nt.Muon_pt()):
         if pt < 25: continue
-        if not isGoodMuon(imu): continue
         h1.Fill(pt)
 
 

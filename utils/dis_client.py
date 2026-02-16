@@ -34,17 +34,19 @@ Or you can import dis_client and make a query using online syntax and get a json
        dis_client.query(q="..." [, typ="basic"] [, detail=False])
 """
 
-BASE_URL = "http://uafino.physics.ucsb.edu:50010/dis/serve"
+BASEURL = "http://uaf-7.t2.ucsd.edu:50010/dis/serve"
 
-def query(q, typ="basic", detail=False):
+def query(q, typ="basic", detail=False, timeout=999):
     query_dict = {"query": q, "type": typ, "short": "" if detail else "short"}
-    url = '%s?%s' % (BASE_URL, urlencode(query_dict))
+    url = '%s?%s' % (BASEURL, urlencode(query_dict))
 
     data = {}
 
-    handle =  urlopen(url,timeout=2*60)
-    content =  handle.read() 
-    data = json.loads(content)
+    try:
+        content =  urlopen(url,timeout=timeout).read()
+        data = json.loads(content)
+    except: 
+        print("Failed to perform URL fetching and decoding!")
 
     return data
 
@@ -64,6 +66,8 @@ def listofdicts_to_table(lod): # pragma: no cover
 
     try:
         from pytable import Table
+        if not sys.stdout.isatty():
+            raise Exception
 
         tab = Table()
         tab.set_column_names(colnames)
@@ -71,7 +75,7 @@ def listofdicts_to_table(lod): # pragma: no cover
         for row in lod:
             tab.add_row([row.get(colname) for colname in colnames])
         tab.sort(column=colnames[0], descending=False)
-                
+
         return "".join(tab.get_table_string())
 
     except:
@@ -87,11 +91,11 @@ def listofdicts_to_table(lod): # pragma: no cover
                 tmp = tmp % str(thing.get(colname,""))
                 line += tmp
             buff += line + "\n"
-                
+
         return buff
 
-        
-def get_output_string(q, typ="basic", detail=False, show_json=False, pretty_table=False, one=False): # pragma: no cover
+
+def get_output_string(q, typ="basic", detail=False, show_json=False, pretty_table=False, one=False): # pragma:no cover
     buff = ""
     data = query(q, typ, detail)
 
@@ -99,10 +103,10 @@ def get_output_string(q, typ="basic", detail=False, show_json=False, pretty_tabl
         return "URL fetch/decode failure"
 
     if data["status"] != "success":
-        return "DIS failure: %s" % data["fail_reason"]
+        return "DIS failure: %s" % data["payload"]["failure_reason"]
 
     data = data["payload"]
-    
+
     if show_json:
         return json.dumps(data, indent=4)
 
@@ -130,32 +134,59 @@ def get_output_string(q, typ="basic", detail=False, show_json=False, pretty_tabl
 
     if typ=="snt" and len(data) and one:
         onefile = glob.glob("{}/*.root".format(data[0]["location"]))[0]
-        # onefile = "{}/*.root".format(data[0])
         return onefile
-        # print(data)
 
     # ignore whitespace at end
     buff = buff.rstrip()
     return buff
 
-def test(one=False): # pragma: no cover
+def test(): # pragma: no cover
 
     queries = [
-    {"q":"/*/CMSSW_8_0_5*RelVal*/MINIAOD","typ":"basic","detail":False},
-    {"q":"/SingleMuon/CMSSW_8_0_5-80X_dataRun2_relval_v9_RelVal_sigMu2015C-v1/MINIAOD","typ":"files","detail":True},
-    {"q":"/GJets*/*/*","typ":"snt","detail":True},
-    {"q":"/GJets*/*/* | grep cms3tag,dataset_name","typ":"snt","detail":False},
-    {"q":"* | grep nevents_out","typ":"snt","detail":False},
-    {"q":"/GJets_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/MINIAODSIM","typ":"mcm","detail":True},
-    {"q":"/GJets*/*/* | grep cms3tag,dataset_name","typ":"snt","detail":False,"pretty_table":True},
-    ]
-    if one: queries = queries[3:4]
+
+            {"type": "snt", "query": "/DY*/*MiniAOD*/MINIAODSIM | grep nevents_out | sort", "short":"short"},
+            {"type": "snt", "query": "/G* | grep cms3tag"},
+            {"type": "snt", "query": "/SingleElectron/Run2016*-PromptReco-v*/MINIAOD | grep nevents_in | stats", "short":"short"},
+            {"type": "snt", "query": "/WJetsToLNu_TuneCUETP8M1_13TeV-madgr*"},
+            {"type": "update_snt", "query": "dataset_name=/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v2/MINIAODSIM,cms3tag=v2,sample_type=CMS3", "short": "short"},
+            {"type": "delete_snt", "query": "dataset_name=/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v2/MINIAODSIM,cms3tag=v2,sample_type=CMS3", "short": "short"},
+            {"type": "basic", "query": "/*/Run2016*-17Jul2018-v1/MINIAOD", "short":"short"},
+            {"type": "basic", "query": "/DoubleMuon/Run2016*-17Jul2018-v1/MINIAOD"},
+            {"type": "dbs", "query": "https://cmsweb.cern.ch/dbs/prod/global/DBSReader/files?dataset=/TTTT_TuneCP5_13TeV-amcatnlo-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_ext1-v2/MINIAODSIM&detail=1"},
+            {"type": "chain", "query": "/TTTT_TuneCP5_13TeV-amcatnlo-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_ext1-v2/MINIAODSIM"},
+            {"type": "files", "query": "/SinglePhoton/Run2016E-PromptReco-v2/MINIAOD", "short":"short"},
+            {"type": "mcm", "query": "/QCD_Pt-80to120_MuEnrichedPt5_TuneCUETP8M1_13TeV_pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM | grep cross_section", "short":"short"},
+            {"type": "parents", "query": "/SMS-T1tttt_mGluino-1500_mLSP-100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/MINIAODSIM"},
+            {"type": "runs", "query": "/SinglePhoton/Run2016E-PromptReco-v2/MINIAOD"},
+            {"type": "sites", "query": "/ZeroBias/Run2016F-17Jul2018-v1/MINIAOD", "short":"short"},
+            {"type": "sites", "query": "/TTTT_TuneCP5_13TeV-amcatnlo-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_ext1-v2/MINIAODSIM"},
+
+            ]
+    green = '\033[92m'
+    red = '\033[91m'
+    clear = '\033[0m'
+    import os
+    columns = int(os.popen('stty size', 'r').read().split()[1])-20
+
+    print(">>> Testing queries")
     for q_params in queries:
-        print(get_output_string(**q_params))
+        detail = q_params.get("short","") != "short"
+        to_print = "{0}: {1}{2}".format(q_params["type"], q_params["query"], " (detailed)" if detail else "")
+        if len(to_print) > columns:
+            to_print = to_print[:columns-3] + "..."
+        t0 = time.time()
+        data = query(q=q_params["query"],
+                typ=q_params["type"],
+                detail=detail,
+                timeout=30)
+        t1 = time.time()
+        status = data["status"]
+        startcolor = green if status == "success" else red
+        print("[{0}{1}{2} ({3:.2f}s)] {4}".format(startcolor,status,clear,t1-t0,to_print))
+        if status != "success":
+            print(data["payload"]["failure_reason"])
 
 if __name__ == '__main__':
-    
-    # test(one=True)
 
     parser = argparse.ArgumentParser()
     parser.add_argument("query", help="query")
@@ -164,15 +195,14 @@ if __name__ == '__main__':
     parser.add_argument("-j", "--json", help="show output as full json", action="store_true")
     parser.add_argument("-p", "--table", help="show output as pretty table", action="store_true")
     parser.add_argument("-v", "--dev", help="use developer instance", action="store_true")
+    parser.add_argument("-e", "--test", help="perform query tests", action="store_true")
     parser.add_argument("-o", "--one", help="get one file from SNT sample", action="store_true")
     args = parser.parse_args()
 
-    
-    if args.dev: 
-        print(">>> Using dev instance")
-        BASE_URL_PATTERN = BASE_URL_PATTERN.replace("disMaker","test_disMaker")
-
     if not args.type: args.type = "basic"
 
-    print(get_output_string(args.query, typ=args.type, detail=args.detail, show_json=args.json, pretty_table=args.table, one=args.one))
+    if args.test:
+        test()
+    else:
+        print(get_output_string(args.query, typ=args.type, detail=args.detail, show_json=args.json, pretty_table=args.table, one=args.one))
 

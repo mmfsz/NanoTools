@@ -8,30 +8,38 @@ import uproot_methods
 import time
 
 t0 = time.time()
-# pyxrootd isn't supported in python3 yet. sigh.
-# f = uproot.open("root://redirector.t2.ucsd.edu///store/user/namin/nanoaod/TTJets_TuneCP5_13TeV-madgraphMLM-pythia8__RunIIAutumn18NanoAODv5-Nano1June2019_102X_upgrade2018_realistic_v19-v1/8E0C8306-DC0D-0548-BA7C-D0698140DF28.root")
-f = uproot.open("/hadoop/cms/store/user/namin/nanoaod/TTJets_TuneCP5_13TeV-madgraphMLM-pythia8__RunIIAutumn18NanoAODv5-Nano1June2019_102X_upgrade2018_realistic_v19-v1/8E0C8306-DC0D-0548-BA7C-D0698140DF28.root")
+f = uproot.open("root://redirector.t2.ucsd.edu///store/user/namin/nanoaod/TTJets_TuneCP5_13TeV-madgraphMLM-pythia8__RunIIAutumn18NanoAODv5-Nano1June2019_102X_upgrade2018_realistic_v19-v1/8E0C8306-DC0D-0548-BA7C-D0698140DF28.root")
 t = f["Events"]
 t1 = time.time()
 print(f"Took {t1-t0:.2f}s to open the file and get the tree with {len(t)} entries")
 
-# Should take about 30s
 t0 = time.time()
-branches = t.arrays([
-    "Jet_pt","Jet_eta","Jet_phi","Jet_mass",
-    "Electron_pt","Electron_eta","Electron_phi","Electron_mass","/Electron_(jetIdx|mvaTTH)/",
-    ],namedecode="ascii")
+branches = t.arrays(["/(Electron|Jet)_(pt|eta|phi|mass|jetIdx|mvaTTH)/"],namedecode="ascii", entrystart=0, entrystop=200000)
 t1 = time.time()
-print(f"Took {t1-t0:.2f}s @ {0.001*len(t)/(t1-t0):.1f}kHz to read {len(branches.keys())} branches")
+nevents = len(branches['Electron_pt'])
+print(f"Took {t1-t0:.2f}s @ {0.001*nevents/(t1-t0):.1f}kHz to read {len(branches.keys())} branches from {nevents} events")
 
+t0 = time.time()
 jets = uproot_methods.TLorentzVectorArray.from_ptetaphim(
-        *[branches["Jet_{}".format(x)] for x in ["pt","eta","phi","mass"]]
+        branches["Jet_pt"],
+        branches["Jet_eta"],
+        branches["Jet_phi"],
+        branches["Jet_mass"],
         )
+t1 = time.time()
+print(f"Took {t1-t0:.2f}s @ {0.001*len(jets)/(t1-t0):.1f}kHz to make jet p4s")
+
+t0 = time.time()
 electrons = uproot_methods.TLorentzVectorArray.from_ptetaphim(
-        *[branches["Electron_{}".format(x)] for x in ["pt","eta","phi","mass"]]
+        branches["Electron_pt"],
+        branches["Electron_eta"],
+        branches["Electron_phi"],
+        branches["Electron_mass"],
         )
 electrons["jetIdx"] = branches["Electron_jetIdx"]
 electrons["mvaTTH"] = branches["Electron_mvaTTH"]
+t1 = time.time()
+print(f"Took {t1-t0:.2f}s @ {0.001*len(electrons)/(t1-t0):.1f}kHz to make electron p4s")
 
 # Drop low pT electrons
 electrons = electrons[electrons.pt>25.]
@@ -55,4 +63,4 @@ ax.set_title(r"$p_\mathrm{T}^\mathrm{ratio}$ for electrons with $p_\mathrm{T}>25
 ax.legend()
 fig.set_tight_layout(True)
 fig.savefig("ptratios.png")
-os.system("which ic && ic ptratios.png")
+os.system("test $(which ic) && ic ptratios.png")

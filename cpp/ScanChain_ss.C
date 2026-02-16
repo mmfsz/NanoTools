@@ -8,6 +8,7 @@
 #include "TTreePerfStats.h"
 
 #include "../NanoCORE/Nano.h"
+#include "../NanoCORE/Base.h"
 #include "../NanoCORE/SSSelections.cc"
 #include "../NanoCORE/MetSelections.cc"
 #include "../NanoCORE/tqdm.h"
@@ -45,8 +46,6 @@ int ScanChain(TChain *ch) {
     H1(njets,15,0,15);
     H1(nbtags,8,0,8);
     H1(ht,50,0,-1);
-    H1(ptratio,50,0,1.5);
-    H1(ptrel,50,0,40.);
     H1(nleps,6,-0.5,5.5);
     H1(weight,300,0,-1);
 
@@ -68,8 +67,6 @@ int ScanChain(TChain *ch) {
         tree->SetCacheSize(128*1024*1024);
         tree->SetCacheLearnEntries(100);
 
-        auto psRead = new TTreePerfStats("readPerf", tree);
-
         nt.Init(tree);
 
         for( unsigned int event = 0; event < tree->GetEntriesFast(); ++event) {
@@ -84,7 +81,7 @@ int ScanChain(TChain *ch) {
             // if (event > 50000) break;
 
             auto leps = getLeptons();
-            auto result = getBestHyp(leps);
+            auto result = getBestHyp(leps, false);
             int hyp_class = result.first;
             if (hyp_class < 0) continue;
             auto best_hyp = result.second;
@@ -104,8 +101,8 @@ int ScanChain(TChain *ch) {
 
             debug(passfilt,nbtags,met,njets,nleps);
 
-            if (lep1.is_el() && !isTriggerSafeIso_v1(lep1.idx())) continue;
-            if (lep2.is_el() && !isTriggerSafeIso_v1(lep2.idx())) continue;
+            if (lep1.is_el() && lep1.idlevel() < SS::IDfakable) continue;
+            if (lep2.is_el() && lep2.idlevel() < SS::IDfakable) continue;
 
             // if (hyp_class != 3 && hyp_class != 4) continue;
 
@@ -121,11 +118,6 @@ int ScanChain(TChain *ch) {
             h_ht->Fill(ht);
             h_nleps->Fill(leps.size());
             h_weight->Fill(weight);
-
-            h_ptratio->Fill(getPtRatio(lep1.id(),lep1.idx()));
-            h_ptratio->Fill(getPtRatio(lep2.id(),lep2.idx()));
-            h_ptrel->Fill(getPtRel(lep1.id(),lep1.idx()));
-            h_ptrel->Fill(getPtRel(lep2.id(),lep2.idx()));
 
 
         } // Event loop

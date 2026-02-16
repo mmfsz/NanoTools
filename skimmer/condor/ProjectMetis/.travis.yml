@@ -1,0 +1,10 @@
+language: python
+python:
+  - "2.7"
+install: 
+  - pip install coveralls
+  - source setup.sh
+script:
+  coverage run scripts/mtest
+after_success:
+  coveralls

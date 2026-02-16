@@ -1,0 +1,57 @@
+Looper::Looper(TChain* new_tchain)
+{
+    keep_alive = true;
+    tchain = new_tchain;
+    ttree_name = tchain->GetName();
+    n_events_processed = 0;
+    n_events_total = tchain->GetEntries();
+}
+
+Looper::Looper(HEPCLI& cli)
+{
+    keep_alive = true;
+    tchain = cli.input_tchain;
+    ttree_name = tchain->GetName();
+    n_events_processed = 0;
+    n_events_total = tchain->GetEntries();
+}
+
+Looper::~Looper() {}
+
+void Looper::run(std::function<void(TTree* ttree)> init, std::function<void(int entry)> eval) 
+{
+    // Initialize looper variables
+    TIter tfile_iterator(tchain->GetListOfFiles());
+    // Start file loop
+    TFile* current_tfile = 0;
+    while (keep_alive && (current_tfile = (TFile*)tfile_iterator.Next()))
+    {
+        // Open file
+        TFile* tfile = TFile::Open(current_tfile->GetTitle());
+        TTree* ttree = (TTree*)tfile->Get(ttree_name);
+        // Imported TTree configuration
+        ttree->SetCacheSize(128*1024*1024); // 128 MB
+        ttree->SetCacheLearnEntries(100);
+        init(ttree);
+        // Start event loop
+        for (int entry = 0; keep_alive && entry < ttree->GetEntriesFast(); ++entry) 
+        {
+            current_entry = entry;
+            eval(entry);
+            n_events_processed++;
+        } 
+        // End event loop
+
+        // Clean up
+        delete tfile;
+    }
+    // Reset keep_alive flag
+    keep_alive = true;
+    // End file loop
+    return;
+}
+
+void Looper::stop()
+{
+    keep_alive = false;
+}
