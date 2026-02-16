@@ -13,6 +13,7 @@
 #include "Tools/goodrun.h"
 
 #include "TruthAnalysis.h"
+#include "LeptonTruthAnalysis.h"
 #include "ObjectSelection_Leptons.h"
 #include "ObjectSelection_Jets.h"
 #include "SkimmerCutBase.h"
@@ -35,6 +36,7 @@ class Analysis
     HEPCLI &cli;
     Cutflow &cutflow;
     TruthAnalysis truthAna;
+    LeptonTruthAnalysis leptonTruthAna;
     LeptonSelection leptonSelection;
     JetSelection jetSelection;
     std::vector<Cut *> vCutflowCuts_;
@@ -47,6 +49,7 @@ class Analysis
           nt(nt_ref), cli(cli_ref),
           cutflow(cutflow_ref),
           truthAna(arbusto_ref, nt_ref, cli_ref, cutflow_ref),
+          leptonTruthAna(arbusto_ref, nt_ref, cli_ref),
           leptonSelection(arbusto_ref, nt_ref, cli_ref, cutflow_ref.globals),
           jetSelection(arbusto_ref, nt_ref, cli_ref, cutflow_ref.globals)
     {
@@ -61,6 +64,7 @@ class Analysis
     if (cli.is_signal && cli.dump_truth) {
       truthAna.initTruthBranches();
     }
+    leptonTruthAna.initBranches();
   }
 
   // Define global variables and cutflow to be run in event loop
@@ -157,6 +161,9 @@ initPerTTree(TTree *ttree)
     {
       truthAna.setTruthCandidates();
     }
+
+    // Fill lepton provenance
+    leptonTruthAna.setLeptonProvenance();
 
     // Run vvh lepton selection
     leptonSelection.selectVVHVetoLeptons();
