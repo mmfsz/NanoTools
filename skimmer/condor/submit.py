@@ -27,15 +27,15 @@ if __name__ == "__main__":
 
     # submission tag
     analysis_tags = [
-        "4Lep",
+#        "4Lep",
         "3Lep",
-        "2Lep2FJ",
-        "2Lep1FJ",
-        "1Lep1FJ",
-        "0Lep3FJ",
-        "0Lep2FJ",
-        "0Lep1FJ",
-        "0Lep0FJ"
+#        "2Lep2FJ",
+#        "2Lep1FJ",
+#        "1Lep1FJ",
+#        "0Lep3FJ",
+#        "0Lep2FJ",
+#        "0Lep1FJ",
+#        "0Lep0FJ"
     ]
 
     signal_flags = "" #"--dump_truth --is_signal" #leave "" for no flags
@@ -54,7 +54,7 @@ if __name__ == "__main__":
         all_tasks_complete = True
 
         for analysis_tag in analysis_tags:
-            tag = "nanoaodv15_bkg_" + analysis_tag + "_11Feb2026_v2"
+            tag = "nanoaodv9_bkg_" + analysis_tag + "_16Feb2026"
             # Loop over the dataset provided by the user few lines above, and do the Metis magic
             for ds in samples:
                 task = CondorTask(
@@ -92,7 +92,7 @@ if __name__ == "__main__":
         ##########
         # Parse the summary and make a summary.txt that will be used to pretty status of the jobs
         os.system("rm web_summary.json")
-        webdir="~/public_html/skim_leptons"
+        webdir="~/public_html/skim_3Ltruth"
         StatsParser(data=task_summary, webdir=webdir).do()
         os.system("chmod -R 755 {}".format(webdir))
         os.system("msummary -r -i {}/web_summary.json".format(webdir))
